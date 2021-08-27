@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+  
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden;}
+
+
+// removing background of select box
+.mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #fff; 
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+.mat-slider {
+    width: 100%;
+}
+
+
+// dialog loader buttons
+.loader-dialog-button{
+    width: 100px;
+    height: 50px;
+}
+
+::-webkit-scrollbar {
+    width: 2px;  /* Remove scrollbar space */
+    background: #ebe8e8;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #9e9e9e;
+}

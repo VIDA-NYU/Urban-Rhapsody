@@ -1,0 +1,16 @@
+<div class="toolbar-container">
+
+    <mat-toolbar>
+
+        <div class="toolbar-button">
+            <button mat-button [matMenuTriggerFor]="loadMenu">Load</button>
+            <mat-menu #loadMenu="matMenu">
+                <button mat-menu-item>
+                        Load data...
+                </button>  
+            </mat-menu>
+        </div>
+
+    </mat-toolbar>
+
+</div>
