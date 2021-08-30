@@ -1,0 +1,35 @@
+:host{
+
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+}
+
+.loader-wrapper{
+
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    
+}
+
+.loader-body{
+
+    display: flex;
+    flex: 10;
+}
+
+.loader-footer{
+
+    display: flex;
+    flex: 1;
+
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+        margin-left: 5px;
+    }
+}
+

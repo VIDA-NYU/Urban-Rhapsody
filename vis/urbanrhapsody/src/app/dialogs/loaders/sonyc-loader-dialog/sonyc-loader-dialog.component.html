@@ -1,0 +1,25 @@
+<div class="loader-wrapper">
+
+    <div class="loader-body"></div>
+
+    <div class="loader-footer">
+
+        <button 
+            (click)='this.dialogRef.close()'
+            class="loader-dialog-button"
+            mat-stroked-button 
+            color="primary">
+            Cancel
+        </button>
+
+        <button 
+            (click)='this.sonycLoaderController.load_data(); this.dialogRef.close();'
+            class="loader-dialog-button"
+            mat-stroked-button 
+            color="primary">
+            Load
+        </button>
+
+    </div>
+
+</div>

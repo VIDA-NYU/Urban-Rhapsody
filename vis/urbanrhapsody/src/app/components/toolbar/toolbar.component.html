@@ -5,7 +5,7 @@
         <div class="toolbar-button">
             <button mat-button [matMenuTriggerFor]="loadMenu">Load</button>
             <mat-menu #loadMenu="matMenu">
-                <button mat-menu-item>
+                <button mat-menu-item (click)='open_dialog("data-loader-dialog")'>
                         Load data...
                 </button>  
             </mat-menu>

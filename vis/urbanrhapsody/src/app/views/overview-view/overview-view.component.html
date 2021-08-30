@@ -1,11 +1,13 @@
-<div class="main-wrapper">
+<div class="component-wrapper">
 
-    <div class="toolbar-container">
-        <app-toolbar></app-toolbar>
+    <div class="timeline-component-container">
+        <app-timeline #timelineref></app-timeline>
     </div>
 
-    <div class="current-view-container">
-        <router-outlet></router-outlet>
+    <div class="projections-component-container">
+        <app-projection-list></app-projection-list>
     </div>
+
+    <div class="media-component-container"></div>
 
 </div>

@@ -1,0 +1,27 @@
+:host{
+
+    display: flex;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+}
+
+.dialog-container{
+
+    display: flex;
+    flex: 1;
+    justify-content: center;
+
+    .mat-tab-group {
+
+        display: flex;
+        flex: 1;
+    }
+}
+
+
+::ng-deep .mat-tab-body-wrapper{
+
+    display: flex;
+    flex: 1 1 100%;
+}

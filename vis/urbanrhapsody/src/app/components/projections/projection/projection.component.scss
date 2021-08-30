@@ -1,0 +1,54 @@
+:host{
+
+    width: 100%;
+    height: 100%;
+
+}
+
+.component-wrapper{
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.projection {
+
+    width: 98%;
+    height: 98%;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.projection-controls{
+
+    display: flex;
+    flex: 1;
+
+}
+
+.projection-scatterplot{
+
+    display: flex;
+    flex: 6;
+
+}
+
+.projection-legend{
+
+    display: flex;
+    flex: 1;
+
+}
+
+canvas{
+
+    width: 100%;
+    height: 100%;
+
+}
