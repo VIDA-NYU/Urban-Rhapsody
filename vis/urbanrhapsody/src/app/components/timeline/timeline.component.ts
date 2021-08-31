@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AudioSnippet } from 'src/app/model/audiosnippet.model';
-import { TimelineController } from './controller/timeline.controller';
+import { FocusedTimelineController } from './controller/focused-timeline.controller';
+import { OverviewTimelineController } from './controller/overview-timeline.controller';
 
 @Component({
   selector: 'app-timeline',
@@ -10,10 +11,12 @@ import { TimelineController } from './controller/timeline.controller';
 export class TimelineComponent implements OnInit, AfterViewInit {
 
   // component controller
-  public timelineController!: TimelineController;
+  public overviewTimelineController!: OverviewTimelineController;
+  public focusedTimelineController!: FocusedTimelineController;
 
   // element refs
-  @ViewChild('chartdivref') chartdivref!: ElementRef;
+  @ViewChild('overviewtimelineref') overviewtimelineref!: ElementRef;
+  @ViewChild('focusedtimelineref') focusedtimelineref!: ElementRef;
 
   constructor() {}
 
@@ -22,8 +25,9 @@ export class TimelineComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void{
 
     // initializing timeline controller
-    this.timelineController = new TimelineController();
-    this.timelineController.attach_refs( this.chartdivref.nativeElement );
+    this.overviewTimelineController = new OverviewTimelineController();
+    this.focusedTimelineController = new FocusedTimelineController();
+    // this.timelineController.attach_refs( this.chartdivref.nativeElement );
 
   }
 

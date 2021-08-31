@@ -25,7 +25,7 @@ export class OverviewViewTimelineController {
 
     private initialize_timeline(): void{
 
-        this.timelineRef.timelineController.render_timeline( Object.values( this.dataState.indexedSnippets ) );
+        // this.timelineRef.timelineController.render_timeline( Object.values( this.dataState.indexedSnippets ) );
     }
 
 

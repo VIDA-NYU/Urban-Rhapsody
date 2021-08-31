@@ -21,7 +21,6 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
   // dom refs
   @ViewChild('timelineref') timelineref!: TimelineComponent
 
-  
 
   constructor( public datastate: DataState, public globalEvents: GlobalEvents ) {}
 
@@ -30,19 +29,19 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void{
 
     // initializing controllers
-    this.initialize_controller();
+    // this.initialize_controller();
 
   }
 
   public initialize_controller(): void{
 
-    // packing element refs
-    const elementRefs: {} = {
-      'timelineref': this.timelineref
-    }
+    // // packing element refs
+    // const elementRefs: {} = {
+    //   'timelineref': this.timelineref
+    // }
 
-    // initializing controller
-    this.viewController = new OverviewViewController( this.datastate, this.globalEvents, elementRefs );
+    // // initializing controller
+    // this.viewController = new OverviewViewController( this.datastate, this.globalEvents, elementRefs );
   
   }
 

@@ -12,6 +12,9 @@ import { ProjectionComponent } from './components/projections/projection/project
 import { DataLoaderDialogComponent } from './dialogs/loaders/data-loader-dialog/data-loader-dialog.component';
 import { SonycLoaderDialogComponent } from './dialogs/loaders/sonyc-loader-dialog/sonyc-loader-dialog.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
+import { OverviewTimelineComponent } from './components/timeline/overview-timeline/overview-timeline.component';
+import { FocusedTimelineComponent } from './components/timeline/focused-timeline/focused-timeline.component';
+import { CalendarTimelineComponent } from './components/calendar-timeline/calendar-timeline.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { TimelineComponent } from './components/timeline/timeline.component';
     ProjectionComponent,
     DataLoaderDialogComponent,
     SonycLoaderDialogComponent,
-    TimelineComponent
+    TimelineComponent,
+    OverviewTimelineComponent,
+    FocusedTimelineComponent,
+    CalendarTimelineComponent
   ],
   imports: [
     BrowserModule,

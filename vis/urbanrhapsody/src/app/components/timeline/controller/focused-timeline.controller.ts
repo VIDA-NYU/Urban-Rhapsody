@@ -4,7 +4,7 @@ import { AudioSnippet } from "src/app/model/audiosnippet.model";
 import * as d3 from 'd3';
 import { ElementRef } from "@angular/core";
 
-export class TimelineController{    
+export class FocusedTimelineController{    
 
     // defining margins
     public margins: { top: number, right: number, bottom: number, left: number } = { top: 50, right: 50, bottom: 50, left: 50 };
@@ -22,6 +22,8 @@ export class TimelineController{
     private yScale: any = null;
     private colorScale: any = null;
 
+                                                                                                                     
+
     
     constructor(){}
 
@@ -35,6 +37,8 @@ export class TimelineController{
 
         // initializing elements
         this.initialize_timeline_elements( audioSnippets );
+
+        // reduce test
         
         const area = d3.area()
             .curve(d3.curveLinear)
@@ -47,9 +51,19 @@ export class TimelineController{
             .append('path')
             .datum( audioSnippets )
             .style('fill', 'blue')
-            .attr('d', area )
+            .attr('d', area );
             
             
+    }
+
+    private reduce_test( audioSnippets: AudioSnippet[]  ): void {
+
+        const bintest: any[] = [];
+        audioSnippets.map( snippet => {
+            if(bintest.length === 0){
+                
+            }
+        });
     }
 
     private initialize_timeline_elements( audioSnippets: AudioSnippet[] ): void {
