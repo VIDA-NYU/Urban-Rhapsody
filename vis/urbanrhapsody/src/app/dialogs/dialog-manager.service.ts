@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { DataLoaderDialogComponent } from "./loaders/data-loader-dialog/data-loader-dialog.component";
-import { SonycLoaderDialogComponent } from "./loaders/sonyc-loader-dialog/sonyc-loader-dialog.component";
 
 @Injectable({
     providedIn: 'root'

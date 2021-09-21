@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 
 export class ChartUtils {
 
-    public static create_svg( container: HTMLElement ){
+    public static create_svg( container: HTMLElement ): d3.Selection<any,any,any,any>{
 
         // container dimensions
         const width: number = container.clientWidth;
@@ -13,15 +13,11 @@ export class ChartUtils {
             .append('svg')
             .attr('width', width)
             .attr('height', height);
-
     }
-
 
     public static create_group( svgselection: any, margins: { top: number, bottom: number, left: number, right: number } ){
         return svgselection.append('g').attr('transform', 'translate(' + margins.left + ',' + margins.top + ')')
-
     }
-
 
     // scales
     public static create_sequential_scale( domain: [number, number], range: [number, number]): d3.ScaleSequential<any, any> {

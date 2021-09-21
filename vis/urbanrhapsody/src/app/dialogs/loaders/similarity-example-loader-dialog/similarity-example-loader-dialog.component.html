@@ -1,0 +1,31 @@
+<div class="component-wrapper">
+
+    <div class="body">
+        <div class="examples-list-container">
+
+            <div class="example-container" *ngFor='let snippet of this.similarityExampleLoaderController.exampleSnippets'>
+                <app-snippet-example [snippet]=snippet></app-snippet-example>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="footer">
+
+        <button 
+            class="loader-dialog-button"
+            mat-stroked-button 
+            color="primary">
+            Cancel
+        </button>
+
+        <button 
+            class="loader-dialog-button"
+            mat-stroked-button 
+            color="primary">
+            Load
+        </button>
+
+    </div>
+
+</div>

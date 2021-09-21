@@ -15,6 +15,10 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 import { OverviewTimelineComponent } from './components/timeline/overview-timeline/overview-timeline.component';
 import { FocusedTimelineComponent } from './components/timeline/focused-timeline/focused-timeline.component';
 import { CalendarTimelineComponent } from './components/calendar-timeline/calendar-timeline.component';
+import { SimilarityExampleLoaderDialogComponent } from './dialogs/loaders/similarity-example-loader-dialog/similarity-example-loader-dialog.component';
+import { SimilarityUploadLoaderDialogComponent } from './dialogs/loaders/similarity-upload-loader-dialog/similarity-upload-loader-dialog.component';
+import { SnippetExampleComponent } from './dialogs/loaders/similarity-example-loader-dialog/snippet-example/snippet-example.component';
+import { SpectrogramComponent } from './components/media/spectrogram/spectrogram.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,11 @@ import { CalendarTimelineComponent } from './components/calendar-timeline/calend
     TimelineComponent,
     OverviewTimelineComponent,
     FocusedTimelineComponent,
-    CalendarTimelineComponent
+    CalendarTimelineComponent,
+    SimilarityExampleLoaderDialogComponent,
+    SimilarityUploadLoaderDialogComponent,
+    SnippetExampleComponent,
+    SpectrogramComponent
   ],
   imports: [
     BrowserModule,

@@ -11,7 +11,7 @@ import { Deserializer } from "../utils/deserializer.util";
 
 export class DataState {
 
-    // All points loaded at beginning
+    // all points loaded at beginning
     public indexedSnippets: { [snippetKey: string]: AudioSnippet }  = {};
     public indexedFrames: { [frameKey: string]: AudioFrame }  = {};
 
@@ -21,9 +21,9 @@ export class DataState {
 
     constructor( public globalEvents: GlobalEvents ){}
 
-    public async load_data( datasetname: string ): Promise<void> {
+    public async load_data( datasetname: string, filters: any = {} ): Promise<void> {
 
-        const lodadeData: any = await DataLoadingAPI.load_data( datasetname );
+        const lodadeData: any = await DataLoadingAPI.load_data( datasetname, filters );
         const indexedData: {indexedSnippets: any, indexedFrames: any} = Deserializer.deserialize_snippets( lodadeData );
 
         // saving indexed data

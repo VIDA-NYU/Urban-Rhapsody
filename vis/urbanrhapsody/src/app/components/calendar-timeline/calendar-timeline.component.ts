@@ -20,7 +20,6 @@ export class CalendarTimelineComponent implements OnInit, AfterViewInit {
 
     // creating controller
     this.calendarTimelineController = new CalendarTimelineController();
-    // 
 
   }
 

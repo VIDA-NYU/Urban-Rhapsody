@@ -1,3 +1,4 @@
+import { AudioFrame } from "src/app/model/audioframe.model";
 import { AudioSnippet } from "src/app/model/audiosnippet.model";
 import { AudioSnippetMeta } from "src/app/model/audiosnippetmeta.model";
 
@@ -26,6 +27,18 @@ export class ObjectFactory {
         audioSnippet.metadata = metadata;
 
         return audioSnippet;
+
+    }
+
+    public static create_frame( rawobj: any ): any {
+
+        // const audioFrame: AudioFrame = new AudioFrame( , )
+
+    }
+
+    public static create_frame_metadata( rawobj: any ): any {
+
+        
 
     }
 

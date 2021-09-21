@@ -10,9 +10,9 @@ export class AudioFrame {
 
     constructor( 
         public uid: string, 
-        public audioSnippet: AudioSnippet, 
         public frameIndex: number, 
-        public metadata: AudioFrameMeta, 
-        public embeddingIndex: number ){}
+        // public metadata: AudioFrameMeta, 
+        public embeddingIndex: number,
+        public audioSnippet: AudioSnippet,  ){}
 
 }
