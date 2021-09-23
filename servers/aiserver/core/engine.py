@@ -1,8 +1,9 @@
+from werkzeug.wrappers import response
 from spatial.spatialmanager import SpatialManager
 from prototype.prototypemanager import PrototypeManager
 from serialization.projectionencoder import ProjectionEncoder
 from projector.projector import Projector
-from flask import json
+import json
 from datasource.datasource import Datasource
 
 class Engine:
@@ -15,12 +16,13 @@ class Engine:
 
     ################## ANN ##################
     
-    def get_nearest_neighbors( self, dataset, uids, embeddingModel: str ):
+    def get_nearest_neighbors( self, dataset, uids, embeddingModel: str = 'openl3' ):
 
-        embeddings = Datasource.get_embeddings( dataset='UST', uids=uids, embeddingModel='openl3'  )
-        self.spatialManager.get_nearest_neighbors( featureVector=embeddings['04_012439_3'], k=10 )
+        embeddings = Datasource.get_embeddings( dataset=dataset, uids=uids, embeddingModel=embeddingModel )
+        for uid in embeddings:
+            embeddings[uid] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[uid], k=100 )
 
-        
+        return json.dumps( embeddings )
     
     ################## PROJECTIONS ##################
 

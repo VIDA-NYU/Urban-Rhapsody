@@ -10,21 +10,17 @@ app.config['CORS_HEADERS'] = 'Content-Type' ## remove in production
 engine = None
 
 ################## ANN ##################
-@app.route('/getnearestneighbors', methods=['POST'])
-def get_nearest_neighbors():
+@app.route('/getyeardistribution', methods=['POST'])
+def get_year_distribution():
 
     ## reading parameters
     requestParams = request.get_json()
     
-    engine.get_nearest_neighbors(  
+    return engine.get_nearest_neighbors(  
         dataset=requestParams['dataset'], 
-        uids=requestParams['uids'], 
-        embeddingModel=requestParams['embeddingModel'] )
+        uids=requestParams['uids'] )
 
-    # 04_012439.wav
-    return jsonify({'response': 'success'}) 
-
-
+    # return jsonify({'response': 'success'}) 
 
 # ################## PROJECTIONS ##################
 # @app.route('/projectpoints', methods=['POST'])
@@ -84,4 +80,4 @@ if __name__ == '__main__':
 
     ## Starting Server
     print('Server is online...')
-    app.run(host='0.0.0.0', port=5001, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=5001, debug=True)

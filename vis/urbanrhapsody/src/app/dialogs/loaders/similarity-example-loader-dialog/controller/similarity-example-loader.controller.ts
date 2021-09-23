@@ -1,21 +1,84 @@
+import { QueryList } from "@angular/core";
 import { DataLoadingAPI } from "src/app/api/dataloading.api";
+import { AudioFrame } from "src/app/model/audioframe.model";
 import { AudioSnippet } from "src/app/model/audiosnippet.model";
+import { AudioState } from "src/app/state/audio/audio.state";
+import { DataState } from "src/app/state/data.state";
 import { Deserializer } from "src/app/utils/deserializer.util";
 import { SNIPPETEXAMPLES } from '../../../../utils/constants/constants'; 
+import { SnippetExampleComponent } from "../snippet-example/snippet-example.component";
 
 export class SimilarityExampleLoaderController {
 
     // examples snippets to be shown
     public exampleSnippets: AudioSnippet[] = [];
+    public indexedFrames: { [frameUID: string ] : AudioFrame } = {};
 
-    constructor(){}
+    // snippet example ref
+    public snippetExampleRefs!: QueryList<SnippetExampleComponent>;
 
+    // state refs
+    public audioState!: AudioState;
+    public dataState!: DataState;
 
-    public initialize_controller(): void{
+    // selected frame
+    public selectedFrame!: AudioFrame;
 
+    constructor( ){}
+
+    public initialize_controller( 
+        snippetExample: QueryList<SnippetExampleComponent>, 
+        audioState: AudioState, 
+        dataState: DataState ): void{
+
+        // saving refs
+        this.audioState = audioState;
+        this.dataState = dataState;
+
+        this.snippetExampleRefs = snippetExample;
+
+        // loading examples
         this.load_examples();
     }
     
+
+    public mouse_entered_frame( event: {frame: AudioFrame} ): void{
+
+        const currentFrame: AudioFrame = this.indexedFrames[event.frame.uid];
+        currentFrame.set_selection(true);
+
+        // play audio
+        this.audioState.play_frame( event.frame, 'UST')
+
+        // updating spectrogram
+        this.snippetExampleRefs.forEach( (snippetExample: SnippetExampleComponent ) => {
+            snippetExample.spectrogramref.spectrogramController.update_frame_grid();
+        });        
+
+    }
+
+    public mouse_left_frame( event: {frame: AudioFrame}): void{
+
+        const currentFrame: AudioFrame = this.indexedFrames[event.frame.uid];
+        currentFrame.set_selection(false);
+
+        // pause audio
+        this.audioState.stop_playing();
+
+        // updating spectrogram
+        this.snippetExampleRefs.forEach( (snippetExample: SnippetExampleComponent ) => {
+            snippetExample.spectrogramref.spectrogramController.update_frame_grid();
+        });
+
+    }
+
+    public frame_selected( event: {frame: AudioFrame} ): void{
+
+        this.selectedFrame = event.frame;
+        this.dataState.load_year_distribution( [this.selectedFrame] )
+
+    }
+
     private async load_examples(): Promise<any> {
     
         /**
@@ -28,6 +91,7 @@ export class SimilarityExampleLoaderController {
 
         // saving snippets
         this.exampleSnippets = Object.values(indexedData.indexedSnippets); 
+        this.indexedFrames = indexedData.indexedFrames;
 
     }
 

@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 
 export class ChartUtils {
 
-    public static create_svg( container: HTMLElement ): d3.Selection<any,any,any,any>{
+    public static create_svg( container: HTMLElement, zindex: number = 3000 ): d3.Selection<any,any,any,any>{
 
         // container dimensions
         const width: number = container.clientWidth;
@@ -12,7 +12,8 @@ export class ChartUtils {
         return d3.select(container)
             .append('svg')
             .attr('width', width)
-            .attr('height', height);
+            .attr('height', height)
+            .style('z-index', zindex);
     }
 
     public static create_group( svgselection: any, margins: { top: number, bottom: number, left: number, right: number } ){
@@ -30,6 +31,9 @@ export class ChartUtils {
 
     public static create_color_scale( domain: [number, number] ): d3.ScaleSequential<any, any> {
         return d3.scaleSequential(d3.interpolateYlGn).domain(domain);
-
     }
+
+    public static change_img_src( imgContainer: HTMLElement, newsrc: string ): void {
+        d3.select(imgContainer).select('img').attr('src', newsrc);
+    } 
 }

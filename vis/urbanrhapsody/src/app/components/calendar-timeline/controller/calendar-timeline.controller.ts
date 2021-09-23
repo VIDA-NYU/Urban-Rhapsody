@@ -22,31 +22,40 @@ export class CalendarTimelineController {
 
     constructor(){}
 
-    public get_mock_data(){
+    public generate_base_dataset( yearAudioDistribution: { [ datetime: string ]: number } ) {
 
-        // mock dates
-        const mockDates: any[] = [];
+        // year distribution dates
+        const yearDistribution: { date: Date, amount: number, week: number }[] = [];
 
-        let beginningDate: Date = new Date(Date.parse('2017-01-02'));
-        const beginningDate2: Date = new Date(Date.parse('2017-01-02'));
+        let currentDate: Date = new Date(Date.parse('2017-01-02'));
+        const startDate: Date = new Date(Date.parse('2017-01-02'));
 
-        while(beginningDate.getFullYear() === 2017){
+        console.log(yearAudioDistribution);
+        // updating color scale
+        // const maxEvents: number = d3.max( y)
+        // this.colorScale = Chart
 
-            // mockDates.push( { date: `${beginningDate.getFullYear()}-${beginningDate.getMonth()+1}-${beginningDate.getDate()}`, amount: Math.random()* 10 });
+        while(currentDate.getFullYear() === 2017){
 
-            const weekNumber: Date[] = d3.timeWeeks(beginningDate2, beginningDate)
+            const weekNumber: Date[] = d3.timeWeeks(startDate, currentDate)
 
-            mockDates.push( { date: beginningDate, amount: Math.random()* 10, week: weekNumber.length });
+            let currentAmount: number = 0;
+            const datestr: string = `${currentDate.getFullYear()}-${ ('0' + currentDate.getMonth()).slice(-2) }-${ ('0' + currentDate.getDate()).slice(-2) }`
+            if( datestr in yearAudioDistribution ){
+                currentAmount = 5;
+            }
+
+            yearDistribution.push( { date: currentDate, amount: currentAmount, week: weekNumber.length } );
 
             // incrementing date
-            beginningDate.setDate( beginningDate.getDate() + 1);
-            beginningDate = new Date( beginningDate.getFullYear(), beginningDate.getMonth(), beginningDate.getDate());
+            currentDate.setDate( currentDate.getDate() + 1);
+            currentDate = new Date( currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() );
 
         }  
 
-        this.render_chart( mockDates );
+        this.render_chart( yearDistribution );
 
-        return mockDates;
+        return yearDistribution;
     }
 
     public initialize_chart( container: HTMLElement ): void{
@@ -67,7 +76,7 @@ export class CalendarTimelineController {
 
         if( !this.xScale ) this.xScale = ChartUtils.create_sequential_scale( [0, 53], [0, width - this.margins.left - this.margins.right] );
         if( !this.yScale ) this.yScale = ChartUtils.create_band_scale( WEEKDAYS, [0, height - this.margins.top - this.margins.bottom] );
-        if( !this.colorScale ) this.colorScale = ChartUtils.create_color_scale( [0, 10] );
+        // if( !this.colorScale ) this.colorScale = ChartUtils.create_color_scale( [0, 10] );
         if( !this.monthScale ) this.monthScale = ChartUtils.create_band_scale( MONTHS, [0, width - this.margins.left - this.margins.right] );
 
         this.update_x_axis();
@@ -129,7 +138,6 @@ export class CalendarTimelineController {
                     .style('cursor', 'pointer')
                     .on('mouseover', (d: any) => {  d3.select( d.srcElement ).style('stroke', '#8c8f94') })
                     .on('mouseout', (d: any) => {  d3.select( d.srcElement ).style('stroke', '#dcdcde') })
-   
             );
 
     }

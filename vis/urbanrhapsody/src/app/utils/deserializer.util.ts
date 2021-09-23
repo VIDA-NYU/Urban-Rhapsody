@@ -27,6 +27,9 @@ export class Deserializer {
                 const frame: AudioFrame = new AudioFrame( rawframe.uid, rawframe.frameIndex, rawframe.embeddingIndex, currentAudioSnippet )
                 currentSnippetFrames.push(frame);
 
+                // indexing frames
+                indexedFrames[frame.uid] = frame;
+
             });
 
             // setting snippet frames

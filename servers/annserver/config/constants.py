@@ -1,0 +1,4 @@
+
+INDEXCONSTS = {
+    'basepath': ''
+}

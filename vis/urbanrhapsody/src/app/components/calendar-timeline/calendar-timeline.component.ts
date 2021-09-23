@@ -26,7 +26,7 @@ export class CalendarTimelineComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void{
 
     this.calendarTimelineController.initialize_chart( this.chartcontainerref.nativeElement );
-    this.calendarTimelineController.get_mock_data();
+    // this.calendarTimelineController.get_mock_data();
 
   }
 

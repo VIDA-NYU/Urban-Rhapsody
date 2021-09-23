@@ -3,7 +3,7 @@
     <mat-tab-group mat-align-tabs="center">
 
         <mat-tab label="Examples">
-            <app-similarity-example-loader-dialog></app-similarity-example-loader-dialog>
+            <app-similarity-example-loader-dialog [parentdialogref]='this.dialogRef'></app-similarity-example-loader-dialog>
         </mat-tab>
 
         <mat-tab label="Upload"></mat-tab>

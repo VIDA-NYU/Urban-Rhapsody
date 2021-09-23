@@ -6,7 +6,12 @@
 
     <div class="example-spectrogram-container">
         <div class="spectrogram-image-container">
-            <app-spectrogram [snippet]=this.snippet></app-spectrogram>
+            <app-spectrogram #spectrogramref
+                [snippet]=this.snippet
+                (onmouseenterspectrogram)='this.onmouseenterspectrogram.emit($event)'
+                (onmouseleavespectrogram)='this.onmouseleavespectrogram.emit($event)'
+                (onspectrogramframeclicked)='this.onspectrogramframeclicked.emit($event)'>
+            </app-spectrogram>
         </div>
     </div>
 

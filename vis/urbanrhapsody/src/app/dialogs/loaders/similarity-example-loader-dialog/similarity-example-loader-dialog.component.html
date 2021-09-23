@@ -2,11 +2,15 @@
 
     <div class="body">
         <div class="examples-list-container">
-
             <div class="example-container" *ngFor='let snippet of this.similarityExampleLoaderController.exampleSnippets'>
-                <app-snippet-example [snippet]=snippet></app-snippet-example>
+                <app-snippet-example 
+                    #snippetexampleref
+                    [snippet]=snippet
+                    (onmouseenterspectrogram)='this.similarityExampleLoaderController.mouse_entered_frame( $event )'
+                    (onmouseleavespectrogram)='this.similarityExampleLoaderController.mouse_left_frame( $event )'
+                    (onspectrogramframeclicked)='this.similarityExampleLoaderController.frame_selected( $event )'>
+                </app-snippet-example>
             </div>
-            
         </div>
     </div>
 
