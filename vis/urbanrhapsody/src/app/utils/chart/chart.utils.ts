@@ -30,7 +30,7 @@ export class ChartUtils {
     }
 
     public static create_color_scale( domain: [number, number] ): d3.ScaleSequential<any, any> {
-        return d3.scaleSequential(d3.interpolateYlGn).domain(domain);
+        return d3.scaleSequential(d3.interpolateBlues).domain(domain);
     }
 
     public static change_img_src( imgContainer: HTMLElement, newsrc: string ): void {

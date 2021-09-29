@@ -10,32 +10,14 @@ class SONYCDatasource:
     @staticmethod
     def get_embeddings( uids, embeddingModel ):
         
-        ## basepath
-        basepath = SONYCCONSTS['EMBEDDINGS_BASEPATH'][embeddingModel]
-
         ## returning embeddings
         embeddingList = {}
 
-        ## helper set to avoid getting repeated audio embeddings
-        snippetSetHelper = {}
+        for key, value in uids.items():
 
-        for frameuid, frameinfo in uids.items():
-
-            sensorID = uids[frameuid]['sensorID']
-            snippetUID = f'{frameuid.split("_")[0]}_{frameuid.split("_")[1]}'
-            snippetEmbeddingPath = f'{basepath}{sensorID}/{snippetUID}.npz'
-
-            if( not (snippetUID in snippetSetHelper) ):
-                snippetSetHelper[snippetUID] = SONYCDatasource.open_embedding_file( snippetEmbeddingPath )
-       
-            ## returning embedding index
-            ## TODO: figure out if it's better to pass embedding index or just calculate it here
-            embeddingIndex = frameinfo['embeddingIndex']
-            if(embeddingIndex > 10):
-                print('Maior')
-                embeddingIndex = 0
-            embeddingList[frameuid] = snippetSetHelper[snippetUID][embeddingIndex].tolist()
-            
+            embeddingPath = f"{SONYCCONSTS['EMBEDDINGS_BASEPATH'][embeddingModel]}/{value['sensorID']}/{value['day']}/{value['snippetID']}.npz"
+            embeddingVector = SONYCDatasource.open_embedding_file(embeddingPath)
+            embeddingList[key] = embeddingVector[value['embeddingIndex']]
 
         return embeddingList
 

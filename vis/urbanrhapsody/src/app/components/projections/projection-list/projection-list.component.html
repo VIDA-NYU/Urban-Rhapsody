@@ -2,8 +2,7 @@
 
     <div *ngFor='let projection of this.projectionState.projections'   
         class="projection-component-container">
-
-        <app-projection></app-projection>
-        
+        <app-projection [projection]=projection></app-projection>    
     </div>
+
 </div>

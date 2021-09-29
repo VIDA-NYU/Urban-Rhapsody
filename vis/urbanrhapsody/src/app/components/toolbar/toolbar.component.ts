@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogManager } from 'src/app/dialogs/dialog-manager.service';
+import { DataState } from 'src/app/state/data.state';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,7 +9,7 @@ import { DialogManager } from 'src/app/dialogs/dialog-manager.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor( public dialogManager: DialogManager ) { }
+  constructor( public dialogManager: DialogManager, public dataState: DataState ) { }
 
   ngOnInit(): void {}
 

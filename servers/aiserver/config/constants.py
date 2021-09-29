@@ -8,7 +8,7 @@ USTCONSTS = {
 
 SONYCCONSTS = {
     'EMBEDDINGS_BASEPATH':
-        { 'openl3': '../../data/sonyc/features/openl3/' },
+        { 'openl3': '../../data/sonyc/features/openl3/2017' },
     'CLASS_PREDICTIONS': '../../data/sonyc/class_predictions/',
     'PROTOTYPES': '../../data/sonyc/prototypes/prototypes.json',
     'INDICES' : {

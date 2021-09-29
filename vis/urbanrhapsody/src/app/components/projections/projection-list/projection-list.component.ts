@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectionState } from 'src/app/state/projection.state';
+import { ProjectionState } from 'src/app/state/projections/projections.state';
+
 
 @Component({
   selector: 'app-projection-list',

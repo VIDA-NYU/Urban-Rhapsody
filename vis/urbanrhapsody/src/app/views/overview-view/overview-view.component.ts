@@ -15,7 +15,7 @@ import { OverviewViewController } from './controllers/overview-view.controller';
 })
 export class OverviewViewComponent implements OnInit, AfterViewInit {
 
-  // view controller
+  // view controllers
   public viewController!: OverviewViewController;
 
   // dom refs
@@ -26,24 +26,11 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void{
-
-    // subscribing to events
-    this.subscribe_to_events();
-
+    this.initialize_controller();
   }
 
   public initialize_controller(): void{
-
-      this.viewController = new OverviewViewController();
-  }
-
-  private subscribe_to_events(): void {
-
-    this.globalEvents.yearDistributionLoaded.subscribe(() => {
-      this.appcalendartimelineref.calendarTimelineController.get_mock_data( this.dataState.yearAudioDistribution );
-      //  this.viewController.calendarTimeline.calendarTimelineController.get_mock_data();
-    });
-
+    this.viewController = new OverviewViewController( this.appcalendartimelineref, this.globalEvents, this.dataState );
   }
 
 }

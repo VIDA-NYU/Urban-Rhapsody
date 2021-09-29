@@ -1,57 +1,51 @@
-from datasource.sonyc.sonycloaderutils import SONYCLoaderUtils
+import glob
+from config.constants import SONYCCONSTS
+from datetime import datetime
+import pytz
 
 class SONYCFilter:
 
-    @staticmethod
-    def filter_snippets( filters, dataframe ):
-
-        sensors = list( map( lambda sensorID: int(sensorID), filters['sensors']))
-        startTime = SONYCLoaderUtils.format_date(filters['startDate'])
-        endTime = SONYCLoaderUtils.format_date(filters['endDate'])
-
-        if( len(sensors) != 0 ):
-            sensorquery = ' or '.join([ f'sensor_id == {sensorID}' for sensorID in sensors ])
-            dataframe = dataframe.query(sensorquery)
-
-        ## query by date range
-        dataframe = dataframe[ (dataframe['localtime'] >= startTime) & (dataframe['localtime'] <= endTime) ]
-        dataframe.sort_values(by=['timestamp'], inplace=True)
-
-        return SONYCFilter.extract_snippet_ids_from_dataframe_rows( dataframe )
-
+    nytimezone = pytz.timezone('America/New_York')
 
     @staticmethod
-    def extract_snippet_ids_from_dataframe_rows( dataframe ):
+    def filter_snippets( filters ):
 
-        ## helper set to avoid duplicates
-        snippetUIDsSet = set()
-
-        ## list of snippets to return
-        snippets = []
-
-        for row in range(dataframe.shape[0]):
-            
-            dataframeRow = dataframe.iloc[row]
-            metadata = SONYCFilter.extract_snippet_metadata( dataframeRow )
-            
-            if( list(metadata.keys())[0] in snippetUIDsSet):
-                continue
-            else:
-                snippets.append( metadata )
+        snippets = glob.glob(f'{SONYCCONSTS["AUDIO_SNIPPETS_BASEPATH"]}/{filters["days"][0].strip()}/*')
+        snippets = SONYCFilter.format_snippet_ids( snippets )
 
         return snippets
 
+
+    def format_snippet_ids( listOfSnippets: list[str] ) -> list:
+
+        ## returning list
+        formattedListOfSnippets = []
+
+        for snippet in listOfSnippets:
+            
+            currentFormattedSnippet = SONYCFilter.extract_snippet_metadata(snippet)
+            formattedListOfSnippets.append(currentFormattedSnippet)
+
+        return formattedListOfSnippets
+
+
     @staticmethod
-    def extract_snippet_metadata( row ):
+    def extract_snippet_metadata( snippetfilename: str ):
 
         ## audio UID
-        snippetuid = row['snippetID']
+        snippetUID = snippetfilename.split('/')[-1].split('.')[0]
 
         metadata = {}
-        metadata['uid'] = snippetuid
-        metadata['sensorID'] = row['sensor_id']
-        metadata['sensorHeight'] = 0
-        metadata['recordingHour'] = row['hour']
-        metadata['localtime'] = row['localtime']
+        metadata['uid'] = snippetUID
 
+        ## casting timestamp
+        utc_dt = datetime.utcfromtimestamp(int(snippetUID)).replace(tzinfo=pytz.utc)
+        currentSnippetTime = utc_dt.astimezone(SONYCFilter.nytimezone)
+
+        ## formatting timestamp
+        metadata['sensorID'] = snippetfilename.split('/')[-3]
+        metadata['recordingHour'] = currentSnippetTime.hour
+        metadata['localtime'] = currentSnippetTime.strftime('%H:%M:%S')
+        metadata['localdate'] = currentSnippetTime.strftime('%Y-%m-%d')
+        
         return metadata

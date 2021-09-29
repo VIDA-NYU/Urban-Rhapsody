@@ -41,7 +41,7 @@ class USTLoader:
 
             ## current audio snippet being parsed
             currentAudioSnippet = AudioSnippet( uid=snippet['uid'], length=USTCONSTS['SNIPPETCONSTS']['LENGTH'] )
-            currentAudioSnippet.metadata = AudioSnippetMetadata( sensorID=snippet['sensorID'], sensorHeight=snippet['sensorHeight'], recordingHour=snippet['recordingHour'] )
+            currentAudioSnippet.metadata = AudioSnippetMetadata( sensorID=snippet['sensorID'], recordingHour=snippet['recordingHour'], sensorHeight=snippet['sensorHeight'] )
 
             snippetFrames = USTLoader.create_frames( currentAudioSnippet )
             currentAudioSnippet.frames = snippetFrames

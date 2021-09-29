@@ -23,7 +23,7 @@ class Indexing:
         self.storedIndices = storedIndices
     
 
-    def get_nearest_neighbors( self, featureVector: list[float], k: int = 50 ):
+    def get_nearest_neighbors( self, featureVector: list[float], k: int = 10000 ):
 
         ids, distances = self.storedIndices.knnQuery(featureVector, k=k)
         return ids

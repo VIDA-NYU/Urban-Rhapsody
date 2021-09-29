@@ -26,6 +26,15 @@ export class DataState {
 
     constructor( public globalEvents: GlobalEvents ){}
 
+
+    public is_daily_data_loaded(): boolean {
+        return Object.keys( this.indexedSnippets ).length > 0
+    }
+
+    public is_yearly_data_loaded(): boolean{
+        return Object.keys(this.yearAudioDistribution ).length > 0;
+    }
+
     // loads the year distribution of similar events
     public async load_year_distribution( frames: AudioFrame[] ): Promise<void> {
 

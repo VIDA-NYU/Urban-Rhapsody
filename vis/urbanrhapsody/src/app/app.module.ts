@@ -19,6 +19,10 @@ import { SimilarityExampleLoaderDialogComponent } from './dialogs/loaders/simila
 import { SimilarityUploadLoaderDialogComponent } from './dialogs/loaders/similarity-upload-loader-dialog/similarity-upload-loader-dialog.component';
 import { SnippetExampleComponent } from './dialogs/loaders/similarity-example-loader-dialog/snippet-example/snippet-example.component';
 import { SpectrogramComponent } from './components/media/spectrogram/spectrogram.component';
+import { UmapProjectionDialogComponent } from './dialogs/projections/umap-projection-dialog/umap-projection-dialog.component';
+import { ProjectionControlsComponent } from './components/projections/projection-controls/projection-controls.component';
+import { ProjectionLegendComponent } from './components/projections/projection-legend/projection-legend.component';
+import { SpectrogramListComponent } from './components/media/spectrogram-list/spectrogram-list.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,11 @@ import { SpectrogramComponent } from './components/media/spectrogram/spectrogram
     SimilarityExampleLoaderDialogComponent,
     SimilarityUploadLoaderDialogComponent,
     SnippetExampleComponent,
-    SpectrogramComponent
+    SpectrogramComponent,
+    UmapProjectionDialogComponent,
+    ProjectionControlsComponent,
+    ProjectionLegendComponent,
+    SpectrogramListComponent  
   ],
   imports: [
     BrowserModule,
@@ -47,6 +55,6 @@ import { SpectrogramComponent } from './components/media/spectrogram/spectrogram
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents:[ DataLoaderDialogComponent, SonycLoaderDialogComponent ]
+  entryComponents:[ DataLoaderDialogComponent, SonycLoaderDialogComponent, UmapProjectionDialogComponent ]
 })
 export class AppModule { }

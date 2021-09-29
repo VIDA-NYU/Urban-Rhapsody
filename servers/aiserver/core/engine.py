@@ -1,4 +1,3 @@
-from werkzeug.wrappers import response
 from spatial.spatialmanager import SpatialManager
 from prototype.prototypemanager import PrototypeManager
 from serialization.projectionencoder import ProjectionEncoder

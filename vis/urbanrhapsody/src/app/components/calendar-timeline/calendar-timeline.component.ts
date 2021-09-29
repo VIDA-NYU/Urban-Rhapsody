@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { CalendarTimelineController } from './controller/calendar-timeline.controller'
 
 @Component({
@@ -14,6 +14,9 @@ export class CalendarTimelineComponent implements OnInit, AfterViewInit {
   // element refs
   @ViewChild('chartcontainerref') chartcontainerref!: ElementRef;
 
+  // outputs
+  @Output('oncellclick') oncellclick: EventEmitter<{day: string}> = new EventEmitter<{day: string}>();
+
   constructor() {}
 
   ngOnInit(): void {
@@ -25,8 +28,13 @@ export class CalendarTimelineComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void{
 
-    this.calendarTimelineController.initialize_chart( this.chartcontainerref.nativeElement );
-    // this.calendarTimelineController.get_mock_data();
+    // events
+    const events: {} = {
+      'oncellclick': this.oncellclick
+    }
+
+    // initializing chart
+    this.calendarTimelineController.initialize_chart( this.chartcontainerref.nativeElement, events );
 
   }
 

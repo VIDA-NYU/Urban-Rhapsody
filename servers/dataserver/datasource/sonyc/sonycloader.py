@@ -18,13 +18,13 @@ class SONYCLoader:
         listOfAudioSnippets: list[AudioSnippet] = []
 
         ## list of filtered snippets
-        filteredSnippets = SONYCFilter.filter_snippets( params['filters'], SONYCLoaderUtils.open_dataframe() )
+        filteredSnippets = SONYCFilter.filter_snippets( params['filters'] )
         
         for snippet in filteredSnippets:
 
             ## current audio snippet being parsed
             currentAudioSnippet = AudioSnippet( uid=snippet['uid'], length=SONYCCONSTS['SNIPPETCONSTS']['LENGTH'] )
-            currentAudioSnippet.metadata = AudioSnippetMetadata( sensorID=snippet['sensorID'], sensorHeight=snippet['sensorHeight'], recordingHour=snippet['recordingHour'], localtime=snippet['localtime'] )
+            currentAudioSnippet.metadata = AudioSnippetMetadata( sensorID=snippet['sensorID'], recordingHour=snippet['recordingHour'], localtime=snippet['localtime'], localdate=snippet['localdate'] )
 
             snippetFrames = SONYCLoader.create_frames( currentAudioSnippet )
             currentAudioSnippet.frames = snippetFrames

@@ -4,6 +4,7 @@ export class AudioSnippetMeta {
         public sensorID: string, 
         public sensorHeight: string, 
         public recordingHour: number, 
-        public localTime: Date ){}
+        public localDatetime: Date,
+        public localdate: string ){}
 
 }

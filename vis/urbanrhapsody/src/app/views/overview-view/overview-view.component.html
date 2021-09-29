@@ -1,13 +1,21 @@
 <div class="component-wrapper">
 
     <div class="timeline-component-container">
-        <app-calendar-timeline #appcalendartimelineref></app-calendar-timeline>
+        <app-calendar-timeline
+            (oncellclick)='this.viewController.load_day_audio($event)'
+            #appcalendartimelineref>
+        </app-calendar-timeline>
     </div>
 
     <div class="projections-component-container">
         <app-projection-list></app-projection-list>
     </div>
 
-    <div class="media-component-container"></div>
+    <div class="media-component-container">
+        <app-spectrogram-list></app-spectrogram-list>
+    </div>
+
+    <div class="placeholder"></div>
+
 
 </div>

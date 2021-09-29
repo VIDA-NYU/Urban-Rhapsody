@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Projection } from 'src/app/model/projection.model';
 import { ProjectionController } from './controller/projection.controller';
 
 
@@ -11,21 +12,23 @@ import { ProjectionController } from './controller/projection.controller';
 export class ProjectionComponent implements OnInit, AfterViewInit {
 
   // DOM REFS
-  @ViewChild('canvasref') canvasref!: ElementRef;
+  // @ViewChild('canvasref') canvasref!: ElementRef;
+  @ViewChild('projectionContainer') projectionContainer!: ElementRef;
+
+  // inputs
+  @Input('projection') projection!: Projection;
 
   // component controller
   public projectionController!: ProjectionController;
 
-  constructor() { 
-  }
+  constructor() { }
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void{
 
-    this.projectionController = new ProjectionController();
-
-    this.projectionController.initialize_projection( this.canvasref.nativeElement );
+    this.projectionController = new ProjectionController( this.projection );
+    this.projectionController.initialize_projection( this.projectionContainer.nativeElement );
     
   }
 

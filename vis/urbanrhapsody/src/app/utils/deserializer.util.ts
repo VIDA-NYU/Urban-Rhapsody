@@ -24,6 +24,7 @@ export class Deserializer {
             const currentSnippetFrames: AudioFrame[] = [];
             _.forEach( audioSnippet.frames, rawframe =>{
 
+                
                 const frame: AudioFrame = new AudioFrame( rawframe.uid, rawframe.frameIndex, rawframe.embeddingIndex, currentAudioSnippet )
                 currentSnippetFrames.push(frame);
 
@@ -42,6 +43,26 @@ export class Deserializer {
 
 
         return {indexedSnippets, indexedFrames};
+
+    }
+
+    public static deserialize_projection( incomingCoords: any, frames: { [frameKey: string]: AudioFrame }, projectionID: string ): AudioFrame[] {  
+
+        // filtered frames
+        const selectedFrames: AudioFrame[] = [];
+
+        _.forOwn( incomingCoords, (coord, uid) => {   
+
+            const currentFrame: AudioFrame = frames[uid];
+
+            // adding projected coords
+            frames[uid].add_projection( coord.x, coord.y, projectionID );
+
+            // adding frame to the selection
+            selectedFrames.push( currentFrame );
+        });
+
+        return selectedFrames;
 
     }
 

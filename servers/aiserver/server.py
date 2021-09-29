@@ -20,22 +20,20 @@ def get_year_distribution():
         dataset=requestParams['dataset'], 
         uids=requestParams['uids'] )
 
-    # return jsonify({'response': 'success'}) 
-
 # ################## PROJECTIONS ##################
-# @app.route('/projectpoints', methods=['POST'])
-# def project_points():
+@app.route('/projectpoints', methods=['POST'])
+def project_points():
 
-#     ## reading parameters
-#     requestParams = request.get_json()
+    ## reading parameters
+    requestParams = request.get_json()
 
-#     ## return projection
-#     return engine.project_points( 
-#         dataset=requestParams['dataset'], 
-#         projectionType=requestParams['projectionType'], 
-#         embeddingModel=requestParams['embeddingModel'], 
-#         uids=requestParams['uids'],
-#         params=requestParams['projectionParams'] )
+    ## return projection
+    return engine.project_points( 
+        dataset=requestParams['dataset'], 
+        projectionType=requestParams['projectionType'], 
+        embeddingModel=requestParams['embeddingModel'], 
+        uids=requestParams['uids'],
+        params=requestParams['projectionParams'] )
 
 
 # ################## CLASSIFICATION ##################

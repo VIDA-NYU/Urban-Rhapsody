@@ -13,7 +13,8 @@ export class ObjectFactory {
             rawobj.sensorID, 
             rawobj.sensorHeight, 
             parseInt(rawobj.recordingHour),
-            localtime
+            rawobj.localtime,
+            rawobj.localdate
         )
 
         return snippetMetadata;
@@ -29,17 +30,4 @@ export class ObjectFactory {
         return audioSnippet;
 
     }
-
-    public static create_frame( rawobj: any ): any {
-
-        // const audioFrame: AudioFrame = new AudioFrame( , )
-
-    }
-
-    public static create_frame_metadata( rawobj: any ): any {
-
-        
-
-    }
-
 }

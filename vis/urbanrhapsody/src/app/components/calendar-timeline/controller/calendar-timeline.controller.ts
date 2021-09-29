@@ -1,5 +1,6 @@
 import * as d3 from 'd3';
 import { ChartUtils } from 'src/app/utils/chart/chart.utils';
+import { MiscUtils } from 'src/app/utils/misc/misc.utils';
 import { WEEKDAYS, MONTHS } from '../../../utils/constants/constants';
 
 export class CalendarTimelineController {
@@ -20,6 +21,9 @@ export class CalendarTimelineController {
     // margins
     public margins: { top: number, right: number, bottom: number, left: number } = { top: 50, right: 100, bottom: 50, left: 100 };
 
+    // events
+    public events: any = {};
+
     constructor(){}
 
     public generate_base_dataset( yearAudioDistribution: { [ datetime: string ]: number } ) {
@@ -30,19 +34,15 @@ export class CalendarTimelineController {
         let currentDate: Date = new Date(Date.parse('2017-01-02'));
         const startDate: Date = new Date(Date.parse('2017-01-02'));
 
-        console.log(yearAudioDistribution);
-        // updating color scale
-        // const maxEvents: number = d3.max( y)
-        // this.colorScale = Chart
-
         while(currentDate.getFullYear() === 2017){
 
             const weekNumber: Date[] = d3.timeWeeks(startDate, currentDate)
 
+            // Improve it
             let currentAmount: number = 0;
             const datestr: string = `${currentDate.getFullYear()}-${ ('0' + currentDate.getMonth()).slice(-2) }-${ ('0' + currentDate.getDate()).slice(-2) }`
-            if( datestr in yearAudioDistribution ){
-                currentAmount = 5;
+            if( datestr in yearAudioDistribution ) {
+                currentAmount = yearAudioDistribution[datestr];
             }
 
             yearDistribution.push( { date: currentDate, amount: currentAmount, week: weekNumber.length } );
@@ -53,12 +53,16 @@ export class CalendarTimelineController {
 
         }  
 
-        this.render_chart( yearDistribution );
-
         return yearDistribution;
     }
 
-    public initialize_chart( container: HTMLElement ): void{
+    public initialize_chart( container: HTMLElement, events: {} ): void{
+
+        /**
+         * Saving external events
+         */
+        
+        this.events = events;
 
         /**
          * Basic components of a chart
@@ -76,13 +80,12 @@ export class CalendarTimelineController {
 
         if( !this.xScale ) this.xScale = ChartUtils.create_sequential_scale( [0, 53], [0, width - this.margins.left - this.margins.right] );
         if( !this.yScale ) this.yScale = ChartUtils.create_band_scale( WEEKDAYS, [0, height - this.margins.top - this.margins.bottom] );
-        // if( !this.colorScale ) this.colorScale = ChartUtils.create_color_scale( [0, 10] );
+        if( !this.colorScale ) this.colorScale = ChartUtils.create_color_scale( [0, 10] );
         if( !this.monthScale ) this.monthScale = ChartUtils.create_band_scale( MONTHS, [0, width - this.margins.left - this.margins.right] );
 
         this.update_x_axis();
         this.update_y_axis();
     }
-
 
     private update_x_axis(): void{
 
@@ -111,7 +114,11 @@ export class CalendarTimelineController {
 
     }
 
-    private render_chart( dataset: any ): void {
+    private cell_click_handler( currentDate: { date: Date, amount: number, week: number } ): void {
+        this.events['oncellclick'].emit({ day: MiscUtils.format_US_datetime( currentDate.date ) })
+    }
+
+    public render_chart( dataset: any ): void {
 
         // cell dimensions
         const cellWidth: number = this.xScale(1) - this.xScale(0);
@@ -136,11 +143,13 @@ export class CalendarTimelineController {
                     .style('stroke-width', 3)
                     .style('stroke-radius', '5px')
                     .style('cursor', 'pointer')
-                    .on('mouseover', (d: any) => {  d3.select( d.srcElement ).style('stroke', '#8c8f94') })
-                    .on('mouseout', (d: any) => {  d3.select( d.srcElement ).style('stroke', '#dcdcde') })
+                    .on('mouseover', (event: any, d: any ) => {  return d3.select( event.srcElement ).style('stroke', '#8c8f94') })
+                    .on('mouseout', (event: any) => {  d3.select( event.srcElement ).style('stroke', '#dcdcde') })
+                    .on('click', (event: MouseEvent, currentDatetime: { date: Date, amount: number, week: number } ) => { this.cell_click_handler( currentDatetime ) } )
             );
 
     }
+
 
 
 
