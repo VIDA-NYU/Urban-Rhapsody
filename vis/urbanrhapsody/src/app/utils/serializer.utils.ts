@@ -1,5 +1,6 @@
 import { AudioFrame } from "../model/audioframe.model";
 import * as _ from 'lodash';
+import { AudioSnippet } from "../model/audiosnippet.model";
 
 export class Serializer {
 
@@ -32,6 +33,30 @@ export class Serializer {
         });
 
         return formattedObj;
+
+    }
+
+    public static format_uids_spectrogram_request( audioSnippet: AudioSnippet ):  { sensorID: string, day: string, snippetID: string } {
+
+        const requestOBJ: { sensorID: string, day: string, snippetID: string } = {
+            sensorID: audioSnippet.metadata.sensorID,
+            day: audioSnippet.metadata.localdate,
+            snippetID: audioSnippet.uid
+        }
+
+        return requestOBJ;
+
+    }
+
+    public static format_uids_snippet_request( audioSnippet: AudioSnippet ):  { sensorID: string, day: string, snippetID: string } {
+
+        const requestOBJ: { sensorID: string, day: string, snippetID: string } = {
+            sensorID: audioSnippet.metadata.sensorID,
+            day: audioSnippet.metadata.localdate,
+            snippetID: audioSnippet.uid
+        }
+
+        return requestOBJ;
 
     }
 }

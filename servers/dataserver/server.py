@@ -1,7 +1,6 @@
-from datasource.supplementar.complaintsdatasource import ComplaintsDataSource
 from core.engine import Engine
-from flask import Flask, send_from_directory, jsonify, request, Response
-from flask_cors import CORS, cross_origin ## remove in production
+from flask import Flask, request
+from flask_cors import CORS ## remove in production
 
 app = Flask(__name__)
 cors = CORS(app) ## remove in production
@@ -17,7 +16,7 @@ def get_encoded_spectrogram():
     requestParams = request.get_json()
 
     ## return base64 encoded spectrogram
-    return engine.get_spectrogram( dataset=requestParams['dataset'], snippetuid=requestParams['snippetuid'] )
+    return engine.get_spectrogram( snippet=requestParams['snippet'] )
 
 @app.route('/getencodedaudio', methods=['POST'])
 def get_encoded_audio():
@@ -25,18 +24,13 @@ def get_encoded_audio():
     ## reading parameters
     requestParams = request.get_json()
     
-    return engine.get_audiosnippet( dataset=requestParams['dataset'], snippetuid=requestParams['snippetuid'])
+    return engine.get_audiosnippet( snippet=requestParams['snippetuid'])
 
 @app.route('/getdata', methods=['POST'])
 def get_snippets():
 
     ## loading data request
     return engine.get_snippets( request.get_json() )
-
-
-@app.route('/getsuplementardatasets', methods=['POST'])
-def get_suplementar_datasets():
-    return ComplaintsDataSource.get_noise_complaints()
 
 
 if __name__ == '__main__':

@@ -26,32 +26,44 @@ export class CalendarTimelineController {
 
     constructor(){}
 
-    public generate_base_dataset( yearAudioDistribution: { [ datetime: string ]: number } ) {
+    public generate_base_dataset( yearAudioDistribution: { [ datetime: string ]: { count: number, frames: string[] } } ) {
 
         // year distribution dates
         const yearDistribution: { date: Date, amount: number, week: number }[] = [];
 
-        let currentDate: Date = new Date(Date.parse('2017-01-02'));
-        const startDate: Date = new Date(Date.parse('2017-01-02'));
+        // let currentDate: Date = new Date(Date.parse('2017-01-01'));
+        // const startDate: Date = new Date(Date.parse('2017-01-01'));
+        let currentDate = new Date('January 02, 2017 00:00:00');
+        const startDate = new Date('January 02, 2017 00:00:00');
+
+        // maxNeighbors to generate colorscale
+        let maxNeighbors: number = 0;
 
         while(currentDate.getFullYear() === 2017){
 
-            const weekNumber: Date[] = d3.timeWeeks(startDate, currentDate)
+            const weekNumber: Date[] = d3.timeWeeks(startDate, currentDate);
 
             // Improve it
             let currentAmount: number = 0;
-            const datestr: string = `${currentDate.getFullYear()}-${ ('0' + currentDate.getMonth()).slice(-2) }-${ ('0' + currentDate.getDate()).slice(-2) }`
+            const datestr: string = MiscUtils.format_US_datetime(currentDate); 
             if( datestr in yearAudioDistribution ) {
-                currentAmount = yearAudioDistribution[datestr];
+
+                currentAmount = yearAudioDistribution[datestr].count;
+                maxNeighbors = Math.max( maxNeighbors, currentAmount );
+
             }
 
-            yearDistribution.push( { date: currentDate, amount: currentAmount, week: weekNumber.length } );
+            yearDistribution.push( { date: new Date(currentDate), amount: currentAmount, week: weekNumber.length } );
+            
 
             // incrementing date
             currentDate.setDate( currentDate.getDate() + 1);
             currentDate = new Date( currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() );
 
         }  
+
+        // updating color scale
+        this.colorScale = ChartUtils.create_color_scale( [0, maxNeighbors] );
 
         return yearDistribution;
     }
@@ -80,7 +92,7 @@ export class CalendarTimelineController {
 
         if( !this.xScale ) this.xScale = ChartUtils.create_sequential_scale( [0, 53], [0, width - this.margins.left - this.margins.right] );
         if( !this.yScale ) this.yScale = ChartUtils.create_band_scale( WEEKDAYS, [0, height - this.margins.top - this.margins.bottom] );
-        if( !this.colorScale ) this.colorScale = ChartUtils.create_color_scale( [0, 10] );
+        // if( !this.colorScale ) this.colorScale = ChartUtils.create_color_scale( [0, 10] );
         if( !this.monthScale ) this.monthScale = ChartUtils.create_band_scale( MONTHS, [0, width - this.margins.left - this.margins.right] );
 
         this.update_x_axis();
@@ -118,7 +130,13 @@ export class CalendarTimelineController {
         this.events['oncellclick'].emit({ day: MiscUtils.format_US_datetime( currentDate.date ) })
     }
 
-    public render_chart( dataset: any ): void {
+    public render_chart( yearDistribution: any ): void {
+
+        // generating base dataset
+        const dataset: any = this.generate_base_dataset( yearDistribution );
+        
+        // set transitions
+        const t = this.svg.transition().duration(750);
 
         // cell dimensions
         const cellWidth: number = this.xScale(1) - this.xScale(0);
@@ -126,7 +144,7 @@ export class CalendarTimelineController {
         const cellGap: number = 5;
 
         this.chartgroup
-            .selectAll('day-cell')
+            .selectAll('.day-cell')
             .data( dataset )
             .join(
                 (enter: any) => enter
@@ -138,14 +156,17 @@ export class CalendarTimelineController {
                     .attr('ry', 3)
                     .attr('width', cellWidth - cellGap)
                     .attr('height', cellHeight - cellGap )
-                    .attr('fill', (d: any) => this.colorScale(d.amount) )
                     .style('stroke', '#dcdcde')
                     .style('stroke-width', 3)
                     .style('stroke-radius', '5px')
                     .style('cursor', 'pointer')
-                    .on('mouseover', (event: any, d: any ) => {  return d3.select( event.srcElement ).style('stroke', '#8c8f94') })
+                    .on('mouseover', (event: any, d: any ) => { return d3.select( event.srcElement ).style('stroke', '#8c8f94') })
                     .on('mouseout', (event: any) => {  d3.select( event.srcElement ).style('stroke', '#dcdcde') })
                     .on('click', (event: MouseEvent, currentDatetime: { date: Date, amount: number, week: number } ) => { this.cell_click_handler( currentDatetime ) } )
+                    .attr('fill', (d: any) => { return this.colorScale(d.amount)} ),
+                (update: any) => update.transition(t).attr('fill', (d: any) => this.colorScale(d.amount) ),
+                (exit: any) => exit.remove()
+                
             );
 
     }

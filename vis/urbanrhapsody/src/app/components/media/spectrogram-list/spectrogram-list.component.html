@@ -1,7 +1,15 @@
 <div class="component-wrapper">
-    <div class="spectrogram-list-container">
-        <div class="spectrogram-container">
-            <p>container</p>
+    <div class="spectrogram-list-container" #spectrogramlistcontainerref>
+        <div 
+            *ngFor='let snippet of this.spectrogramListController.showingSnippets'
+            class="spectrogram-container" 
+            [style.width]='this.spectrogramListController.spectrogramContainerSize'>
+            <app-spectrogram 
+                [snippet]=snippet 
+                (onmouseenterspectrogram)=this.onmouseenterspectrogram.emit($event)
+                (onmouseleavespectrogram)=this.onmouseleavespectrogram.emit($event)
+                (onspectrogramframeclicked)=this.onspectrogramframeclicked.emit($event)
+                ></app-spectrogram>
         </div>
     </div>
 </div>

@@ -10,14 +10,19 @@
             <mat-icon class='control-icon'>loyalty</mat-icon>
         </div>
 
+        <div class="icon-container" >
+            <mat-icon 
+                [ngStyle]='{ "color": (this.projection && this.projection.isBrushActive) ? "red" : "black" }'    
+                (click)='this.onbrushset.emit()'
+                class='control-icon'>
+                tab_unselected
+            </mat-icon>
+        </div>
+
         <div class="icon-container">
             <mat-icon class='control-icon'>delete</mat-icon>
         </div>
 
-        <div class="icon-container">
-            <mat-icon class='control-icon'>tab_unselected</mat-icon>
-        </div>
-        
     </div>
     
 </div>

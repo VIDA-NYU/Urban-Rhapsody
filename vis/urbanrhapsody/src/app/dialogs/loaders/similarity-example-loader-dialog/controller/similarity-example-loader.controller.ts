@@ -48,7 +48,7 @@ export class SimilarityExampleLoaderController {
         currentFrame.set_selection(true);
 
         // play audio
-        this.audioState.play_frame( event.frame, 'UST')
+        this.audioState.play_frame( event.frame );
 
         // updating spectrogram
         this.snippetExampleRefs.forEach( (snippetExample: SnippetExampleComponent ) => {
@@ -85,8 +85,8 @@ export class SimilarityExampleLoaderController {
         * Loading snippets examples 
         */
 
-        const filters: {} = { sensors: [], userlabels: [], hours: [], snippets: SNIPPETEXAMPLES };
-        const rawExamples: any = await DataLoadingAPI.load_data('UST', filters )
+        const filters: {} = { snippets: SNIPPETEXAMPLES };
+        const rawExamples: any = await DataLoadingAPI.load_data('sonyc', filters )
         const indexedData: {indexedSnippets: any, indexedFrames: any} = Deserializer.deserialize_snippets( rawExamples )
 
         // saving snippets

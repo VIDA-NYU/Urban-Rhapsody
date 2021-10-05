@@ -27,8 +27,14 @@ class MetaDB:
             currentobj = json.loads(currentobj.decode("utf-8"))
 
             if( not (currentobj['day'] in dailyCount) ):
-                dailyCount[currentobj['day']] = 0
-            dailyCount[currentobj['day']] += 1
+                dailyCount[currentobj['day']] = { 'count': 0, 'frames': [] }
+
+            ## creating frameuid
+            frameuid = f"{currentobj['index']}_{currentobj['file'].split('.wav')[0]}"
+
+            dailyCount[currentobj['day']]['count'] += 1
+            dailyCount[currentobj['day']]['frames'].append(frameuid)
+
 
 
         return dailyCount

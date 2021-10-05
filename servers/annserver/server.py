@@ -17,6 +17,10 @@ def get_ann():
     ## calculating ann
     return engine.get_daily_ann( requestParams['vector'] )
 
+@app.route('/heartbeat', methods=['GET'])
+def heartbeat():
+    return jsonify({"response": "I'm alive"})
+
 if __name__ == '__main__':
 
     engine = Engine()

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AudioFrame } from 'src/app/model/audioframe.model';
 import { ProjectionState } from 'src/app/state/projections/projections.state';
+import { ProjectionListController } from './controller/projection-list.controller';
 
 
 @Component({
@@ -9,8 +11,12 @@ import { ProjectionState } from 'src/app/state/projections/projections.state';
 })
 export class ProjectionListComponent implements OnInit {
 
+  // event emitters
+  @Output('onpointsselected') onpointsselected: EventEmitter<{'frames': AudioFrame[], 'projectionID': string}> = new EventEmitter<{'frames': AudioFrame[], 'projectionID': string}>(); 
+
   constructor( public projectionState: ProjectionState ) { }
 
   ngOnInit(): void {}
+  
 
 }

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { MediaAPI } from "src/app/api/media.api";
 import { AudioFrame } from "src/app/model/audioframe.model";
 import { AudioSnippet } from "src/app/model/audiosnippet.model";
+import { Serializer } from "src/app/utils/serializer.utils";
 
 @Injectable({providedIn: 'root'})
 
@@ -11,7 +12,7 @@ export class AudioState {
     private isPlaying: boolean = false;
     private audioPlaying!: HTMLAudioElement | any;
 
-    public async play_frame( audioFrame: AudioFrame, dataset: string = 'sonyc' ): Promise<void> {
+    public async play_frame( audioFrame: AudioFrame, dataset: string = 'SONYC' ): Promise<void> {
 
         // checking if something else was already playing
         if( this.isPlaying ) {
@@ -28,8 +29,15 @@ export class AudioState {
         const currentSnippet: AudioSnippet = audioFrame.get_snippet(); 
         
         // requesting encoded audio
-        const response: any = await MediaAPI.get_encoded_audio( currentSnippet.uid, dataset );
-        this.audioPlaying = new Audio(  response.base64  );
+        if( dataset === 'SONYC'){
+            const requestOBJ: { sensorID: string, day: string, snippetID: string } = Serializer.format_uids_snippet_request( currentSnippet );
+            const response: any = await MediaAPI.get_encoded_audio( requestOBJ, dataset );
+            this.audioPlaying = new Audio(  response.base64  );
+        } else {
+            const response: any = await MediaAPI.get_encoded_audio( currentSnippet.uid, dataset );
+            this.audioPlaying = new Audio(  response.base64  );
+        }
+        
 
         return new Promise( (resolve, reject) => {
 

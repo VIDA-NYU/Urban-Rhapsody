@@ -19,7 +19,7 @@ class Engine:
 
         embeddings = Datasource.get_embeddings( dataset=dataset, uids=uids, embeddingModel=embeddingModel )
         for uid in embeddings:
-            embeddings[uid] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[uid], k=100 )
+            embeddings[uid] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[uid], k=50 )
 
         return json.dumps( embeddings )
     

@@ -8,6 +8,7 @@
         <div class="spectrogram-image-container">
             <app-spectrogram #spectrogramref
                 [snippet]=this.snippet
+                dataset="UST"
                 (onmouseenterspectrogram)='this.onmouseenterspectrogram.emit($event)'
                 (onmouseleavespectrogram)='this.onmouseleavespectrogram.emit($event)'
                 (onspectrogramframeclicked)='this.onspectrogramframeclicked.emit($event)'>

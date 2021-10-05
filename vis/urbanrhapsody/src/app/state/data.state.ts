@@ -6,6 +6,7 @@ import { AudioFrame } from "../model/audioframe.model";
 import { AudioSnippet } from "../model/audiosnippet.model";
 import { Deserializer } from "../utils/deserializer.util";
 import * as _ from 'lodash';
+import { FrameFilters } from "../utils/filters/frameFilters.utils";
 
 @Injectable({
     providedIn: 'root'
@@ -14,7 +15,7 @@ import * as _ from 'lodash';
 export class DataState {
 
     // year distribution of events
-    public yearAudioDistribution: { [ datetime: string ]: number } = {};
+    public yearAudioDistribution: { [ datetime: string ]: { count: number, frames: string[] } } = {};
 
     // all points loaded at beginning
     public indexedSnippets: { [snippetKey: string]: AudioSnippet }  = {};
@@ -34,6 +35,21 @@ export class DataState {
     public is_yearly_data_loaded(): boolean{
         return Object.keys(this.yearAudioDistribution ).length > 0;
     }
+
+    public select_frames( params: any = {} ): void {
+
+        let selection: { frames: AudioFrame[], snippets: AudioSnippet[] };
+
+        // unselecting all frames before
+        selection = FrameFilters.unselect_all( this.selectedFrames );
+        this.selectedFrames = selection.frames;
+        this.selectedSnippets = selection.snippets;
+
+        // filtering 
+        selection = FrameFilters.filter_proxy( this.indexedFrames, params );
+        this.selectedFrames = selection.frames;
+        this.selectedSnippets = selection.snippets;
+    } 
 
     // loads the year distribution of similar events
     public async load_year_distribution( frames: AudioFrame[] ): Promise<void> {

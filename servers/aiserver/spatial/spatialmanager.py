@@ -18,4 +18,5 @@ class SpatialManager:
 
         ## making request
         response = requests.post('http://localhost:5003/getann', json=data )
+        print(response.text)
         return json.loads(response.text)

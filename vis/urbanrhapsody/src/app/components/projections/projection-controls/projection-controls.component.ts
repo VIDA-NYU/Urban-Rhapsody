@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Projection } from 'src/app/model/projection.model';
 
 @Component({
   selector: 'app-projection-controls',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectionControlsComponent implements OnInit {
 
+  // eventemitters
+  @Output('onbrushset') onbrushset: EventEmitter<any> = new EventEmitter<any>();
+
+  // inputs
+  @Input('projection') projection!: Projection;
+
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 }

@@ -17,8 +17,8 @@ USTCONSTS = {
 
 SONYCCONSTS = {
 
-    'AUDIO_SNIPPETS_BASEPATH': '../../data/sonyc/audio/sonycnode-b827eb0d8af7.sonyc',
-    'SPECTROGRAM_BASEPATH': '../../data/sonyc/spectrograms/',
+    'AUDIO_SNIPPETS_BASEPATH': '../../data/sonyc/audio',
+    'SPECTROGRAM_BASEPATH': '../../data/sonyc/spectrograms',
     # 'SPL_BASEPATH': '../data/ust/spl/48k/',
     'METADATA': '../../data/sonyc/metadata/sonyc_metadata.csv',
 

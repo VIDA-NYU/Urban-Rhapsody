@@ -3,7 +3,10 @@
     <div class="projection">
 
         <div class="projection-controls">
-            <app-projection-controls></app-projection-controls>
+            <app-projection-controls 
+                [projection]='this.projection' 
+                (onbrushset)='this.projectionController.set_brush_mode()'>
+            </app-projection-controls>
         </div>
         
         <div class="projection-scatterplot-container">

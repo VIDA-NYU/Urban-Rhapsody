@@ -12,7 +12,7 @@ export class SpectrogramComponent implements OnInit, AfterViewInit {
 
   // audio snippet
   @Input('snippet') snippet!: AudioSnippet;
-
+  
   // dom refs
   @ViewChild('spectrogramcontainerref') spectrogramcontainerref!: ElementRef;
   @ViewChild('spectrogramimgref') spectrogramimgref!: ElementRef;

@@ -11,6 +11,7 @@ import { EventEmitter } from "@angular/core";
 import { AudioSnippet } from "src/app/model/audiosnippet.model";
 import { AudioFrame } from "src/app/model/audioframe.model";
 import { MediaAPI } from "src/app/api/media.api";
+import { Serializer } from "src/app/utils/serializer.utils";
 
 export class SpectrogramController {
 
@@ -82,7 +83,7 @@ export class SpectrogramController {
 
     // api calls
     private get_spectrogram_encoding( audioSnippet: AudioSnippet ): void{
-        MediaAPI.get_encoded_spectrogram( audioSnippet.uid, 'UST' ).then( response => {
+        MediaAPI.get_encoded_spectrogram( audioSnippet ).then( response => {
             ChartUtils.change_img_src( this.container, response.base64 );
         });
     }

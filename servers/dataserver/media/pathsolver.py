@@ -7,66 +7,45 @@ from config.constants import SONYCCONSTS
 class PathSolver:
 
     @staticmethod
-    def get_spectrogram_path( datasetname: str, snippetuid: str ) ->  str:
-
-        if(datasetname == 'UST'):
-            return PathSolver.__get_spectrogram_path_UST( snippetuid )
-        elif(datasetname == 'SONYC'):
-            return PathSolver.__get_spectrogram_path_SONYC( snippetuid )
-        return ''
-
+    def get_spectrogram_path( snippet ) ->  str:
+        return PathSolver.__get_spectrogram_path( snippet )
 
     @staticmethod
-    def get_audio_path( datasetname: str, snippetuid: str ) -> str:
+    def __get_spectrogram_path( snippet ) -> str:
+
+        '''
         
-        if(datasetname == 'UST'):
-            return PathSolver.__get_audio_path_UST(  snippetuid )
-        elif(datasetname == 'SONYC'):
-            return PathSolver.__get_audio_path_SONYC ( snippetuid )
-        return ''
+        Format of snippetuids is: {'sensorID': str, 'day': str, 'snippetID': str }
+        Example:  {'sensorID': 'sonycnode-b827eb0d8af7.sonyc', 'day': '2017-06-04', 'snippetID': '1496608880'}
 
+        '''
 
-    ## PRIVATE METHODS 
-    @staticmethod
-    def __get_spectrogram_path_UST( snippetuid: str ) -> str:
-
-        ## basepath
-        basepath: str = USTCONSTS['SPECTROGRAM_BASEPATH']
-        spectrogramPath: str = f'{basepath}{snippetuid}.png'
-
-        ## returning
-        return spectrogramPath
-
-
-    @staticmethod
-    def __get_spectrogram_path_SONYC( snippetuid: str ) -> str:
-
-        sensorID: str = snippetuid.split('_')[0]
+        sensorID: str = snippet['sensorID']
+        day: str = snippet['day']
+        snippetuid: str = snippet['snippetID']
 
         ## basepath
         basepath: str = SONYCCONSTS['SPECTROGRAM_BASEPATH']
-        spectrogramPath: str = f'{basepath}{sensorID}/{snippetuid}.png'
+        spectrogramPath: str = f'{basepath}/{sensorID}/{day}/{snippetuid}.png'        
 
         ## returning
         return spectrogramPath
 
 
     @staticmethod
-    def __get_audio_path_UST( snippetuid: str ) -> str:
+    def get_audio_path( snippet ) -> str:
+        return PathSolver.__get_audio_path ( snippet )
 
-        ## basepath
-        basepath: str = USTCONSTS['AUDIO_SNIPPETS_BASEPATH']
-        audioPath: str = f'{basepath}{snippetuid}.wav'
-
-        return audioPath
 
     @staticmethod
-    def __get_audio_path_SONYC( snippetuid: str ) -> str:
+    def __get_audio_path( snippet ) -> str:
 
-        sensorID: str = snippetuid.split('_')[0]
+        sensorID: str = snippet['sensorID']
+        day: str = snippet['day']
+        snippetuid: str = snippet['snippetID']
 
         ## basepath
         basepath: str = SONYCCONSTS['AUDIO_SNIPPETS_BASEPATH']
-        audioPath: str = f'{basepath}/{sensorID}/{snippetuid}.wav'
+        audioPath: str = f'{basepath}/{sensorID}/{day}/{snippetuid}.wav'
 
         return audioPath

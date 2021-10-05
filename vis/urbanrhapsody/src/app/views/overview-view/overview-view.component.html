@@ -2,17 +2,24 @@
 
     <div class="timeline-component-container">
         <app-calendar-timeline
-            (oncellclick)='this.viewController.load_day_audio($event)'
+            (oncellclick)='this.calendarTimelineController.load_day_audio($event)'
             #appcalendartimelineref>
         </app-calendar-timeline>
     </div>
 
     <div class="projections-component-container">
-        <app-projection-list></app-projection-list>
+        <app-projection-list 
+            (onpointsselected)='this.spectrogramlistref.spectrogramListController.on_frames_seleceted($event)'>
+        </app-projection-list>
     </div>
 
+
+
+    <!-- (onmouseenterspectrogram)=this.viewController.on_mouse_enter_spectrogram_frame($event); -->
+    <!-- (onmouseleavespectrogram)=this.viewController.on_mouse_leave_spectrogram_frame($event); -->
+    <!-- (onspectrogramframeclicked)=this.viewController.on_click_spectrogram_frame($event); -->
     <div class="media-component-container">
-        <app-spectrogram-list></app-spectrogram-list>
+        <app-spectrogram-list #spectrogramlistref></app-spectrogram-list>
     </div>
 
     <div class="placeholder"></div>
