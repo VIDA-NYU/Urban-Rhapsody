@@ -24,21 +24,25 @@ export class FrameFilters {
 
     public static filter_by_uid( audioFrames: { [frameKey: string]: AudioFrame }, params: any = {} ): {frames: AudioFrame[], snippets: AudioSnippet[]} {
 
-        // set helper
-        // const uids: string = params.uids;
-        
+        // selected frames
+        const selectedFrames: AudioFrame[] = [];
+        const selectedSnippets: Set<AudioSnippet> = new Set<AudioSnippet>();
 
         _.forEach( params.uids, uid => {
             
-            console.log('uids: ', uid);
-            // const currentFrame: AudioFrame = audioFrames[uid];
-            // console.log(currentFrame);
+            // selecting frames
+            const currentFrame: AudioFrame = audioFrames[uid];
+            currentFrame.set_selection( true );
+            selectedFrames.push(currentFrame);
+
+            // selecting snippets
+            selectedSnippets.add( currentFrame.get_snippet() );
 
         });
         
-        return { frames: [], snippets: [] };
 
-        // const filteredFrames: AudioFrame[] = audioFrames.filter( frame => )
+
+        return { frames: selectedFrames, snippets: Array.from(selectedSnippets.values()) };
 
     }  
     

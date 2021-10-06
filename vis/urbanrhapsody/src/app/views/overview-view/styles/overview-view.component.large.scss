@@ -1,14 +1,16 @@
 .timeline-component-container {
 
     display: flex;
-    flex: 1;
+    flex: 2;
 
 }
 
 .projections-component-container {
 
     display: flex;
-    flex: 2;
+    flex: 4;
+
+    position: relative;
 
 }
 
@@ -21,5 +23,5 @@
 
 .placeholder{
     display: flex;
-    flex: 1;
+    flex: 2;
 }

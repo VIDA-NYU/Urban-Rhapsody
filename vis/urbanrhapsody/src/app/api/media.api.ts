@@ -4,7 +4,7 @@ import { Serializer } from '../utils/serializer.utils';
 
 export class MediaAPI {
 
-    public static async get_encoded_spectrogram( snippet: AudioSnippet, dataset: string = 'SONYC' ): Promise<any> {
+    public static async get_encoded_spectrogram( snippet: AudioSnippet ): Promise<any> {
 
         // url
         const url = `${environment.dataserver}/getencodedspectrogram`;
@@ -13,7 +13,7 @@ export class MediaAPI {
         const requestOBJ: { sensorID: string, day: string, snippetID: string } = Serializer.format_uids_spectrogram_request( snippet );
 
         // post parameters
-        const requestParams = { dataset,  snippet: requestOBJ };
+        const requestParams = { snippet: requestOBJ };
 
         // post header
         const headers = {
@@ -32,13 +32,13 @@ export class MediaAPI {
     }
 
 
-    public static async get_encoded_audio( snippetuid: any, dataset: string ): Promise<any> {
+    public static async get_encoded_audio( snippetuid: any ): Promise<any> {
 
         // url
         const url = `${environment.dataserver}/getencodedaudio`;
 
         // post parameters
-        const requestParams = { dataset, snippetuid };
+        const requestParams = { snippetuid };
         // console.log(`post data: ${JSON.stringify(requestParams)}`);
 
         // post header

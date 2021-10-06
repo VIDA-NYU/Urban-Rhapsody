@@ -5,6 +5,7 @@ import { AudioSnippet } from "src/app/model/audiosnippet.model";
 // third-party
 import * as _ from 'lodash';
 import { MiscUtils } from "src/app/utils/misc/misc.utils";
+import { Input } from "@angular/core";
 
 export class SpectrogramListController {
 
@@ -13,7 +14,8 @@ export class SpectrogramListController {
     public spectrogramContainerSize: string = '0px';
 
     // selections 
-    public selectedSnippets: AudioSnippet[] = [];
+    // @Input('selectedsnippets') selectedSnippets: AudioSnippet[] = []; 
+    public _selectedSnippets: AudioSnippet[] = [];
     public showingSnippets: AudioSnippet[] = [];
 
     constructor(){}
@@ -25,16 +27,19 @@ export class SpectrogramListController {
 
     }
 
-    public on_frames_seleceted( event: {frames: AudioFrame[], projectionID: string } ): void{
+    public on_frames_selected( audioSnippets: AudioSnippet[] ): void{
+
+
+        this.showingSnippets = audioSnippets.slice(0, this.listSize);
 
         // helper set
-        const snippets: Set<AudioSnippet> = new Set<AudioSnippet>();
-        _.forEach( event.frames, frame => {
-            snippets.add( frame.audioSnippet );
-        });
+        // const snippets: Set<AudioSnippet> = new Set<AudioSnippet>();
+        // _.forEach( event.frames, frame => {
+        //     snippets.add( frame.audioSnippet );
+        // });
 
         // setting snippets to show
-        this.showingSnippets = Array.from( snippets ).slice(0, this.listSize);
+        // this.showingSnippets = Array.from( snippets ).slice(0, this.listSize);
 
     }
 

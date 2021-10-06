@@ -9,26 +9,12 @@ export class OverviewViewCalendarTimelineController {
  
     public appcalendartimelineref!: CalendarTimelineComponent;
 
-    // state management
-    private dataState!: DataState;
+    constructor( public dataState: DataState, public globalEvents: GlobalEvents ){}
 
-    // global events
-    public globalEvents!: GlobalEvents;
+    public initialize_controller( appcalendartimelineref: CalendarTimelineComponent): void{
 
-    constructor(){}
-
-    public initialize_controller( 
-        appcalendartimelineref: CalendarTimelineComponent,
-        globalEvents: GlobalEvents,
-        dataState: DataState ): void{
-
+        // component ref
         this.appcalendartimelineref = appcalendartimelineref;
-
-        // saving events refs
-        this.globalEvents = globalEvents;
-
-        // saving state refs
-        this.dataState = dataState;
 
         // subscribing to events
         this.subscribe_to_events();
@@ -37,12 +23,10 @@ export class OverviewViewCalendarTimelineController {
 
     public async load_day_audio( event: any ){
 
+        // loading all frames from a day
         await this.dataState.load_data( 'sonyc', { days: [event.day] });
 
-        // selecting points that were retrieved by ann
-        console.log(event.day);
-        console.log(this.dataState.yearAudioDistribution);
-        
+        // selecting points that were retrieved by ann       
         let uids: string[] = this.dataState.yearAudioDistribution[event.day].frames;       
         this.dataState.select_frames( { filtertype: 'uids', uids } );
 

@@ -31,8 +31,6 @@ class SONYCPrototypeManager:
 
     def calculate_prototype( self, prototypeEmbeddings, requestEmbeddings ):
 
-        print('LENGTH: ', len(requestEmbeddings))
-
         distancesByUID = {}
         for uid, embedding in requestEmbeddings.items():
             currentDistance = DistanceCalculator.calculate_min_distance( embedding, prototypeEmbeddings )

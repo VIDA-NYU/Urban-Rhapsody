@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AudioFrame } from 'src/app/model/audioframe.model';
+import { AudioSnippet } from 'src/app/model/audiosnippet.model';
 import { DataState } from 'src/app/state/data.state';
 import { MiscUtils } from 'src/app/utils/misc/misc.utils';
 import { SpectrogramListController } from './controller/spectrogram-list.controller';
@@ -12,7 +13,7 @@ import { SpectrogramListController } from './controller/spectrogram-list.control
 export class SpectrogramListComponent implements OnInit, AfterViewInit {
 
   // controller
-  public spectrogramListController!: SpectrogramListController;
+  public spectrogramListController: SpectrogramListController = new SpectrogramListController();;
 
   // dom refs
   @ViewChild('spectrogramlistcontainerref') spectrogramlistcontainerref!: ElementRef;
@@ -22,13 +23,12 @@ export class SpectrogramListComponent implements OnInit, AfterViewInit {
   @Output('onmouseleavespectrogram') onmouseleavespectrogram: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
   @Output('onspectrogramframeclicked') onspectrogramframeclicked: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
 
+  // inputs
+  @Input('selectedsnippets') set selectedSnippets( snippets: AudioSnippet[] ) { this.spectrogramListController.on_frames_selected( snippets ); } 
+
   constructor( public dataState: DataState ) { }
 
-  ngOnInit(): void {
-
-    // creating controller 
-    this.spectrogramListController = new SpectrogramListController();
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     

@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 
 export class ChartUtils {
 
-    public static create_svg( container: HTMLElement, zindex: number = 3000 ): d3.Selection<any,any,any,any>{
+    public static create_svg( container: HTMLElement, zindex: number = 1 ): d3.Selection<any,any,any,any>{
 
         // container dimensions
         const width: number = container.clientWidth;

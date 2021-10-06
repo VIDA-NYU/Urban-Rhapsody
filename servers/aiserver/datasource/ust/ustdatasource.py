@@ -47,7 +47,6 @@ class USTDatasource:
         for uid in uids:
 
             if( uid['snippetuid'] in classifications ):
-                # print(classifications[uid['snippetuid']])
                 classificationList[uid['frameuid']] = classifications[uid['snippetuid']][int(uid['embeddingindex'])]
             else:
                 [0 for i in range(8)]

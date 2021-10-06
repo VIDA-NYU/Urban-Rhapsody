@@ -62,12 +62,13 @@ export class SpectrogramController {
                     .attr('width', rectWidth )
                     .attr('height', this.container.clientHeight )
                     .attr('class', 'frame-rect')
-                    .attr('fill', (frame: AudioFrame) => 'transparent' )
+                    .attr('fill', (frame: AudioFrame) => this.fill_picker( frame ) )
                     .attr('stroke', '#b5b3ae')
                     .attr('stroke-dasharray', '10,5')
                     .attr('stroke-linecap', 'butt')
                     .attr('stroke-width', '0')
                     .style('cursor', 'pointer')
+                    .style('opacity', (frame: AudioFrame) => this.opacity_picker( frame ) )
                     .on('mouseenter', (event: MouseEvent, frame: AudioFrame ) => { this.on_mouse_enter_handler( frame ); })
                     .on('mouseleave', (event: MouseEvent, frame: AudioFrame) => { this.on_mouse_leave_handler( frame ); })
                     .on('click', (event: MouseEvent, frame: AudioFrame) => { this.on_click_handler( frame ) }),
@@ -106,6 +107,15 @@ export class SpectrogramController {
     private set_selection_stroke(frame: AudioFrame){
         return frame.is_selected() ? '2' : '0';
     }
+
+    private fill_picker( audioFrame: AudioFrame ){
+        return audioFrame.is_selected() ? 'transparent' : '#E9E9E9';
+    }
+
+    private opacity_picker( audioFrame: AudioFrame ){
+        return audioFrame.is_selected() ? '1' : '0.5';
+    }
+
 
 
 }

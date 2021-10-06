@@ -10,9 +10,10 @@ export class AudioState {
 
     // current audio playing
     private isPlaying: boolean = false;
+    private isLoading: boolean = false;
     private audioPlaying!: HTMLAudioElement | any;
-
-    public async play_frame( audioFrame: AudioFrame, dataset: string = 'SONYC' ): Promise<void> {
+    
+    public async play_frame( audioFrame: AudioFrame ): Promise<void> {
 
         // checking if something else was already playing
         if( this.isPlaying ) {
@@ -25,19 +26,18 @@ export class AudioState {
             this.isPlaying = false;
         }
 
+        if( this.isLoading ){
+            return;
+        }
+
         // getting correspondent snippet
         const currentSnippet: AudioSnippet = audioFrame.get_snippet(); 
-        
-        // requesting encoded audio
-        if( dataset === 'SONYC'){
-            const requestOBJ: { sensorID: string, day: string, snippetID: string } = Serializer.format_uids_snippet_request( currentSnippet );
-            const response: any = await MediaAPI.get_encoded_audio( requestOBJ, dataset );
-            this.audioPlaying = new Audio(  response.base64  );
-        } else {
-            const response: any = await MediaAPI.get_encoded_audio( currentSnippet.uid, dataset );
-            this.audioPlaying = new Audio(  response.base64  );
-        }
-        
+
+        // requesting audio snippet
+        this.isLoading = true;
+        const requestOBJ: { sensorID: string, day: string, snippetID: string } = Serializer.format_uids_snippet_request( currentSnippet );
+        const response: any = await MediaAPI.get_encoded_audio( requestOBJ );
+        this.audioPlaying = new Audio(  response.base64  );
 
         return new Promise( (resolve, reject) => {
 
@@ -79,10 +79,12 @@ export class AudioState {
                     
                     // setting playing flag
                     this.isPlaying = true;
+                    this.isLoading = false;
 
                     // setting correct time to start playings
                     this.audioPlaying.currentTime = timeToStart;
                     
+
                     // playing
                     this.audioPlaying.play();
                 }

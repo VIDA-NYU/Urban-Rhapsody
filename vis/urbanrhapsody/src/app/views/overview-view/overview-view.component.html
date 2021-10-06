@@ -8,18 +8,25 @@
     </div>
 
     <div class="projections-component-container">
-        <app-projection-list 
-            (onpointsselected)='this.spectrogramlistref.spectrogramListController.on_frames_seleceted($event)'>
+
+        <div class="spinner-container" *ngIf='this.projectionState.isLoadingProjection'>
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <app-projection-list
+            (onpointsselected)='this.projectioListController.on_frames_brushed($event)'
+            #projectionlistref>
         </app-projection-list>
     </div>
 
-
-
-    <!-- (onmouseenterspectrogram)=this.viewController.on_mouse_enter_spectrogram_frame($event); -->
-    <!-- (onmouseleavespectrogram)=this.viewController.on_mouse_leave_spectrogram_frame($event); -->
-    <!-- (onspectrogramframeclicked)=this.viewController.on_click_spectrogram_frame($event); -->
     <div class="media-component-container">
-        <app-spectrogram-list #spectrogramlistref></app-spectrogram-list>
+        <app-spectrogram-list 
+            (onmouseenterspectrogram)=this.mediaController.on_mouse_enter_spectrogram_frame($event)
+            (onmouseleavespectrogram)=this.mediaController.on_mouse_leave_spectrogram_frame($event)
+            (onspectrogramframeclicked)=this.mediaController.on_click_spectrogram_frame($event)
+            [selectedsnippets]=this.mediaController.dataState.selectedSnippets
+            #spectrogramlistref>
+        </app-spectrogram-list>
     </div>
 
     <div class="placeholder"></div>

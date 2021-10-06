@@ -62,7 +62,6 @@ class Engine:
 
     def apply_prototype( self, dataset, prototypeName, uids ):
 
-        # print(uids)
         embeddingList = Datasource.get_embeddings( dataset=dataset, uids=uids, embeddingModel='openl3' )
         
         prototypeFrames = self.prototypeManager.get_prototype_frames( dataset=dataset, prototypeName=prototypeName )
