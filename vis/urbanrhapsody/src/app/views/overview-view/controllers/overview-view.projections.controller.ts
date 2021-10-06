@@ -17,6 +17,20 @@ export class OverviewViewProjectionsController {
 
     }
 
+    public async add_new_projection(): Promise<void> {
+
+        // adding new projection
+        await this.projectionState.add_new_projection('umap', {});
+    }
+
+    public select_frames( frames: AudioFrame[] ): void{
+        this.projectionlistref.projectionListController.select_frames( frames );
+    }
+
+    public flush_projections(): void {
+        this.projectionState.flush_projections();
+    }
+
     public on_frames_brushed( event: { frames: AudioFrame[] } ): void{
 
         // selecting frames

@@ -2,7 +2,9 @@
 
     <div class="timeline-component-container">
         <app-calendar-timeline
-            (oncellclick)='this.calendarTimelineController.load_day_audio($event)'
+
+            (onchartrendered)='this.overviewViewController.projectioListController.flush_projections()'
+            (oncellclick)='this.overviewViewController.on_calendar_heatmap_cell_clicked($event)'
             #appcalendartimelineref>
         </app-calendar-timeline>
     </div>
@@ -14,17 +16,18 @@
         </div>
 
         <app-projection-list
-            (onpointsselected)='this.projectioListController.on_frames_brushed($event)'
+            [projections]='this.projectionState.projections'
+            (onpointsselected)='this.overviewViewController.projectioListController.on_frames_brushed($event)'
             #projectionlistref>
         </app-projection-list>
     </div>
 
     <div class="media-component-container">
         <app-spectrogram-list 
-            (onmouseenterspectrogram)=this.mediaController.on_mouse_enter_spectrogram_frame($event)
-            (onmouseleavespectrogram)=this.mediaController.on_mouse_leave_spectrogram_frame($event)
-            (onspectrogramframeclicked)=this.mediaController.on_click_spectrogram_frame($event)
-            [selectedsnippets]=this.mediaController.dataState.selectedSnippets
+            (onmouseenterspectrogram)=this.overviewViewController.mediaController.on_mouse_enter_spectrogram_frame($event)
+            (onmouseleavespectrogram)=this.overviewViewController.mediaController.on_mouse_leave_spectrogram_frame($event)
+            (onspectrogramframeclicked)=this.overviewViewController.mediaController.on_click_spectrogram_frame($event)
+            [selectedsnippets]=this.overviewViewController.mediaController.dataState.selectedSnippets
             #spectrogramlistref>
         </app-spectrogram-list>
     </div>

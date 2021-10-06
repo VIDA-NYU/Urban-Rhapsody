@@ -61,7 +61,12 @@ export class ProjectionState {
         // setting loading flag
         this.isLoadingProjection = false;
 
+    }
 
+    public flush_projections(): void {
+
+        this.projections = [];
+        
     }
 
 }

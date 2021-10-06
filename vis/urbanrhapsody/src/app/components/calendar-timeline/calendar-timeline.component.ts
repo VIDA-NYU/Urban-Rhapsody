@@ -16,6 +16,7 @@ export class CalendarTimelineComponent implements OnInit, AfterViewInit {
 
   // outputs
   @Output('oncellclick') oncellclick: EventEmitter<{day: string}> = new EventEmitter<{day: string}>();
+  @Output('onchartrendered') onchartrendered: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() {}
 
@@ -30,7 +31,8 @@ export class CalendarTimelineComponent implements OnInit, AfterViewInit {
 
     // events
     const events: {} = {
-      'oncellclick': this.oncellclick
+      'oncellclick': this.oncellclick,
+      'onchartrendered': this.onchartrendered
     }
 
     // initializing chart

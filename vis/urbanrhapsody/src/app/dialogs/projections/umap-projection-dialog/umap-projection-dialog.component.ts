@@ -15,8 +15,8 @@ export class UmapProjectionDialogComponent implements OnInit {
 
   public add_projection(): void {
 
-    // generating new projection in the state
-    this.projectionState.add_new_projection( 'umap', {} );
+    // // generating new projection in the state
+    // this.projectionState.add_new_projection( 'umap', {} );
 
     // closing dialog
     this.dialogRef.close();
