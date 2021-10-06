@@ -64,7 +64,4 @@ export class ProjectionState {
 
     }
 
-    
-
-
 }
