@@ -23,6 +23,8 @@ import { UmapProjectionDialogComponent } from './dialogs/projections/umap-projec
 import { ProjectionControlsComponent } from './components/projections/projection-controls/projection-controls.component';
 import { ProjectionLegendComponent } from './components/projections/projection-legend/projection-legend.component';
 import { SpectrogramListComponent } from './components/media/spectrogram-list/spectrogram-list.component';
+import { FrameLabelingDialogComponent } from './dialogs/labeling/frame-labeling-dialog/frame-labeling-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -45,16 +47,18 @@ import { SpectrogramListComponent } from './components/media/spectrogram-list/sp
     UmapProjectionDialogComponent,
     ProjectionControlsComponent,
     ProjectionLegendComponent,
-    SpectrogramListComponent  
+    SpectrogramListComponent,
+    FrameLabelingDialogComponent  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents:[ DataLoaderDialogComponent, SonycLoaderDialogComponent, UmapProjectionDialogComponent ]
+  entryComponents:[ DataLoaderDialogComponent, SonycLoaderDialogComponent, UmapProjectionDialogComponent, FrameLabelingDialogComponent ]
 })
 export class AppModule { }

@@ -2,7 +2,6 @@
 
     <div class="timeline-component-container">
         <app-calendar-timeline
-
             (onchartrendered)='this.overviewViewController.projectioListController.flush_projections()'
             (oncellclick)='this.overviewViewController.on_calendar_heatmap_cell_clicked($event)'
             #appcalendartimelineref>
@@ -15,9 +14,11 @@
             <mat-spinner></mat-spinner>
         </div>
 
+        <!--  -->
         <app-projection-list
             [projections]='this.projectionState.projections'
             (onpointsselected)='this.overviewViewController.projectioListController.on_frames_brushed($event)'
+            (onlabeliconclicked)='this.overviewViewController.projectioListController.on_label_icon_clicked()'
             #projectionlistref>
         </app-projection-list>
     </div>

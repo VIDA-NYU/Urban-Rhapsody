@@ -16,9 +16,13 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
   // inputs
   @Input('projection') projection!: Projection;
 
-  // event emitters
+  // projection event emitters
   @Output('onpointsselected') onpointsselected: EventEmitter<{'frames': AudioFrame[], 'projectionID': string}> = new EventEmitter<{'frames': AudioFrame[], 'projectionID': string}>(); 
   @Output('onprojectionloaded') onprojectionloaded: EventEmitter<void> = new EventEmitter<void>();
+
+  // controls event emitters
+  @Output('onlabeliconclicked') onlabeliconclicked: EventEmitter<void> = new EventEmitter<void>();
+
 
   // component controller
   public projectionController!: ProjectionController;
@@ -30,7 +34,8 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     
     const events: { [eventname: string]: EventEmitter<any> } = {
-      'onpointsselected': this.onpointsselected
+      'onpointsselected': this.onpointsselected,
+      
     }
 
     // initializing projection

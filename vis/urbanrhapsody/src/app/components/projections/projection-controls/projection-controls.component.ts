@@ -10,6 +10,7 @@ export class ProjectionControlsComponent implements OnInit {
 
   // eventemitters
   @Output('onbrushset') onbrushset: EventEmitter<any> = new EventEmitter<any>();
+  @Output('onlabeliconclicked') onlabeliconclicked: EventEmitter<void> = new EventEmitter<void>();
 
   // inputs
   @Input('projection') projection!: Projection;

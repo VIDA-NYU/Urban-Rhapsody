@@ -24,6 +24,7 @@ export class ProjectionListComponent implements OnInit, AfterViewInit {
 
   // event emitters
   @Output('onpointsselected') onpointsselected: EventEmitter<{'frames': AudioFrame[], 'projectionID': string}> = new EventEmitter<{'frames': AudioFrame[], 'projectionID': string}>(); 
+  @Output('onlabeliconclicked') onlabeliconclicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() { }
 

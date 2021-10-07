@@ -12,10 +12,10 @@ export class AudioFrame {
 
     constructor( 
         public uid: string, 
-        public frameIndex: number, 
-        // public metadata: AudioFrameMeta, 
+        public frameIndex: number,  
         public embeddingIndex: number,
-        public audioSnippet: AudioSnippet,  ){}
+        public audioSnippet: AudioSnippet,
+        public metadata: AudioFrameMeta  ){}
 
 
     public set_selection( selected: boolean ){

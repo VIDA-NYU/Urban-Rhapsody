@@ -1,6 +1,7 @@
 import { CalendarTimelineComponent } from "src/app/components/calendar-timeline/calendar-timeline.component";
 import { SpectrogramListComponent } from "src/app/components/media/spectrogram-list/spectrogram-list.component";
 import { ProjectionListComponent } from "src/app/components/projections/projection-list/projection-list.component";
+import { DialogManager } from "src/app/dialogs/dialog-manager.service";
 import { GlobalEvents } from "src/app/events/global.events";
 import { AudioState } from "src/app/state/audio/audio.state";
 import { DataState } from "src/app/state/data.state";
@@ -15,12 +16,12 @@ export class OverviewViewController {
     public mediaController!: OverviewViewMediaController;
     public projectioListController!: OverviewViewProjectionsController;
 
-    constructor( public globalEvents: GlobalEvents, public dataState: DataState, public audioState: AudioState, public projectionState: ProjectionState ){
+    constructor( public globalEvents: GlobalEvents, public dataState: DataState, public audioState: AudioState, public projectionState: ProjectionState, public dialogManager: DialogManager ){
 
          // creating controllers
         this.calendarTimelineController = new OverviewViewCalendarTimelineController( this.dataState, this.globalEvents );
         this.mediaController = new OverviewViewMediaController( this.dataState , this.audioState );
-        this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState );
+        this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState, this.dialogManager );
 
     }
 

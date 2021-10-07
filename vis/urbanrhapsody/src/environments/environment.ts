@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   dataserver: 'http://localhost:5000',
-  aiserver: 'http://localhost:5001'
+  aiserver: 'http://localhost:5001',
+  userserver: 'http://localhost:5002'
 };
 
 /*
