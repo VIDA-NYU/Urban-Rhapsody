@@ -5,7 +5,9 @@
         <div class="projection-controls">
             <app-projection-controls 
                 [projection]='this.projection' 
-                (onbrushset)='this.projectionController.set_brush_mode()'>
+                (onbrushset)='this.projectionController.set_brush_mode()'
+                (onlabeliconclicked)=this.onlabeliconclicked.emit()
+                >
             </app-projection-controls>
         </div>
         

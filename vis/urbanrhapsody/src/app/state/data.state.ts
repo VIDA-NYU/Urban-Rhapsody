@@ -14,6 +14,9 @@ import { FrameFilters } from "../utils/filters/frameFilters.utils";
 
 export class DataState {
 
+    // loaded days
+    public loadedDays: Set<string> = new Set<string>();
+
     // year distribution of events
     public yearAudioDistribution: { [ datetime: string ]: { count: number, frames: string[] } } = {};
 
@@ -54,6 +57,8 @@ export class DataState {
     // loads the year distribution of similar events
     public async load_year_distribution( frames: AudioFrame[] ): Promise<void> {
 
+        this.flush_loaded_data();
+
         const response: any = await LearnAPI.load_year_distribution( frames, 'UST');
         _.forEach( response, yeardistribution => {
             this.yearAudioDistribution = yeardistribution;
@@ -66,6 +71,12 @@ export class DataState {
 
     public async load_data( datasetname: string, filters: any = {} ): Promise<void> {
 
+        // flushing loaded data;
+        this.flush_loaded_data();
+
+        // saving all loaded days
+        this.loadedDays = new Set( filters.days );
+
         const lodadeData: any = await DataLoadingAPI.load_data( datasetname, filters );
         const indexedData: {indexedSnippets: any, indexedFrames: any} = Deserializer.deserialize_snippets( lodadeData );
 
@@ -76,6 +87,20 @@ export class DataState {
         // emitting loaded event
         this.globalEvents.dataLoadDone.emit();
         
+    }
+
+
+    public flush_loaded_data(): void {
+
+        // unselecting all frames before
+        const selection = FrameFilters.unselect_all( this.selectedFrames );
+        this.selectedFrames = selection.frames;
+        this.selectedSnippets = selection.snippets;
+
+        // all points loaded at beginning
+        this.indexedFrames = {};
+        this.indexedSnippets = {};
+
     }
 
 }

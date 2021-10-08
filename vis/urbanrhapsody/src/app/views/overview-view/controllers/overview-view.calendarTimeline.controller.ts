@@ -21,17 +21,6 @@ export class OverviewViewCalendarTimelineController {
 
     }
 
-    public async load_day_audio( event: any ){
-
-        // loading all frames from a day
-        await this.dataState.load_data( 'sonyc', { days: [event.day] });
-
-        // selecting points that were retrieved by ann       
-        let uids: string[] = this.dataState.yearAudioDistribution[event.day].frames;       
-        this.dataState.select_frames( { filtertype: 'uids', uids } );
-
-    }
-
     private render_calendar_timeline(): void{
 
         // selecting points that are rendered in the heatmap calendar

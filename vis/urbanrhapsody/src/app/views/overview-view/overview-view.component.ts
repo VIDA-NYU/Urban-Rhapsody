@@ -2,11 +2,13 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { CalendarTimelineComponent } from 'src/app/components/calendar-timeline/calendar-timeline.component';
 import { SpectrogramListComponent } from 'src/app/components/media/spectrogram-list/spectrogram-list.component';
 import { ProjectionListComponent } from 'src/app/components/projections/projection-list/projection-list.component';
+import { DialogManager } from 'src/app/dialogs/dialog-manager.service';
 import { GlobalEvents } from 'src/app/events/global.events';
 import { AudioState } from 'src/app/state/audio/audio.state';
 import { DataState } from 'src/app/state/data.state';
 import { ProjectionState } from 'src/app/state/projections/projections.state';
 import { OverviewViewCalendarTimelineController } from './controllers/overview-view.calendarTimeline.controller';
+import { OverviewViewController } from './controllers/overview-view.controller';
 import { OverviewViewMediaController } from './controllers/overview-view.media.controller';
 import { OverviewViewProjectionsController } from './controllers/overview-view.projections.controller';
 
@@ -22,38 +24,32 @@ import { OverviewViewProjectionsController } from './controllers/overview-view.p
 export class OverviewViewComponent implements OnInit, AfterViewInit {
 
   // view controllers
-  // public viewController!: OverviewViewController;
-  public calendarTimelineController!: OverviewViewCalendarTimelineController;
-  public mediaController!: OverviewViewMediaController;
-  public projectioListController!: OverviewViewProjectionsController;
+  public overviewViewController!: OverviewViewController;
 
   // dom refs
   @ViewChild('appcalendartimelineref') appcalendartimelineref!: CalendarTimelineComponent;
   @ViewChild('spectrogramlistref') spectrogramlistref !: SpectrogramListComponent;
   @ViewChild('projectionlistref') projectionlistref !: ProjectionListComponent;
 
-  constructor( public globalEvents: GlobalEvents, public dataState: DataState, public audioState: AudioState, public projectionState: ProjectionState ) {}
+  constructor( public globalEvents: GlobalEvents, public dataState: DataState, public audioState: AudioState, public projectionState: ProjectionState, public dialogManager: DialogManager ) {}
 
   ngOnInit(): void {
 
-    // creating controllers
-    this.calendarTimelineController = new OverviewViewCalendarTimelineController( this.dataState, this.globalEvents );
-    this.mediaController = new OverviewViewMediaController( this.dataState , this.audioState );
-    this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState );
+    // creating controller
+    this.overviewViewController = new OverviewViewController( this.globalEvents, this.dataState, this.audioState, this.projectionState, this.dialogManager );
 
   }
 
-  ngAfterViewInit(): void{
+  ngAfterViewInit(): void {
+
     this.initialize_controllers();
+  
   }
 
   public initialize_controllers(): void{
+  
+    this.overviewViewController.initialize_controllers( this.appcalendartimelineref, this.spectrogramlistref, this.projectionlistref );
 
-    // initializing controllers
-    this.calendarTimelineController.initialize_controller( this.appcalendartimelineref );
-    this.projectioListController.initialize_controller( this.projectionlistref );
-    this.mediaController.initialize_controller( this.spectrogramlistref );
-    
   }
 
 }

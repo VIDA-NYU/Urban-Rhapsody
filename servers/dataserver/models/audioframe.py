@@ -1,6 +1,8 @@
+from models.audioframemetadata import AudioFrameMetadata
+
 class AudioFrame:
 
-    def __init__( self, snippetuid, frameIndex, embeddingIndex: int):
+    def __init__( self, snippetuid, frameIndex, embeddingIndex: int ):
 
         ## setting uid
         self.uid = f'{snippetuid}_{frameIndex}'
@@ -10,5 +12,13 @@ class AudioFrame:
 
         ## embedding index
         self.embeddingIndex = embeddingIndex
+
+        ## frame metadata
+        self.metadata = None
+
+
+    def attach_metadata( self, frameMetadata: AudioFrameMetadata):
+
+        self.metadata = frameMetadata
 
 

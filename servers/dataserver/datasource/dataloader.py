@@ -1,5 +1,4 @@
 from datasource.sonyc.sonycloader import SONYCLoader
-from datasource.ust.ustloader import USTLoader
 
 class DataLoader:
 

@@ -1,9 +1,11 @@
 <div class="component-wrapper">
-    <div *ngFor='let projection of this.projectionState.projections'   
+    <div *ngFor='let projection of this.projections'   
         class="projection-component-container">
         <app-projection 
+            #projectionref
             [projection]=projection 
-            (onpointsselected)=this.onpointsselected.emit($event)>
+            (onpointsselected)=this.onpointsselected.emit($event)
+            (onlabeliconclicked)=this.onlabeliconclicked.emit()>
         </app-projection>    
     </div>
 </div>

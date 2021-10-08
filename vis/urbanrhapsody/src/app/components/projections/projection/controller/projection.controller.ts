@@ -30,6 +30,10 @@ export class ProjectionController{
         this.generate_projection( container );
         this.render_projection();
 
+        // selecting previously selected frames
+        const selectedFrames: AudioFrame[] = this.projection.points.filter( (frame: AudioFrame) => frame.is_selected() );
+        this.select_points( selectedFrames );
+
     }
 
     public set_brush_mode(): void {
@@ -61,10 +65,10 @@ export class ProjectionController{
             // onClick: (point: number | null ) => {
             //     // this.click_handler( point );
             // },
-            // styles: {
-            //         // point: this.get_point_style(),
-            //         // label: this.get_label_style()
-            // },
+            styles: {
+                point: this.get_point_style(),
+                label: this.get_label_style()
+            },
             orbitControls: {
                     zoomSpeed: 1.125,
             }});
@@ -104,6 +108,41 @@ export class ProjectionController{
         this.events['onpointsselected'].emit({ 'frames': selectedFrames, 'projectionID': this.projection.id })
 
     }
+
+
+    // styles
+    private get_point_style(): {} {
+
+        const pointStyle: {} = {
+            colorUnselected: 'rgba(200, 200, 200, 1.0)',
+            colorNoSelection: 'rgba(200, 200, 200, 1.0)',
+            colorSelected: 'rgba(152, 0, 0, 1.0)',
+            colorHover: 'rgba(118, 11, 79, 0.7)',
+            scaleDefault: 0.2,
+            scaleSelected: 2.0,
+            scaleHover: 1.2,
+        }
+
+        return pointStyle;
+
+    }
+
+    private get_label_style(): {} {
+
+        const labelStyle: {} = {
+            fontSize: 0,
+            scaleDefault: 0,
+            scaleLarge: 0,
+            fillColorSelected: '#ffffff',
+            fillColorHover: '#ffffff',
+            strokeColorSelected: '#ffffff',
+            strokeColorHover: '#ffffff',
+            strokeWidth: 0,
+            fillWidth: 0,
+        }
+
+        return labelStyle;
+    }   
 
 
 }

@@ -1,4 +1,5 @@
 import { AudioFrame } from "src/app/model/audioframe.model";
+import { AudioFrameMeta } from "src/app/model/audioframemeta.model";
 import { AudioSnippet } from "src/app/model/audiosnippet.model";
 import { AudioSnippetMeta } from "src/app/model/audiosnippetmeta.model";
 
@@ -28,6 +29,15 @@ export class ObjectFactory {
         audioSnippet.metadata = metadata;
 
         return audioSnippet;
+
+    }
+
+    public static create_frame_metadata( rawobj: any ): AudioFrameMeta {
+
+        console.log( rawobj );
+
+        const frameMetadata: AudioFrameMeta = new AudioFrameMeta();
+        return frameMetadata;
 
     }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { FrameLabelingDialogComponent } from "./labeling/frame-labeling-dialog/frame-labeling-dialog.component";
 import { DataLoaderDialogComponent } from "./loaders/data-loader-dialog/data-loader-dialog.component";
 import { UmapProjectionDialogComponent } from "./projections/umap-projection-dialog/umap-projection-dialog.component";
 
@@ -16,12 +17,23 @@ export class DialogManager {
         switch( dialogName ){
             case 'data-loader-dialog': this.openDataLoaderDialog(); break;
             case 'umap-projection-dialog': this.openUMAPProjectionDialog(); break;
+            case 'frame-labeling-dialog': this.openFrameLabelingDialog(); break;
         }
     
     }
 
 
     // private methods
+    private openFrameLabelingDialog( params?: any ): void{
+
+        this.dialog.open( FrameLabelingDialogComponent, {
+            panelClass: 'custom-dialog-container',
+            width: '800px',
+            height: '400px'
+        });
+
+    }
+
     private openDataLoaderDialog( params?: any ): void {
         this.dialog.open( DataLoaderDialogComponent, {
             panelClass: 'custom-dialog-container',

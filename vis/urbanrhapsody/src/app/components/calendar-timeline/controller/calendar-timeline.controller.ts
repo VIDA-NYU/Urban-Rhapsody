@@ -169,6 +169,9 @@ export class CalendarTimelineController {
                 
             );
 
+        // firing event when finished rendering
+        this.events['onchartrendered'].emit();
+
     }
 
 

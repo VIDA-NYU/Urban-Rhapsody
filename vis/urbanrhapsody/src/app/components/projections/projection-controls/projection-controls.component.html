@@ -7,7 +7,11 @@
         </div>
 
         <div class="icon-container">
-            <mat-icon class='control-icon'>loyalty</mat-icon>
+            <mat-icon 
+                (click)=this.onlabeliconclicked.emit()
+                class='control-icon'>
+                    loyalty
+            </mat-icon>
         </div>
 
         <div class="icon-container" >

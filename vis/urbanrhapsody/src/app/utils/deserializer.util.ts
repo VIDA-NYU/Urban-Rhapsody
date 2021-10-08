@@ -6,6 +6,7 @@ import { AudioSnippetMeta } from "../model/audiosnippetmeta.model";
 // third-party
 import * as _ from 'lodash';
 import { ObjectFactory } from "./factories/objectfactory";
+import { AudioFrameMeta } from "../model/audioframemeta.model";
 
 
 export class Deserializer {
@@ -23,9 +24,12 @@ export class Deserializer {
 
             const currentSnippetFrames: AudioFrame[] = [];
             _.forEach( audioSnippet.frames, rawframe =>{
-
                 
-                const frame: AudioFrame = new AudioFrame( rawframe.uid, rawframe.frameIndex, rawframe.embeddingIndex, currentAudioSnippet )
+                // frame metadata
+                const frameMetadata: AudioFrameMeta = ObjectFactory.create_frame_metadata( rawframe.metadata );
+
+                // creating new frame
+                const frame: AudioFrame = new AudioFrame( rawframe.uid, rawframe.frameIndex, rawframe.embeddingIndex, currentAudioSnippet, frameMetadata );
                 currentSnippetFrames.push(frame);
 
                 // indexing frames
