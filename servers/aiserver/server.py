@@ -47,13 +47,13 @@ def project_points():
 
 
 # ################## PROTOTYPES ##################
-# @app.route('/createprototype', methods=['POST'])
-# def create_prototype():
+@app.route('/createprototype', methods=['POST'])
+def create_prototype():
 
-#     ## reading params
-#     requestParams = request.get_json()
+    ## reading params
+    requestParams = request.get_json()
     
-#     return engine.set_prototype( requestParams['dataset'], requestParams['prototypeName'], requestParams['uids'] )
+    return engine.set_prototype( requestParams['prototypeName'], requestParams['labels'] )
 
 # @app.route('/getallprototypes', methods=['POST'])
 # def get_all_prototypes():

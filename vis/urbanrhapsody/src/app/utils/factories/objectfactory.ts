@@ -34,9 +34,7 @@ export class ObjectFactory {
 
     public static create_frame_metadata( rawobj: any ): AudioFrameMeta {
 
-        console.log( rawobj );
-
-        const frameMetadata: AudioFrameMeta = new AudioFrameMeta();
+        const frameMetadata: AudioFrameMeta = new AudioFrameMeta( rawobj.annotations );
         return frameMetadata;
 
     }

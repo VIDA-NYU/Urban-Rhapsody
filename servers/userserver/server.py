@@ -18,6 +18,16 @@ def get_frame_annotations():
     ## return list of annotations per frame
     return engine.get_frame_annotations( requestParams['uids'] )
 
+@app.route('/getframesperannotation', methods=['POST'])
+def get_frames_per_annotation():
+
+    ## reading parameters
+    requestParams = request.get_json()
+
+    ## return list of annotations per frame
+    return engine.get_frames_per_annotation( requestParams['annotation'] )
+
+
 @app.route('/setframeannotations', methods=['POST'])
 def set_frame_annotations():
 
@@ -25,6 +35,7 @@ def set_frame_annotations():
     requestParams = request.get_json()
 
     return engine.set_frame_annotations( requestParams['uids'], requestParams['annotations'] )
+
 
 if __name__ == '__main__':
 

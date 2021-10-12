@@ -1,7 +1,6 @@
 import rocksdb
 import os
 
-
 class AnnotationManager:
 
     '''
@@ -33,18 +32,54 @@ class AnnotationManager:
 
         return annotations
 
-    def set_frame_annotations( self, uids, annotations ):
+    def get_frames_per_annotation( self, annotation: str ) -> list[str]:
+
+        frames = self.inverseAnnotationsdb.get( annotation.encode('utf-8') )
+        if( not frames == None ):
+            frames = frames.decode('utf-8')
+            frames = frames.split(',')
+
+        return frames
+
+    def set_frame_annotations( self, uids: list[str], annotations: list[str] ):
 
         ## casting to byte-strings
-        uids = list(map( lambda uid: str(uid).encode("utf-8") , uids))
-        annotations = ','.join(annotations).encode("utf-8")
+        encodeduidslist = list(map( lambda uid: str(uid).encode("utf-8") , uids))
+        encodedannotations = ','.join(annotations).encode("utf-8")
 
-        for uid in uids:
-            self.annotationsdb.put( uid, annotations )
+        batch = rocksdb.WriteBatch()
+        for uid in encodeduidslist:
+            batch.put( uid, encodedannotations )
+        self.annotationsdb.write(batch)
+
+        ## setting inverse annotation
+        self.set_frame_per_annotations( uids, annotations )
+
+    def set_frame_per_annotations( self, uids: list[str], annotations: list[str] ):
+
+        ## saving inverse frame annotations
+        for annotation in annotations:
+
+            annotatedFrames = self.inverseAnnotationsdb.get( annotation.encode('utf-8') )
+
+            batch = rocksdb.WriteBatch()
+            if( annotatedFrames == None ):
+                encodeduidslist = ','.join(uids).encode("utf-8")
+                batch.put( annotation.encode('utf-8'), encodeduidslist  )
+            else:
+                previouslyAnnotatedFrames: list[str] = self.get_frames_per_annotation( annotation )
+                previouslyAnnotatedFrames.extend( uids )
+                batch.put( annotation.encode('utf-8'), previouslyAnnotatedFrames  )
+
+            self.inverseAnnotationsdb.write( batch )
         
     def __init_annotation_db(self):
 
-        os.system('rm ../../data/sonyc/annotations/annotationsdb.db/LOCK')
-        os.system('rm ../../data/sonyc/annotations/inverseAnnotationsdb.db/LOCK')
+        if( os.path.isfile('../../data/sonyc/annotations/annotationsdb.db/LOCK')):
+            os.system('rm ../../data/sonyc/annotations/annotationsdb.db/LOCK')
+
+        if( os.path.isfile('../../data/sonyc/annotations/inverseAnnotationsdb.db/LOCK')):
+            os.system('rm ../../data/sonyc/annotations/inverseAnnotationsdb.db/LOCK')
+
         self.annotationsdb = rocksdb.DB('../../data/sonyc/annotations/annotationsdb.db', rocksdb.Options(create_if_missing=True))
         self.inverseAnnotationsdb = rocksdb.DB('../../data/sonyc/annotations/inverseAnnotationsdb.db', rocksdb.Options(create_if_missing=True))

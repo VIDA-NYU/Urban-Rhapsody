@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { LabelingAPI } from "src/app/api/labeling.api";
-import { AudioFrame } from "src/app/model/audioframe.model";
+
 
 // model
-import { AudioFrameMeta } from "src/app/model/audioframemeta.model";
+import { AudioFrame } from "src/app/model/audioframe.model";
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +19,10 @@ export class LabelingState {
         const uids: string[] = frames.map( (frame: AudioFrame) => frame.uid );
 
         // saving labels
-        await LabelingAPI.label_frames( uids, annotations )
+        await LabelingAPI.label_frames( uids, annotations );
+
+        // synchronizing labels 
+        frames.forEach( (frame: AudioFrame) => frame.metadata.add_labels(annotations) );
 
     }
 

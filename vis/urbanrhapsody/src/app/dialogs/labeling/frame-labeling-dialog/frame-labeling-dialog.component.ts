@@ -20,7 +20,22 @@ export class FrameLabelingDialogComponent implements OnInit {
 
   constructor( public dialogRef: MatDialogRef<FrameLabelingDialogComponent>, public dataState: DataState, public labelingState: LabelingState ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { this.initialize_dialog(); } 
+
+  public initialize_dialog(): void {
+    
+    // showing previously done labels
+    const currentLabels: Set<string> = new Set<string>();
+    this.dataState.selectedFrames.forEach( (frame: AudioFrame ) => { 
+      
+      const frameLabels: string[] = frame.metadata.get_labels();
+      frameLabels.forEach( (label: string) => currentLabels.add(label) );
+
+    });
+
+    this.frameLabels = Array.from(currentLabels.values());
+
+  }
 
   public add_new_label( label: string ): void {
 
