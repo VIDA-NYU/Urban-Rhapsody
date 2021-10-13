@@ -14,7 +14,7 @@ class SONYCDatasource:
         embeddingList = {}
 
         for key, value in uids.items():
-
+            
             embeddingPath = f"{SONYCCONSTS['EMBEDDINGS_BASEPATH'][embeddingModel]}/{value['sensorID']}/{value['day']}/{value['snippetID']}.npz"
             embeddingVector = SONYCDatasource.open_embedding_file(embeddingPath)
             embeddingList[key] = embeddingVector[value['embeddingIndex']]
@@ -22,23 +22,23 @@ class SONYCDatasource:
         return embeddingList
 
 
-    @staticmethod
-    def get_frame_classification( uids ):
+    # @staticmethod
+    # def get_frame_classification( uids ):
 
-        ## basepath
-        basepath = SONYCCONSTS['CLASS_PREDICTIONS']
+    #     ## basepath
+    #     basepath = SONYCCONSTS['CLASS_PREDICTIONS']
 
-        predictionsList = {}
-        for uid in uids:
+    #     predictionsList = {}
+    #     for uid in uids:
 
-            predictionPath = f'{basepath}/{uid["sensorID"]}/{uid["snippetuid"]}.npy'
-            predictionsList[uid["frameuid"]] = SONYCDatasource.open_classification_file( predictionPath )
+    #         predictionPath = f'{basepath}/{uid["sensorID"]}/{uid["snippetuid"]}.npy'
+    #         predictionsList[uid["frameuid"]] = SONYCDatasource.open_classification_file( predictionPath )
 
-        return predictionsList
+    #     return predictionsList
 
-    @staticmethod
-    def open_classification_file( classificationPath ):
-        return np.load( classificationPath ).tolist()
+    # @staticmethod
+    # def open_classification_file( classificationPath ):
+    #     return np.load( classificationPath ).tolist()
 
 
     @staticmethod

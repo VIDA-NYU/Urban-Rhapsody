@@ -1,0 +1,54 @@
+<div class="component-wrapper">
+
+    <div class="dialog-header">
+        <h3>Create Prototype</h3>
+    </div>
+
+    <div class="dialog-body">
+
+        <div class="body-section">
+            <form [formGroup]='this.prototypeCreationController.prototypeForm' class="new-label-form"> 
+                <mat-form-field class="example-full-width">
+                    <mat-label>Prototype name</mat-label>
+                    <input matInput placeholder="Ex. Construction" type='text' name='new-label' formControlName='prototypeName'>
+                </mat-form-field>
+            </form>
+        </div>
+
+        <div class="body-section">
+            <mat-chip-list aria-label="Label selection">
+                <mat-chip
+                    *ngFor='let label of this.prototypeCreationController.createdLabels'
+                    (click)=this.prototypeCreationController.select_label(label)
+                    [ngStyle]='{ backgroundColor: this.prototypeCreationController.createdLabelsSet.has( label ) ? "#BB86FC": "#FFFFFF" }'
+                    class='label-chip'>
+                    {{ label }}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+
+
+
+    </div>
+
+    <div class="dialog-footer">
+
+        <button 
+            class='loader-dialog-button'
+            mat-stroked-button 
+            (click)='this.dialogRef.close()'
+            color="primary">
+            Cancel
+        </button>
+        
+        <button 
+            (click)=this.prototypeCreationController.create_prototype()
+            class='loader-dialog-button'
+            mat-stroked-button
+            color="primary">
+            Create
+        </button>
+
+    </div>
+
+</div>

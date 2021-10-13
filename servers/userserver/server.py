@@ -36,6 +36,11 @@ def set_frame_annotations():
 
     return engine.set_frame_annotations( requestParams['uids'], requestParams['annotations'] )
 
+@app.route('/getalllabels', methods=['POST'])
+def get_all_labels():
+
+    return engine.get_all_labels()
+
 
 if __name__ == '__main__':
 

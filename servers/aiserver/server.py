@@ -15,7 +15,7 @@ def get_year_distribution():
 
     ## reading parameters
     requestParams = request.get_json()
-    
+
     return engine.get_nearest_neighbors(  
         dataset=requestParams['dataset'], 
         uids=requestParams['uids'] )
@@ -52,7 +52,7 @@ def create_prototype():
 
     ## reading params
     requestParams = request.get_json()
-    
+
     return engine.set_prototype( requestParams['prototypeName'], requestParams['labels'] )
 
 # @app.route('/getallprototypes', methods=['POST'])

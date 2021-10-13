@@ -73,6 +73,14 @@ class AnnotationManager:
 
             self.inverseAnnotationsdb.write( batch )
         
+    def get_all_labels(self):
+
+        iterator = self.inverseAnnotationsdb.iteritems()
+        iterator.seek_to_first()
+
+        labels = list(map(lambda label: label.decode('utf-8'), list(dict(iterator).keys()) ))
+        return labels
+
     def __init_annotation_db(self):
 
         if( os.path.isfile('../../data/sonyc/annotations/annotationsdb.db/LOCK')):

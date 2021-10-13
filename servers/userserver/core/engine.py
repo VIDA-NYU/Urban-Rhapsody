@@ -17,4 +17,7 @@ class Engine:
     def set_frame_annotations( self, uids: list[str], annotations: list[str] ):
         self.annotationsManager.set_frame_annotations( uids, annotations )
         return json.dumps({'response': 'success'})
+
+    def get_all_labels( self ):
+        return json.dumps({'labels': self.annotationsManager.get_all_labels() })
        

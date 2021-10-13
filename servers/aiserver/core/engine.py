@@ -9,7 +9,7 @@ class Engine:
 
     def __init__(self):
 
-        # self.prototypeManager = PrototypeManager()
+        self.prototypeManager = PrototypeManager()
         self.spatialManager = SpatialManager()
         pass
 
@@ -39,34 +39,34 @@ class Engine:
         return json.dumps( embeddingList, cls=ProjectionEncoder )
 
 
-    ################## CLASSIFICATION ##################
+    # ################## CLASSIFICATION ##################
 
-    def get_frame_classification( self, dataset, uids ):
+    # def get_frame_classification( self, dataset, uids ):
 
-        ## parsing predictions
-        classificationList = Datasource.get_frame_classification( dataset, uids )
+    #     ## parsing predictions
+    #     classificationList = Datasource.get_frame_classification( dataset, uids )
 
-        ## returning
-        return json.dumps( classificationList )
+    #     ## returning
+    #     return json.dumps( classificationList )
 
 
     ################## PROTOTYPES ##################
 
-    def set_prototype( self, dataset, prototypeName, uids ):
-        self.prototypeManager.set_prototype( dataset, prototypeName, uids )
+    def set_prototype( self, prototypeName: str, labels: list[str] ):
+        self.prototypeManager.set_prototype( prototypeName, labels )
         return json.dumps({'response': 'success'})
 
-    def get_available_prototypes( self, dataset ):
-        prototypes = self.prototypeManager.get_available_prototypes( dataset )
-        return json.dumps({'prototypes': prototypes }) 
+    # def get_available_prototypes( self, dataset ):
+    #     prototypes = self.prototypeManager.get_available_prototypes( dataset )
+    #     return json.dumps({'prototypes': prototypes }) 
 
-    def apply_prototype( self, dataset, prototypeName, uids ):
+    # def apply_prototype( self, dataset, prototypeName, uids ):
 
-        embeddingList = Datasource.get_embeddings( dataset=dataset, uids=uids, embeddingModel='openl3' )
+    #     embeddingList = Datasource.get_embeddings( dataset=dataset, uids=uids, embeddingModel='openl3' )
         
-        prototypeFrames = self.prototypeManager.get_prototype_frames( dataset=dataset, prototypeName=prototypeName )
-        prototypeEmbeddings = Datasource.get_embeddings( dataset=dataset, uids=prototypeFrames, embeddingModel='openl3' )
-        prototypeEmbeddings = prototypeEmbeddings.values()
+    #     prototypeFrames = self.prototypeManager.get_prototype_frames( dataset=dataset, prototypeName=prototypeName )
+    #     prototypeEmbeddings = Datasource.get_embeddings( dataset=dataset, uids=prototypeFrames, embeddingModel='openl3' )
+    #     prototypeEmbeddings = prototypeEmbeddings.values()
 
-        ## calculating distances
-        return self.prototypeManager.calculate_prototype( dataset=dataset, prototypeEmbeddings=prototypeEmbeddings, requestEmbeddings=embeddingList )  
+    #     ## calculating distances
+    #     return self.prototypeManager.calculate_prototype( dataset=dataset, prototypeEmbeddings=prototypeEmbeddings, requestEmbeddings=embeddingList )  

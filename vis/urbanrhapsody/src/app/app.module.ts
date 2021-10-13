@@ -1,7 +1,13 @@
+
+// core
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from './material/material.module';
 import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
+// components
 import { AppComponent } from './app.component';
 import { MainViewComponent } from './views/main-view/main-view.component';
 import { OverviewViewComponent } from './views/overview-view/overview-view.component';
@@ -24,7 +30,7 @@ import { ProjectionControlsComponent } from './components/projections/projection
 import { ProjectionLegendComponent } from './components/projections/projection-legend/projection-legend.component';
 import { SpectrogramListComponent } from './components/media/spectrogram-list/spectrogram-list.component';
 import { FrameLabelingDialogComponent } from './dialogs/labeling/frame-labeling-dialog/frame-labeling-dialog.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { PrototypeCreationDialogComponent } from './dialogs/prototyping/prototype-creation-dialog/prototype-creation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +54,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ProjectionControlsComponent,
     ProjectionLegendComponent,
     SpectrogramListComponent,
-    FrameLabelingDialogComponent  
+    FrameLabelingDialogComponent,
+    PrototypeCreationDialogComponent  
   ],
   imports: [
     BrowserModule,
@@ -59,6 +66,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents:[ DataLoaderDialogComponent, SonycLoaderDialogComponent, UmapProjectionDialogComponent, FrameLabelingDialogComponent ]
+  entryComponents:[ DataLoaderDialogComponent, SonycLoaderDialogComponent, UmapProjectionDialogComponent, FrameLabelingDialogComponent, PrototypeCreationDialogComponent ]
 })
 export class AppModule { }
