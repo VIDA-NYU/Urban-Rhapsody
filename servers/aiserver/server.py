@@ -16,9 +16,7 @@ def get_year_distribution():
     ## reading parameters
     requestParams = request.get_json()
 
-    return engine.get_nearest_neighbors(  
-        dataset=requestParams['dataset'], 
-        uids=requestParams['uids'] )
+    return engine.get_nearest_neighbors(  uids=requestParams['uids'] )
 
 # ################## PROJECTIONS ##################
 @app.route('/projectpoints', methods=['POST'])
@@ -29,7 +27,6 @@ def project_points():
 
     ## return projection
     return engine.project_points( 
-        dataset=requestParams['dataset'], 
         projectionType=requestParams['projectionType'], 
         embeddingModel=requestParams['embeddingModel'], 
         uids=requestParams['uids'],

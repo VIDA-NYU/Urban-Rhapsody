@@ -19,8 +19,6 @@ export class LabelingState {
         // extracting frame UIDs
         const uids: { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string } } = Serializer.format_uids_labeling_request( frames );
 
-        
-
         // saving labels
         await LabelingAPI.label_frames( uids, annotations );
 

@@ -11,6 +11,7 @@ export class LearnAPI {
 
         // post parameters
         const requestParams = { dataset, projectionType, embeddingModel, uids, projectionParams };
+        console.log(uids);
         // console.log(`post data: ${JSON.stringify(params)}`);
 
         // post header
@@ -29,10 +30,11 @@ export class LearnAPI {
 
     }
 
-    public static async load_year_distribution( frames: AudioFrame[], dataset: string ){
+    public static async load_year_distribution( frames: any, dataset: string ){
 
         // serializing request
-        const uids = Serializer.format_uids_request( frames );
+        const uids = Serializer.format_calendar_request(frames);
+        console.log('uids: ', uids);
 
         // url
         const url = `${environment.aiserver}/getyeardistribution`;

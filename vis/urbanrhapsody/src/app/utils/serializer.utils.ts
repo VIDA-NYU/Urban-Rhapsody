@@ -76,4 +76,23 @@ export class Serializer {
         return requestOBJ;
 
     }
+
+
+    public static format_calendar_request( audioFrames: AudioFrame[] ): { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string } } {
+
+        const formattedObj:  { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string } } = {};
+
+        _.forEach( audioFrames, frame => {
+            formattedObj[ frame.uid ] = 
+                {   
+                    embeddingIndex: frame.embeddingIndex,
+                    sensorID: frame.audioSnippet.metadata.sensorID,
+                    day: frame.audioSnippet.metadata.localdate,
+                    snippetID: frame.audioSnippet.uid
+                };
+        });
+
+        return formattedObj;
+
+    }
 }

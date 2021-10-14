@@ -21,8 +21,3 @@ class SONYCLoaderUtils:
         formattedDate = formattedDate.strftime('%Y-%m-%d %H:%M:%S')
         return formattedDate
 
-
-    @staticmethod
-    def open_dataframe():
-        return pd.read_csv(SONYCCONSTS['METADATA'])
-

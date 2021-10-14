@@ -1,3 +1,6 @@
+from prototype.persistance.modelpersistor import ModelPersistor
+from prototype.modeling.modeling import Modeling
+from utils.responseformatter import ResponseFormatter
 import requests
 import json
 from datasource.datasource import Datasource
@@ -16,25 +19,31 @@ class PrototypeManager:
             response = json.loads(response.text)
             uids.extend(response[label])
 
-        ## getting embeddings
-        # embeddingList = Datasource.get_embeddings( dataset='SONYC', uids=uids, embeddingModel='openl3' )
-
-        Datasource.get_random_sample( 20 )
+        positiveFeatures = ResponseFormatter.format_labeled_frames( uids )
+        positiveFeatures = Datasource.get_embeddings( uids=positiveFeatures, embeddingModel='openl3' )
         
-    #     prototypeFrames = self.prototypeManager.get_prototype_frames( dataset=dataset, prototypeName=prototypeName )
-    #     prototypeEmbeddings = Datasource.get_embeddings( dataset=dataset, uids=prototypeFrames, embeddingModel='openl3' )
-    #     prototypeEmbeddings = prototypeEmbeddings.values()
+        ## generating random sample
+        print( len(positiveFeatures) )
+        randomSamples = Datasource.get_random_sample( len(positiveFeatures) )
+        randomSamples = Datasource.get_embeddings( uids=randomSamples, embeddingModel='openl3' )
 
-    #     ## calculating distances
-    #     return self.prototypeManager.calculate_prototype( dataset=dataset, prototypeEmbeddings=prototypeEmbeddings, requestEmbeddings=embeddingList ) 
+        # training the model
+        model = Modeling.train_logistic_regression( positiveFeatures, randomSamples )
+        ModelPersistor.save_model( model )
+
+        ## saving prototype
+        # ModelPersistor.save_model( model )
+
+        ## extracting representatives
+        # representatives = 
 
         pass
 
-    def get_available_prototypes( self, dataset ):
-        return self.managers[dataset].get_available_prototypes()
+    # def get_available_prototypes( self, dataset ):
+    #     return self.managers[dataset].get_available_prototypes()
 
-    def get_prototype_frames( self, dataset, prototypeName ):
-        return self.managers[dataset].get_prototype_frames( prototypeName )
+    # def get_prototype_frames( self, dataset, prototypeName ):
+    #     return self.managers[dataset].get_prototype_frames( prototypeName )
 
-    def calculate_prototype( self, dataset, prototypeEmbeddings, requestEmbeddings ):
-        return self.managers[dataset].calculate_prototype( prototypeEmbeddings, requestEmbeddings )
+    # def calculate_prototype( self, dataset, prototypeEmbeddings, requestEmbeddings ):
+    #     return self.managers[dataset].calculate_prototype( prototypeEmbeddings, requestEmbeddings )

@@ -1,5 +1,7 @@
+from utils.dbutils import DBUtils
 import rocksdb
 import os
+import json
 
 class AnnotationManager:
 
@@ -35,16 +37,17 @@ class AnnotationManager:
     def get_frames_per_annotation( self, annotation: str ) -> list[str]:
 
         frames = self.inverseAnnotationsdb.get( annotation.encode('utf-8') )
+        
         if( not frames == None ):
             frames = frames.decode('utf-8')
-            frames = frames.split(',')
-
+            frames = json.loads(frames)
+        
         return frames
 
-    def set_frame_annotations( self, uids: list[str], annotations: list[str] ):
+    def set_frame_annotations( self, uids: dict[str, any], annotations: list[str] ):
 
-        ## casting to byte-strings
-        encodeduidslist = list(map( lambda uid: str(uid).encode("utf-8") , uids))
+        # ## casting to byte-strings
+        encodeduidslist = list(map( lambda uid: str(uid).encode("utf-8") , list(uids.keys()) ))
         encodedannotations = ','.join(annotations).encode("utf-8")
 
         batch = rocksdb.WriteBatch()
@@ -55,23 +58,31 @@ class AnnotationManager:
         ## setting inverse annotation
         self.set_frame_per_annotations( uids, annotations )
 
-    def set_frame_per_annotations( self, uids: list[str], annotations: list[str] ):
+    def set_frame_per_annotations( self, uids: dict[str, any], annotations: list[str] ):
 
         ## saving inverse frame annotations
+        batch = rocksdb.WriteBatch()
+
+        ## looping over annotations
         for annotation in annotations:
 
             annotatedFrames = self.inverseAnnotationsdb.get( annotation.encode('utf-8') )
 
-            batch = rocksdb.WriteBatch()
             if( annotatedFrames == None ):
-                encodeduidslist = ','.join(uids).encode("utf-8")
-                batch.put( annotation.encode('utf-8'), encodeduidslist  )
+
+                # json.dumps(record).encode('utf-8')
+                encodedobjs = list(map( lambda snippet: json.dumps(snippet) , list(uids.values()) ))
+                encodedobjs = f"[{','.join(encodedobjs)}]".encode("utf-8")
+                batch.put( annotation.encode('utf-8'), encodedobjs  )
+
             else:
-                previouslyAnnotatedFrames: list[str] = self.get_frames_per_annotation( annotation )
-                previouslyAnnotatedFrames.extend( uids )
+                previouslyAnnotatedFrames = self.get_frames_per_annotation( annotation )
+                previouslyAnnotatedFrames.extend(  list(uids.values()) )
+                previouslyAnnotatedFrames = DBUtils.remove_list_duplicates( previouslyAnnotatedFrames )
+                previouslyAnnotatedFrames = f"[{','.join(previouslyAnnotatedFrames)}]".encode("utf-8")
                 batch.put( annotation.encode('utf-8'), previouslyAnnotatedFrames  )
 
-            self.inverseAnnotationsdb.write( batch )
+        self.inverseAnnotationsdb.write( batch )
         
     def get_all_labels(self):
 

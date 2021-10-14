@@ -15,19 +15,20 @@ class Engine:
 
     ################## ANN ##################
     
-    def get_nearest_neighbors( self, dataset, uids, embeddingModel: str = 'openl3' ):
+    def get_nearest_neighbors( self, uids, embeddingModel: str = 'openl3' ):
 
-        embeddings = Datasource.get_embeddings( dataset=dataset, uids=uids, embeddingModel=embeddingModel )
+        embeddings = Datasource.get_embeddings( uids=uids, embeddingModel=embeddingModel )
+        
         for uid in embeddings:
-            embeddings[uid] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[uid], k=50 )
+            embeddings[uid] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[uid].tolist(), k=50 )
 
         return json.dumps( embeddings )
     
     ################## PROJECTIONS ##################
 
-    def project_points(self, dataset, projectionType, embeddingModel, uids, params={} ):
+    def project_points(self, projectionType, embeddingModel, uids, params={} ):
         
-        embeddingList = Datasource.get_embeddings( dataset=dataset, uids=uids, embeddingModel=embeddingModel )
+        embeddingList = Datasource.get_embeddings( uids=uids, embeddingModel=embeddingModel )
         embeddings = list( map(lambda uid: embeddingList[uid], embeddingList ))
 
         ## projecting
