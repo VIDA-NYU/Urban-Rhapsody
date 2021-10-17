@@ -7,11 +7,8 @@ import { GlobalEvents } from 'src/app/events/global.events';
 import { AudioState } from 'src/app/state/audio/audio.state';
 import { DataState } from 'src/app/state/data.state';
 import { ProjectionState } from 'src/app/state/projections/projections.state';
-import { OverviewViewCalendarTimelineController } from './controllers/overview-view.calendarTimeline.controller';
+import { PrototypeState } from 'src/app/state/prototype/prototype.state';
 import { OverviewViewController } from './controllers/overview-view.controller';
-import { OverviewViewMediaController } from './controllers/overview-view.media.controller';
-import { OverviewViewProjectionsController } from './controllers/overview-view.projections.controller';
-
 
 @Component({
   selector: 'app-overview-view',
@@ -31,12 +28,18 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
   @ViewChild('spectrogramlistref') spectrogramlistref !: SpectrogramListComponent;
   @ViewChild('projectionlistref') projectionlistref !: ProjectionListComponent;
 
-  constructor( public globalEvents: GlobalEvents, public dataState: DataState, public audioState: AudioState, public projectionState: ProjectionState, public dialogManager: DialogManager ) {}
+  constructor( 
+    public globalEvents: GlobalEvents, 
+    public dataState: DataState, 
+    public audioState: AudioState, 
+    public projectionState: ProjectionState,
+    public dialogManager: DialogManager,
+    public prototypeState: PrototypeState  ) {}
 
   ngOnInit(): void {
 
     // creating controller
-    this.overviewViewController = new OverviewViewController( this.globalEvents, this.dataState, this.audioState, this.projectionState, this.dialogManager );
+    this.overviewViewController = new OverviewViewController( this.globalEvents, this.dataState, this.audioState, this.projectionState, this.dialogManager, this.prototypeState );
 
   }
 

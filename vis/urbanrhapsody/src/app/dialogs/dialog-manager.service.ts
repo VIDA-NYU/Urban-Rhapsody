@@ -4,6 +4,7 @@ import { FrameLabelingDialogComponent } from "./labeling/frame-labeling-dialog/f
 import { DataLoaderDialogComponent } from "./loaders/data-loader-dialog/data-loader-dialog.component";
 import { UmapProjectionDialogComponent } from "./projections/umap-projection-dialog/umap-projection-dialog.component";
 import { PrototypeCreationDialogComponent } from "./prototyping/prototype-creation-dialog/prototype-creation-dialog.component";
+import { PrototypeSelectionDialogComponent } from "./prototyping/prototype-selection-dialog/prototype-selection-dialog.component";
 
 @Injectable({
     providedIn: 'root'
@@ -20,12 +21,23 @@ export class DialogManager {
             case 'umap-projection-dialog': this.openUMAPProjectionDialog(); break;
             case 'frame-labeling-dialog': this.openFrameLabelingDialog(); break;
             case 'prototype-creation-dialog': this.openPrototypeCreationDialog(); break;
+            case 'prototype-selection-dialog': this.openPrototypeSelectionDialog(); break;
         }
     
     }
 
 
     // private methods
+    private openPrototypeSelectionDialog( params?: any ): void {
+
+        this.dialog.open( PrototypeSelectionDialogComponent, {
+            panelClass: 'custom-dialog-container',
+            width: '800px',
+            height: '400px'
+        })
+
+    }
+
     private openPrototypeCreationDialog( params?: any ): void {
 
         this.dialog.open( PrototypeCreationDialogComponent, {

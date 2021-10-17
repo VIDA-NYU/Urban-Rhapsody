@@ -69,6 +69,26 @@ export class DataState {
 
     } 
 
+    // loads the year distribution of similar events
+    public async load_prototype_year_distribution( prototypeName: string ): Promise<void> {
+
+            this.flush_loaded_data();
+
+            const response: any = await LearnAPI.load_prototype_year_distribution( prototypeName );
+            console.log('Response', response);
+
+            // const response: any = await LearnAPI.load_year_distribution( frames, 'UST');
+            // _.forEach( response, yeardistribution => {
+            //     this.yearAudioDistribution = yeardistribution;
+            // });
+    
+            // emitting loaded event
+            // this.globalEvents.yearDistributionLoaded.emit();
+    
+        } 
+
+
+
     public async load_data( datasetname: string, filters: any = {} ): Promise<void> {
 
         // flushing loaded data;

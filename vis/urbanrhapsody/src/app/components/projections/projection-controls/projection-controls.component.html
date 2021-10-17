@@ -2,10 +2,26 @@
 
     <div class="controls-container">
 
+        <!-- COLOR MENU -->
         <div class="icon-container">
-            <mat-icon class='control-icon'>palette</mat-icon>
+            <mat-icon class='control-icon' [matMenuTriggerFor]="colormenu">palette</mat-icon>
         </div>
+        
+        <mat-menu #colormenu="matMenu">
+            <button mat-menu-item [matMenuTriggerFor]="prototypeMenu">Prototypes</button>
+        </mat-menu>
 
+        <mat-menu #prototypeMenu="matMenu">
+            <button 
+                (click)='this.projectionControlsController.select_new_color_scale( "prototype", prototype )'
+                mat-menu-item 
+                *ngFor='let prototype of this.prototypestate.availablePrototypes'>
+                {{ prototype }}
+            </button>
+        </mat-menu>
+
+
+        <!-- LABEL -->
         <div class="icon-container">
             <mat-icon 
                 (click)=this.onlabeliconclicked.emit()
@@ -14,6 +30,8 @@
             </mat-icon>
         </div>
 
+
+        <!-- BRUSH -->
         <div class="icon-container" >
             <mat-icon 
                 [ngStyle]='{ "color": (this.projection && this.projection.isBrushActive) ? "red" : "black" }'    
@@ -23,6 +41,7 @@
             </mat-icon>
         </div>
 
+        <!-- DELETE -->
         <div class="icon-container">
             <mat-icon class='control-icon'>delete</mat-icon>
         </div>

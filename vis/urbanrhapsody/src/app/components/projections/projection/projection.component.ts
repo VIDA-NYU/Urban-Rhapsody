@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AudioFrame } from 'src/app/model/audioframe.model';
 import { Projection } from 'src/app/model/projection.model';
+import { PrototypeState } from 'src/app/state/prototype/prototype.state';
 import { ProjectionController } from './controller/projection.controller';
 
 @Component({
@@ -15,6 +16,10 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
 
   // inputs
   @Input('projection') projection!: Projection;
+
+  // TODO: Refactor these services as input
+  @Input('prototypestate') prototypestate!: PrototypeState;
+  // @Input('labelingstate') labelingstate!: LabelingState;
 
   // projection event emitters
   @Output('onpointsselected') onpointsselected: EventEmitter<{'frames': AudioFrame[], 'projectionID': string}> = new EventEmitter<{'frames': AudioFrame[], 'projectionID': string}>(); 
@@ -35,7 +40,6 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
     
     const events: { [eventname: string]: EventEmitter<any> } = {
       'onpointsselected': this.onpointsselected,
-      
     }
 
     // initializing projection

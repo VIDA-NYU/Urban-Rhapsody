@@ -3,13 +3,19 @@ import { DialogManager } from "src/app/dialogs/dialog-manager.service";
 import { AudioFrame } from "src/app/model/audioframe.model";
 import { DataState } from "src/app/state/data.state";
 import { ProjectionState } from "src/app/state/projections/projections.state";
+import { PrototypeState } from "src/app/state/prototype/prototype.state";
 
 export class OverviewViewProjectionsController {
 
     // component ref
     public projectionlistref !: ProjectionListComponent;
 
-    constructor( public dataState: DataState, public projectionState: ProjectionState, public dialogManager: DialogManager ){}
+    constructor( 
+        public dataState: DataState, 
+        public projectionState: ProjectionState, 
+        public dialogManager: DialogManager,
+        public prototypeState: PrototypeState,
+         ){}
 
     public async add_new_projection(): Promise<void> {
 
@@ -50,4 +56,5 @@ export class OverviewViewProjectionsController {
 
     }
 
+    
 }

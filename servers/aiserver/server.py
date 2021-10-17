@@ -18,6 +18,15 @@ def get_year_distribution():
 
     return engine.get_nearest_neighbors(  uids=requestParams['uids'] )
 
+@app.route('/getprototypeyeardistribution', methods=['POST'])
+def get_prototype_year_distribution():
+
+    ## reading parameters
+    requestParams = request.get_json()
+
+    return engine.get_prototype_nearest_neighbors(  prototypeName=requestParams['prototypeName'] )
+
+
 # ################## PROJECTIONS ##################
 @app.route('/projectpoints', methods=['POST'])
 def project_points():
@@ -52,21 +61,17 @@ def create_prototype():
 
     return engine.set_prototype( requestParams['prototypeName'], requestParams['labels'] )
 
-# @app.route('/getallprototypes', methods=['POST'])
-# def get_all_prototypes():
+@app.route('/getallprototypes', methods=['POST'])
+def get_all_prototypes():    
+    return engine.get_available_prototypes()
 
-#     ## reading params
-#     requestParams = request.get_json()
-    
-#     return engine.get_available_prototypes( requestParams['dataset'] )
+@app.route('/applyprototype', methods=['POST'])
+def apply_prototype():
 
-# @app.route('/applyprototype', methods=['POST'])
-# def apply_prototype():
+    ## reading params
+    requestParams = request.get_json()
 
-#     ## reading params
-#     requestParams = request.get_json()
-
-#     return engine.apply_prototype( requestParams['dataset'], requestParams['prototypeName'], requestParams['uids'] )
+    return engine.apply_prototype( requestParams['prototypeName'], requestParams['uids'] )
     
 if __name__ == '__main__':
 

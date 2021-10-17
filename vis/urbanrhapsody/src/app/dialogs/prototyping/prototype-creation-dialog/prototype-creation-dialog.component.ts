@@ -10,11 +10,15 @@ import { PrototypeCreationController } from './controller/prototype-creation.con
 export class PrototypeCreationDialogComponent implements OnInit, AfterViewInit {
 
   // controller
-  public prototypeCreationController: PrototypeCreationController = new PrototypeCreationController();
-
+  public prototypeCreationController!: PrototypeCreationController;
+  
   constructor( public dialogRef: MatDialogRef<PrototypeCreationDialogComponent> ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.prototypeCreationController = new PrototypeCreationController( this.dialogRef );
+
+  }
 
   ngAfterViewInit(): void {
 

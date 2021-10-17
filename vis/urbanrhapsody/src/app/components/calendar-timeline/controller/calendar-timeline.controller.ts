@@ -63,7 +63,7 @@ export class CalendarTimelineController {
         }  
 
         // updating color scale
-        this.colorScale = ChartUtils.create_color_scale( [0, maxNeighbors] );
+        this.colorScale = ChartUtils.create_sequential_color_scale( [0, maxNeighbors] );
 
         return yearDistribution;
     }

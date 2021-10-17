@@ -29,7 +29,7 @@ export class ChartUtils {
         return d3.scaleBand().domain(domain).range(range);
     }
 
-    public static create_color_scale( domain: [number, number] ): d3.ScaleSequential<any, any> {
+    public static create_sequential_color_scale( domain: [number, number] ): d3.ScaleSequential<any, any> {
         return d3.scaleSequential(d3.interpolateBlues).domain(domain);
     }
 

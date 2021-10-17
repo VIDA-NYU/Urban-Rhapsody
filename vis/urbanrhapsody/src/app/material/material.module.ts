@@ -21,6 +21,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
 
 // holds all necessary modules
 const MATERIAL_MODULES = [
@@ -33,7 +34,7 @@ const MATERIAL_MODULES = [
     MatTabsModule,      MatChipsModule,
     MatPaginatorModule, MatCheckboxModule,
     MatListModule,      MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,   MatCardModule
 
 ];
 

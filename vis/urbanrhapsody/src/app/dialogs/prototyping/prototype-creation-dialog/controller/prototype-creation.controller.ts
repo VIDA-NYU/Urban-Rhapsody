@@ -1,5 +1,7 @@
 import { FormControl, FormGroup } from "@angular/forms";
+import { MatDialogRef } from "@angular/material/dialog";
 import { LabelingAPI } from "src/app/api/labeling.api";
+import { PrototypeCreationDialogComponent } from "../prototype-creation-dialog.component";
 
 export class PrototypeCreationController {  
 
@@ -10,7 +12,7 @@ export class PrototypeCreationController {
     public createdLabels: string[] = [];    
     public createdLabelsSet: Set<string> = new Set<string>();
 
-    constructor(){}
+    constructor( public dialogRef: MatDialogRef<PrototypeCreationDialogComponent> ){}
 
     public async initialize_component(): Promise<void> {
 
@@ -21,8 +23,11 @@ export class PrototypeCreationController {
 
     public async create_prototype(): Promise<void>{
 
+        // creating prototype
         await LabelingAPI.create_prototype( this.prototypeForm.value.prototypeName, Array.from(this.createdLabelsSet.values()) )
 
+        // closing dialog
+        this.dialogRef.close();
     }
 
     public select_label( label: string ): void {

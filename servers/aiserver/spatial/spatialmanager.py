@@ -1,4 +1,3 @@
-from werkzeug.wrappers import response
 from config.constants import SONYCCONSTS
 import json
 import requests
@@ -7,8 +6,13 @@ class SpatialManager:
 
     def __init__(self): 
         pass
+    
+    '''
+        featureVector: list[float]
+        k: int
+    '''
 
-    def get_nearest_neighbors( self, featureVector: list[float], k: int ):
+    def get_nearest_neighbors( self, featureVector, k ):
 
         ## params
         data = {

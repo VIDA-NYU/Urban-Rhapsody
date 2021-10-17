@@ -6,8 +6,13 @@ import { Projection } from "src/app/model/projection.model";
 import * as scatter from 'scatter-gl';
 import * as _ from 'lodash';
 import { EventEmitter } from "@angular/core";
+import { ProjectionColorsController } from "./projection-colors.controller";
+import { PointColorer } from "scatter-gl/dist/scatter_gl";
 
 export class ProjectionController{
+
+    // color controller
+    public projectionColorController: ProjectionColorsController = new ProjectionColorsController();
 
     // scatterGL references
     public scatterGL!: scatter.ScatterGL;
@@ -43,6 +48,14 @@ export class ProjectionController{
 
         if(this.projection.isBrushActive){ this.scatterGL.setSelectMode();}
         else{ this.scatterGL.setPanMode(); }
+    }
+
+    public set_color_scale( event: any ): void  {   
+
+        const colorScale: any = this.projectionColorController.get_color_scale( event.attributeName )
+        const pointColorer: PointColorer = this.projectionColorController.get_point_colorer( event.attributeName, event.attributeValue, colorScale, this.projection)
+        this.scatterGL.setPointColorer( pointColorer );
+
     }
 
     public select_points( frames: AudioFrame[] ): void{

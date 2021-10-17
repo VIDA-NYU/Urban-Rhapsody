@@ -13,16 +13,21 @@ class SONYCDatasource:
         ## returning embeddings
         embeddingList = {}
 
+        ## The purpose of this dictionary is to accelerate this loading process
+        embeddingAcceleratorHelper = {}
+
         for key, value in uids.items():
             
             embeddingPath = f"{SONYCCONSTS['EMBEDDINGS_BASEPATH'][embeddingModel]}/{value['sensorID']}/{value['day']}/{value['snippetID']}.npz"
-            embeddingVector = SONYCDatasource.open_embedding_file(embeddingPath)
+
+            if( not embeddingPath in embeddingAcceleratorHelper ):
+                embeddingAcceleratorHelper[embeddingPath] = SONYCDatasource.open_embedding_file(embeddingPath)
 
             ## TODO: recompute UST embeddings to only 10 feature vectors
-            if( embeddingVector.shape[0] == 20 ):
+            if( embeddingAcceleratorHelper[embeddingPath].shape[0] == 20 ):
                 value['embeddingIndex'] = 1 + (value['embeddingIndex'] * 2)
 
-            embeddingList[key] = embeddingVector[value['embeddingIndex']]
+            embeddingList[key] = embeddingAcceleratorHelper[embeddingPath][value['embeddingIndex']]
 
         return embeddingList
 

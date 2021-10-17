@@ -31,6 +31,8 @@ import { ProjectionLegendComponent } from './components/projections/projection-l
 import { SpectrogramListComponent } from './components/media/spectrogram-list/spectrogram-list.component';
 import { FrameLabelingDialogComponent } from './dialogs/labeling/frame-labeling-dialog/frame-labeling-dialog.component';
 import { PrototypeCreationDialogComponent } from './dialogs/prototyping/prototype-creation-dialog/prototype-creation-dialog.component';
+import { PrototypeSelectionDialogComponent } from './dialogs/prototyping/prototype-selection-dialog/prototype-selection-dialog.component';
+import { PrototypeLoaderDialogComponent } from './dialogs/loaders/prototype-loader-dialog/prototype-loader-dialog.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { PrototypeCreationDialogComponent } from './dialogs/prototyping/prototyp
     ProjectionLegendComponent,
     SpectrogramListComponent,
     FrameLabelingDialogComponent,
-    PrototypeCreationDialogComponent  
+    PrototypeCreationDialogComponent,
+    PrototypeSelectionDialogComponent,
+    PrototypeLoaderDialogComponent  
   ],
   imports: [
     BrowserModule,
@@ -66,6 +70,6 @@ import { PrototypeCreationDialogComponent } from './dialogs/prototyping/prototyp
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents:[ DataLoaderDialogComponent, SonycLoaderDialogComponent, UmapProjectionDialogComponent, FrameLabelingDialogComponent, PrototypeCreationDialogComponent ]
+  entryComponents:[ DataLoaderDialogComponent, SonycLoaderDialogComponent, UmapProjectionDialogComponent, FrameLabelingDialogComponent, PrototypeCreationDialogComponent, PrototypeSelectionDialogComponent ]
 })
 export class AppModule { }

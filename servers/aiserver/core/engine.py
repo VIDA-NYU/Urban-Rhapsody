@@ -5,6 +5,8 @@ from projector.projector import Projector
 import json
 from datasource.datasource import Datasource
 
+import time
+
 class Engine:
 
     def __init__(self):
@@ -23,6 +25,15 @@ class Engine:
             embeddings[uid] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[uid].tolist(), k=50 )
 
         return json.dumps( embeddings )
+
+    def get_prototype_nearest_neighbors( self, prototypeName: str, embeddingModel: str = 'openl3' ):
+
+        embeddings = self.prototypeManager.get_prototype_representatives( prototypeName=prototypeName )
+        
+        for clusterIndex in embeddings:
+            embeddings[clusterIndex] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[clusterIndex].tolist(), k=50 )
+
+        return json.dumps( embeddings )
     
     ################## PROJECTIONS ##################
 
@@ -31,7 +42,6 @@ class Engine:
         embeddingList = Datasource.get_embeddings( uids=uids, embeddingModel=embeddingModel )
         embeddings = list( map(lambda uid: embeddingList[uid], embeddingList ))
 
-        ## projecting
         x, y = Projector.project_points( embeddings, projectionType, params )
 
         for index, frameuid in enumerate(embeddingList):
@@ -53,21 +63,27 @@ class Engine:
 
     ################## PROTOTYPES ##################
 
-    def set_prototype( self, prototypeName: str, labels: list[str] ):
+
+
+    '''
+        prototypeName: str, 
+        labels: list[str]
+    '''
+    def set_prototype( self, prototypeName, labels ):
+
         self.prototypeManager.set_prototype( prototypeName, labels )
         return json.dumps({'response': 'success'})
 
-    # def get_available_prototypes( self, dataset ):
-    #     prototypes = self.prototypeManager.get_available_prototypes( dataset )
-    #     return json.dumps({'prototypes': prototypes }) 
-
-    # def apply_prototype( self, dataset, prototypeName, uids ):
-
-    #     embeddingList = Datasource.get_embeddings( dataset=dataset, uids=uids, embeddingModel='openl3' )
+    def get_available_prototypes( self ):
         
-    #     prototypeFrames = self.prototypeManager.get_prototype_frames( dataset=dataset, prototypeName=prototypeName )
-    #     prototypeEmbeddings = Datasource.get_embeddings( dataset=dataset, uids=prototypeFrames, embeddingModel='openl3' )
-    #     prototypeEmbeddings = prototypeEmbeddings.values()
+        prototypes = self.prototypeManager.get_available_prototypes()
+        return json.dumps({'prototypes': prototypes }) 
 
-    #     ## calculating distances
-    #     return self.prototypeManager.calculate_prototype( dataset=dataset, prototypeEmbeddings=prototypeEmbeddings, requestEmbeddings=embeddingList )  
+    def apply_prototype( self, prototypeName, uids ):
+
+        ## getting correspondent embeddings
+        embeddingList = Datasource.get_embeddings( uids=uids, embeddingModel='openl3' )
+
+        ## calculating log-likelihood for each frame
+        likelihoods = self.prototypeManager.calculate_prototype( prototypeName, embeddingList )
+        return json.dumps({ 'likelihood': likelihoods })

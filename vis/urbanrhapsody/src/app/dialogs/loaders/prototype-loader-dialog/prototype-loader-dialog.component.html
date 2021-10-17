@@ -1,0 +1,35 @@
+<div class="component-wrapper">
+
+    <div class="dialog-body">
+
+        <div class="prototype-list">
+            <div class="prototype-name-container" 
+                *ngFor='let prototype of this.prototypeLoaderController.availablePrototypes'
+                (click)=this.prototypeLoaderController.prototype_selected(prototype)>
+                <mat-card>{{ prototype }}</mat-card>
+            </div>
+        </div>
+
+        <div class="slider-container">
+            <mat-slider></mat-slider>
+        </div>
+        <div class="slider-container">
+            <mat-slider></mat-slider>
+        </div>
+
+    </div>
+
+    <div class="dialog-footer">
+
+        <button 
+            (click)='this.dialogRef.close()'
+            class='loader-dialog-button'
+            mat-stroked-button 
+            color="primary">
+            Cancel
+        </button>
+
+    </div>
+
+
+</div>

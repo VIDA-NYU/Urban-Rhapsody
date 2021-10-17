@@ -1,3 +1,4 @@
+from clusterer.clusterer import Clusterer
 from prototype.persistance.modelpersistor import ModelPersistor
 from prototype.modeling.modeling import Modeling
 from utils.responseformatter import ResponseFormatter
@@ -10,7 +11,12 @@ class PrototypeManager:
     def __init__(self):        
         pass
 
-    def set_prototype( self, prototypeName: str, labels: list[str] ):
+    '''
+        prototypeName: str, 
+        labels: list[str]
+    '''
+
+    def set_prototype( self, prototypeName, labels ):
 
         ## getting all uids
         uids = []
@@ -19,28 +25,48 @@ class PrototypeManager:
             response = json.loads(response.text)
             uids.extend(response[label])
 
+
         positiveFeatures = ResponseFormatter.format_labeled_frames( uids )
         positiveFeatures = Datasource.get_embeddings( uids=positiveFeatures, embeddingModel='openl3' )
         
         ## generating random sample
-        print( len(positiveFeatures) )
         randomSamples = Datasource.get_random_sample( len(positiveFeatures) )
         randomSamples = Datasource.get_embeddings( uids=randomSamples, embeddingModel='openl3' )
 
+        ## calculating representatives
+        representativeVectors = Clusterer.calculate_representatives( positiveFeatures )
+
         # training the model
         model = Modeling.train_logistic_regression( positiveFeatures, randomSamples )
-        ModelPersistor.save_model( model )
 
-        ## saving prototype
-        # ModelPersistor.save_model( model )
+        # ## saving prototype
+        ModelPersistor.save_model( prototypeName=prototypeName, model=model )
+        ModelPersistor.save_representatives( prototypeName, representativeVectors )
 
-        ## extracting representatives
-        # representatives = 
+        return
+
+    def get_available_prototypes( self ):
+        return ModelPersistor.get_available_models()
+
+    def calculate_prototype( self, prototypeName: str, uids ):
+
+        ## getting prototype model
+        model = ModelPersistor.load_model( prototypeName )
+
+        ## predicting
+        # X = list( uids.values() )
+        # predictions = model.predict_proba( X )
+
+        for uid in uids:
+            positiveLikelihood = model.predict_proba( [ uids[uid] ])[0][1]
+            uids[uid] = positiveLikelihood
+        
+        return uids
+
+    def get_prototype_representatives( self, prototypeName: str ):
+        return ModelPersistor.load_representatives( prototypeName )
 
         pass
-
-    # def get_available_prototypes( self, dataset ):
-    #     return self.managers[dataset].get_available_prototypes()
 
     # def get_prototype_frames( self, dataset, prototypeName ):
     #     return self.managers[dataset].get_prototype_frames( prototypeName )

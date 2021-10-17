@@ -14,9 +14,20 @@
         <div class="toolbar-button">
             <button mat-button [matMenuTriggerFor]="prototypeMenu">Prototypes</button>
             <mat-menu #prototypeMenu="matMenu">
+                
                 <button mat-menu-item (click)='open_dialog("prototype-creation-dialog")'>
-                        Create...
+                    Create...
                 </button>  
+                
+                <button mat-menu-item (click)='open_dialog("prototype-selection-dialog")'>
+                    Apply...
+                </button> 
+
+                <!-- (click)='open_dialog("prototype-selection-dialog")' -->
+                <button mat-menu-item >
+                    Refine...
+                </button>
+
             </mat-menu>
         </div>
 

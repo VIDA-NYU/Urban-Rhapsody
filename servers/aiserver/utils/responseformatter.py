@@ -30,9 +30,11 @@ class ResponseFormatter:
         return indexedPaths
 
 
-
+    '''
+        paths: list[str]
+    '''
     @staticmethod
-    def format_random_sample( paths: list[str] ):
+    def format_random_sample( paths ):
 
         randomSamples = {}
         for path in paths:

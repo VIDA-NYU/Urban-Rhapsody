@@ -15,6 +15,8 @@ class Modeling:
             y.append(1)
 
         print('Training model')
+        print('Len X: ', len(X))
+        print('Len X: ', len(y))
         clf = LogisticRegression(random_state=0).fit(X, y)
         return clf
         

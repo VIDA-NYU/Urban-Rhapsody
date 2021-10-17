@@ -15,6 +15,7 @@
         </div>
 
         <app-projection-list
+            [prototypestate]='this.overviewViewController.projectioListController.prototypeState'
             [projections]='this.projectionState.projections'
             (onpointsselected)='this.overviewViewController.projectioListController.on_frames_brushed($event)'
             (onlabeliconclicked)='this.overviewViewController.projectioListController.on_label_icon_clicked()'

@@ -4,6 +4,7 @@
         <app-projection 
             #projectionref
             [projection]=projection 
+            [prototypestate]=this.prototypestate
             (onpointsselected)=this.onpointsselected.emit($event)
             (onlabeliconclicked)=this.onlabeliconclicked.emit()>
         </app-projection>    

@@ -4,10 +4,11 @@
 
         <div class="projection-controls">
             <app-projection-controls 
+                [prototypestate]='this.prototypestate'
                 [projection]='this.projection' 
                 (onbrushset)='this.projectionController.set_brush_mode()'
                 (onlabeliconclicked)=this.onlabeliconclicked.emit()
-                >
+                (onnewcolorscaleselected)=this.projectionController.set_color_scale($event)>
             </app-projection-controls>
         </div>
         

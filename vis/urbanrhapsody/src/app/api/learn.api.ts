@@ -11,8 +11,6 @@ export class LearnAPI {
 
         // post parameters
         const requestParams = { dataset, projectionType, embeddingModel, uids, projectionParams };
-        console.log(uids);
-        // console.log(`post data: ${JSON.stringify(params)}`);
 
         // post header
         const headers = {
@@ -34,14 +32,12 @@ export class LearnAPI {
 
         // serializing request
         const uids = Serializer.format_calendar_request(frames);
-        console.log('uids: ', uids);
 
         // url
         const url = `${environment.aiserver}/getyeardistribution`;
 
         // post parameters
         const requestParams = { uids, dataset };
-        // console.log(`post data: ${JSON.stringify(requestParams)}`);
 
         // post header
         const headers = {
@@ -59,4 +55,74 @@ export class LearnAPI {
 
     }
 
+    public static async load_prototype_year_distribution( prototypeName: string ){
+
+        // url
+        const url = `${environment.aiserver}/getprototypeyeardistribution`;
+
+        // post parameters
+        const requestParams = { prototypeName };
+
+        // post header
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        // Return a new promise.
+        const response = await fetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(requestParams),
+        });
+
+        return await response.json();
+
+    }
+
+    public static async get_all_prototypes(): Promise<any>{
+
+        // url
+        const url = `${environment.aiserver}/getallprototypes`;
+
+        // post header
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        // Return a new promise.
+        const response = await fetch(url, {
+            method: 'POST',
+            headers
+        });
+
+        return await response.json();
+
+    }
+
+    public static async apply_prototype( frames: AudioFrame[], prototypeName: string ){
+
+        // serializing request
+        const uids = Serializer.format_uids_apply_prototype_request(frames);
+
+        // url
+        const url = `${environment.aiserver}/applyprototype`;
+
+        // post parameters
+        const requestParams = { uids, prototypeName };
+
+        // post header
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        // Return a new promise.
+        const response = await fetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(requestParams),
+        });
+
+        return await response.json();
+
+    }
 }
