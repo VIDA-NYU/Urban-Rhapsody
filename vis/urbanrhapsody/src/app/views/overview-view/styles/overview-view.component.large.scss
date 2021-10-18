@@ -1,15 +1,15 @@
 .timeline-component-container {
 
     display: flex;
-    flex: 2;
+    flex: 1;
 
+    background-color: red;
 }
 
 .projections-component-container {
 
     display: flex;
-    flex: 4;
-
+    flex: 2;
     position: relative;
 
 }
@@ -18,10 +18,13 @@
 
     display: flex;
     flex: 1;
-
+    background-color: red;
 }
 
+
 .placeholder{
+
     display: flex;
-    flex: 2;
+    flex: 1;
+    
 }

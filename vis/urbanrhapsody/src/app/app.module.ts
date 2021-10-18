@@ -33,6 +33,8 @@ import { FrameLabelingDialogComponent } from './dialogs/labeling/frame-labeling-
 import { PrototypeCreationDialogComponent } from './dialogs/prototyping/prototype-creation-dialog/prototype-creation-dialog.component';
 import { PrototypeSelectionDialogComponent } from './dialogs/prototyping/prototype-selection-dialog/prototype-selection-dialog.component';
 import { PrototypeLoaderDialogComponent } from './dialogs/loaders/prototype-loader-dialog/prototype-loader-dialog.component';
+import { HistogramComponent } from './components/histogram/histogram.component';
+import { SensorMapComponent } from './components/sensor-map/sensor-map.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { PrototypeLoaderDialogComponent } from './dialogs/loaders/prototype-load
     FrameLabelingDialogComponent,
     PrototypeCreationDialogComponent,
     PrototypeSelectionDialogComponent,
-    PrototypeLoaderDialogComponent  
+    PrototypeLoaderDialogComponent,
+    HistogramComponent,
+    SensorMapComponent  
   ],
   imports: [
     BrowserModule,
