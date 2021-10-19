@@ -1,4 +1,5 @@
 import { CalendarTimelineComponent } from "src/app/components/calendar-timeline/calendar-timeline.component";
+import { HistogramComponent } from "src/app/components/histogram/histogram.component";
 import { SpectrogramListComponent } from "src/app/components/media/spectrogram-list/spectrogram-list.component";
 import { ProjectionListComponent } from "src/app/components/projections/projection-list/projection-list.component";
 import { DialogManager } from "src/app/dialogs/dialog-manager.service";
@@ -10,12 +11,14 @@ import { PrototypeState } from "src/app/state/prototype/prototype.state";
 import { OverviewViewCalendarTimelineController } from "./overview-view.calendarTimeline.controller";
 import { OverviewViewMediaController } from "./overview-view.media.controller";
 import { OverviewViewProjectionsController } from "./overview-view.projections.controller";
+import { OverviewViewSidebarController } from "./overview-view.sidebar.controller";
 
 export class OverviewViewController {
 
     public calendarTimelineController!: OverviewViewCalendarTimelineController;
     public mediaController!: OverviewViewMediaController;
     public projectioListController!: OverviewViewProjectionsController;
+    public sidebarController!: OverviewViewSidebarController;
 
     constructor( 
         public globalEvents: GlobalEvents, 
@@ -29,15 +32,18 @@ export class OverviewViewController {
         this.calendarTimelineController = new OverviewViewCalendarTimelineController( this.dataState, this.globalEvents );
         this.mediaController = new OverviewViewMediaController( this.dataState , this.audioState );
         this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState, this.dialogManager, prototypeState );
+        this.sidebarController = new OverviewViewSidebarController();
+
 
     }
 
-    public initialize_controllers( appcalendartimelineref: CalendarTimelineComponent, spectrogramlistref : SpectrogramListComponent, projectionlistref : ProjectionListComponent ): void {
+    public initialize_controllers( appcalendartimelineref: CalendarTimelineComponent, spectrogramlistref : SpectrogramListComponent, projectionlistref : ProjectionListComponent, histogramref: HistogramComponent ): void {
 
         // initializing controllers
         this.calendarTimelineController.initialize_controller( appcalendartimelineref );
         this.projectioListController.initialize_controller( projectionlistref );
         this.mediaController.initialize_controller( spectrogramlistref );
+        this.sidebarController.initialize_controller( histogramref );
 
     }
 

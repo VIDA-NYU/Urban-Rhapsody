@@ -12,7 +12,7 @@ export class PrototypeLoaderController {
 
         const availablePrototypes: { [responseType: string]: string[] } =  await LearnAPI.get_all_prototypes();
         this.availablePrototypes = availablePrototypes.prototypes;
-
+        
     }
 
     public prototype_selected( prototypeName: string ): void{

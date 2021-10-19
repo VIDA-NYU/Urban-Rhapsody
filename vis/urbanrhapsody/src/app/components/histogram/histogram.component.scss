@@ -1,0 +1,38 @@
+:host {
+
+    width: 100%;
+    height: 100%;
+}
+
+.component-wrapper{
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.chart-header{
+
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: #1F3F49;
+
+
+    h2{
+        color: white;
+        margin: 0 0 0px
+    }
+}
+
+.chart-container{
+
+    flex: 5;
+    border: 2px solid #1F3F49;
+
+}

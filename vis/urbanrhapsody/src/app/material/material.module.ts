@@ -22,6 +22,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 // holds all necessary modules
 const MATERIAL_MODULES = [
@@ -34,7 +35,8 @@ const MATERIAL_MODULES = [
     MatTabsModule,      MatChipsModule,
     MatPaginatorModule, MatCheckboxModule,
     MatListModule,      MatTableModule,
-    MatTooltipModule,   MatCardModule
+    MatTooltipModule,   MatCardModule,
+    MatExpansionModule
 
 ];
 

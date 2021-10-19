@@ -21,7 +21,7 @@ export class ChartUtils {
     }
 
     // scales
-    public static create_sequential_scale( domain: [number, number], range: [number, number]): d3.ScaleSequential<any, any> {
+    public static create_sequential_scale( domain: [any, any], range: [number, number]): d3.ScaleSequential<any, any> {
         return d3.scaleSequential().domain(domain).range(range);
     }
 

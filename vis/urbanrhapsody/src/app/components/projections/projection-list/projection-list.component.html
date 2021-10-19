@@ -1,12 +1,37 @@
 <div class="component-wrapper">
-    <div *ngFor='let projection of this.projections'   
-        class="projection-component-container">
-        <app-projection 
-            #projectionref
-            [projection]=projection 
-            [prototypestate]=this.prototypestate
-            (onpointsselected)=this.onpointsselected.emit($event)
-            (onlabeliconclicked)=this.onlabeliconclicked.emit()>
-        </app-projection>    
+
+    <div class="component-header">
+
+        <div class="component-title">
+            <b><h2>Day View</h2></b>
+        </div>
+
+        <div class="icon-container">
+
+            <button mat-icon-button [matMenuTriggerFor]="projectionMenu">
+                <mat-icon>add_circle_outline</mat-icon>
+            </button>
+            <mat-menu #projectionMenu="matMenu">
+                <button mat-menu-item (click)='this.onprojectionactionrequested.emit({ projectionaction: "focus"})'>Focus</button>
+                <button mat-menu-item (click)='this.onprojectionactionrequested.emit({ projectionaction: "remove"})'>Remove</button>
+            </mat-menu>
+
+        </div>
+        
     </div>
+
+    <div class="component-body">
+        <div *ngFor='let projection of this.projections'   
+            class="projection-component-container">
+            <app-projection 
+                #projectionref
+                [projection]=projection 
+                [prototypestate]=this.prototypestate
+                (onpointsselected)=this.onpointsselected.emit($event)
+                (onlabeliconclicked)=this.onlabeliconclicked.emit()>
+            </app-projection>    
+        </div>
+    </div>
+
+
 </div>

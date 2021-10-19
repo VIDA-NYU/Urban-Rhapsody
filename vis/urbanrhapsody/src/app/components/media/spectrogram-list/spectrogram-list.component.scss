@@ -10,10 +10,38 @@
 
 }
 
+.controls-container{
+
+    width: 100%;
+    height: 20%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;    
+
+}
+
+.audio-controls{
+
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
+.icon-container{
+
+    width: 40px;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .spectrogram-list-container{
 
     width: 100%;
-    height: 100%;
+    height: 80%;
 
     display: flex;
     flex-direction: row;

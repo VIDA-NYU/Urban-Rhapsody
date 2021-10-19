@@ -1,4 +1,11 @@
 <div class="component-wrapper">
+
+    <div class="spectrogram-header-container">
+        <div class="spectrogram-header">
+            <b><h2>{{ this.snippet.metadata.get_formatted_time()  }}</h2></b>
+        </div>
+    </div>
+
     <div class="spectrogram-container" #spectrogramcontainerref>
         <img src='../../../../assets/spectrograms/loading_placeholder.png' #spectrogramimgref>
     </div>

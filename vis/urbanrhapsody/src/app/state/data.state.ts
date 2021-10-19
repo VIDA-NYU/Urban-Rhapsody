@@ -7,6 +7,7 @@ import { AudioSnippet } from "../model/audiosnippet.model";
 import { Deserializer } from "../utils/deserializer.util";
 import * as _ from 'lodash';
 import { FrameFilters } from "../utils/filters/frameFilters.utils";
+import { SnippetSorters } from "../utils/sorters/snippetSorters.utils";
 
 @Injectable({
     providedIn: 'root'
@@ -52,6 +53,9 @@ export class DataState {
         selection = FrameFilters.filter_proxy( this.indexedFrames, params );
         this.selectedFrames = selection.frames;
         this.selectedSnippets = selection.snippets;
+
+        // sorting snippets
+        SnippetSorters.sort_frames('by_datetime', this.selectedSnippets);
     } 
 
     // loads the year distribution of similar events

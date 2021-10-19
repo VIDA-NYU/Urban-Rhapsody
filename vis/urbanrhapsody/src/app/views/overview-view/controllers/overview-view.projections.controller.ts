@@ -14,13 +14,12 @@ export class OverviewViewProjectionsController {
         public dataState: DataState, 
         public projectionState: ProjectionState, 
         public dialogManager: DialogManager,
-        public prototypeState: PrototypeState,
-         ){}
+        public prototypeState: PrototypeState ){}
 
-    public async add_new_projection(): Promise<void> {
+    public async add_new_projection( ): Promise<void> {
 
         // adding new projection
-        await this.projectionState.add_new_projection('umap', {});
+        await this.projectionState.add_new_projection('umap', {} );
     }
 
     public flush_projections(): void {

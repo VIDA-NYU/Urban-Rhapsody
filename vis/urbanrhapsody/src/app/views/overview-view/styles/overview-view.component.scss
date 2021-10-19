@@ -4,6 +4,7 @@
     height: 100%;
 
     display: flex;
+    // flex: 1;
 
 }
 
@@ -12,43 +13,13 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-
-    justify-content: space-around;
-
 }
 
-.map-container{
-
-    width: 90%;
-    height: 20%;
-    background-color: purple;
-}
 
 .drawer-container{
 
-    width: 100%;
-    height: 100%;
-
-    .left-sidebar-container{
-
-        width: 15%;
-        height: 100%;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .main-content-container{
-        
-        display: flex;
-        flex-direction: column;
-
-        width: 85%;
-        height: 100%;
-
-    }
+    display: flex;
+    flex: 1;
 
 }
 

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { AudioFrame } from 'src/app/model/audioframe.model';
 import { AudioSnippet } from 'src/app/model/audiosnippet.model';
+import { MiscUtils } from 'src/app/utils/misc/misc.utils';
 import { SpectrogramController } from './controller/spectrogram.controller';
 
 @Component({
@@ -25,7 +26,7 @@ export class SpectrogramComponent implements OnInit, AfterViewInit {
   // controller
   public spectrogramController!: SpectrogramController;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {}
 

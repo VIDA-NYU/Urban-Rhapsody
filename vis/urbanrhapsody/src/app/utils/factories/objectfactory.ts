@@ -8,13 +8,17 @@ export class ObjectFactory {
     public static create_snippet_metadata( rawobj: any ): AudioSnippetMeta {
 
         // parsing metadata
-        const localtime: Date = new Date(Date.parse(rawobj.localtime));
+        const localDate = rawobj.localdate.split('-');
+        const localTime = rawobj.localtime.split(':');
+        const localDatetime: Date = new Date( localDate[0], localDate[1], localDate[2], localTime[0], localTime[1], localTime[2]);
+
 
         const snippetMetadata: AudioSnippetMeta = new AudioSnippetMeta( 
             rawobj.sensorID, 
             rawobj.sensorHeight, 
             parseInt(rawobj.recordingHour),
-            rawobj.localtime,
+            // rawobj.localtime,
+            localDatetime,
             rawobj.localdate
         )
 

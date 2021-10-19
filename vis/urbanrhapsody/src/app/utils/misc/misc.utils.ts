@@ -19,6 +19,16 @@ export class MiscUtils {
         return currentDatetimeString;
     }
 
+    public static format_time( datetime: Date ): string{
+
+        const hour: string = `0${datetime.getHours()}`.slice(-2);
+        const minutes: string = `0${datetime.getMinutes()}`.slice(-2);
+        const seconds: string = `0${datetime.getSeconds()}`.slice(-2);
+
+        const currentDatetimeString: string = `${hour}:${minutes}:${seconds}`
+        return currentDatetimeString;
+    }
+
     public static UID_generator(): string {
         return Math.floor( Math.random() * 999999 ).toString();
     }

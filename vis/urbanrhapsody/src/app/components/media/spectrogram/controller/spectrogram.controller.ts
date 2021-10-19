@@ -11,7 +11,6 @@ import { EventEmitter } from "@angular/core";
 import { AudioSnippet } from "src/app/model/audiosnippet.model";
 import { AudioFrame } from "src/app/model/audioframe.model";
 import { MediaAPI } from "src/app/api/media.api";
-import { Serializer } from "src/app/utils/serializer.utils";
 
 export class SpectrogramController {
 
@@ -45,6 +44,23 @@ export class SpectrogramController {
 
     }
 
+    public highlight_frame(frame: AudioFrame): void {
+        this.svg
+            .selectAll('.frame-rect')
+            .data( this.audioSnippet.frames )
+            .attr('stroke-width', '3')
+            .style('stroke', (currentFrame: AudioFrame) => this.stroke_picker( currentFrame, frame.uid ) );
+    }
+
+    public remove_highlight_frame(frame: AudioFrame): void {
+        this.svg
+            .selectAll('.frame-rect')
+            .data( this.audioSnippet.frames )
+            .attr('stroke-width', '0')
+    }
+
+
+
     public update_frame_grid(): void {
         
         // rect width
@@ -63,7 +79,7 @@ export class SpectrogramController {
                     .attr('height', this.container.clientHeight )
                     .attr('class', 'frame-rect')
                     .attr('fill', (frame: AudioFrame) => this.fill_picker( frame ) )
-                    .attr('stroke', '#b5b3ae')
+                    .attr('stroke', '#1F3F49')
                     .attr('stroke-dasharray', '10,5')
                     .attr('stroke-linecap', 'butt')
                     .attr('stroke-width', '0')
@@ -73,7 +89,9 @@ export class SpectrogramController {
                     .on('mouseleave', (event: MouseEvent, frame: AudioFrame) => { this.on_mouse_leave_handler( frame ); })
                     .on('click', (event: MouseEvent, frame: AudioFrame) => { this.on_click_handler( frame ) }),
                 update => 
-                    update.style('stroke-width', (frame: AudioFrame) => this.set_selection_stroke(frame) ),
+                    update
+                        .attr('fill', (frame: AudioFrame) => this.fill_picker( frame ) )
+                        .style('opacity', (frame: AudioFrame) => this.opacity_picker( frame ) ),
                 exit => 
                     exit.remove()
             );
@@ -104,8 +122,8 @@ export class SpectrogramController {
 
 
     // style modifiers
-    private set_selection_stroke(frame: AudioFrame){
-        return frame.is_selected() ? '2' : '0';
+    private stroke_picker( audioframe: AudioFrame, selectedUID: string ): string{
+        return ( audioframe.uid === selectedUID ) ? '#1F3F49' : 'none';
     }
 
     private fill_picker( audioFrame: AudioFrame ){

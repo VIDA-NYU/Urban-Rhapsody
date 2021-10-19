@@ -2,15 +2,29 @@
 
     <div class="body">
         <div class="examples-list-container">
-            <div class="example-container" *ngFor='let snippet of this.similarityExampleLoaderController.exampleSnippets'>
-                <app-snippet-example 
-                    #snippetexampleref
-                    [snippet]=snippet
-                    (onmouseenterspectrogram)='this.similarityExampleLoaderController.mouse_entered_frame( $event )'
-                    (onmouseleavespectrogram)='this.similarityExampleLoaderController.mouse_left_frame( $event )'
-                    (onspectrogramframeclicked)='this.similarityExampleLoaderController.frame_selected( $event )'>
-                </app-snippet-example>
-            </div>
+            
+            <mat-accordion>
+                <mat-expansion-panel hideToggle *ngFor='let snippet of this.similarityExampleLoaderController.exampleSnippets'>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        The label goes here
+                    </mat-panel-title>
+                    <!-- <mat-panel-description>
+                        This is a summary of the content
+                    </mat-panel-description> -->
+                    </mat-expansion-panel-header>
+                    <div class="example-container">
+                        <app-snippet-example 
+                            #snippetexampleref
+                            [snippet]=snippet
+                            (onmouseenterspectrogram)='this.similarityExampleLoaderController.mouse_entered_frame( $event )'
+                            (onmouseleavespectrogram)='this.similarityExampleLoaderController.mouse_left_frame( $event )'
+                            (onspectrogramframeclicked)='this.similarityExampleLoaderController.frame_selected( $event )'>
+                        </app-snippet-example>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
         </div>
     </div>
 

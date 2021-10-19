@@ -5,8 +5,6 @@ from projector.projector import Projector
 import json
 from datasource.datasource import Datasource
 
-import time
-
 class Engine:
 
     def __init__(self):

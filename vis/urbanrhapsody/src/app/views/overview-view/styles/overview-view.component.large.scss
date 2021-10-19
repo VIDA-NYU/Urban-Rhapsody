@@ -1,15 +1,13 @@
 .timeline-component-container {
 
     display: flex;
-    flex: 1;
-
-    background-color: red;
+    flex: 2;
 }
 
 .projections-component-container {
 
     display: flex;
-    flex: 2;
+    flex: 4;
     position: relative;
 
 }
@@ -17,14 +15,58 @@
 .media-component-container {
 
     display: flex;
+    flex: 2;
+}
+
+.main-content-container{
+        
+    display: flex;
     flex: 1;
-    background-color: red;
+    flex-direction: column;
+
+    overflow-x: hidden;
+
+}
+
+.left-sidebar-container {
+
+    width: 15%;  
+    height: 100%;
+    display: flex;
+
+    .sidebar-content-container {
+
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        height: 100%;
+        padding-top: 20px;
+        align-items: center;    
+
+
+        .map-container {
+
+            width: 90%;
+            height: 20%;
+
+        }
+
+        .distribution-chart-container {
+ 
+            width: 90%;
+            height: 20%;            
+            margin-top: 20px;
+
+        }
+    }
+
+
 }
 
 
 .placeholder{
 
     display: flex;
-    flex: 1;
+    flex: 3;
     
 }

@@ -1,15 +1,42 @@
 <div class="component-wrapper">
+
     <div class="spectrogram-list-container" #spectrogramlistcontainerref>
         <div 
             *ngFor='let snippet of this.spectrogramListController.showingSnippets'
             class="spectrogram-container" 
             [style.width]='this.spectrogramListController.spectrogramContainerSize'>
             <app-spectrogram 
+                #spectrogramrefs
                 [snippet]=snippet 
                 (onmouseenterspectrogram)=this.onmouseenterspectrogram.emit($event)
                 (onmouseleavespectrogram)=this.onmouseleavespectrogram.emit($event)
-                (onspectrogramframeclicked)=this.onspectrogramframeclicked.emit($event)
-                ></app-spectrogram>
+                (onspectrogramframeclicked)=this.onspectrogramframeclicked.emit($event)>
+            </app-spectrogram>
         </div>
     </div>
+
+    <div class="controls-container">
+        
+        <div class="audio-controls">
+            <div class="icon-container">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">play_arrow</mat-icon>
+            </div>
+
+            <div class="icon-container">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">pause</mat-icon>
+            </div>
+        </div>
+
+        <div class="page-controls">
+            <mat-paginator 
+                (page)="this.spectrogramListController.on_page_flipped($event)"
+                [length]="this.spectrogramListController.selectedSnippets.length"
+                [pageSize]="this.spectrogramListController.listSize"
+                [pageIndex]=this.spectrogramListController.currentPage>
+            </mat-paginator>
+        </div>
+
+    </div>
+
+    
 </div>

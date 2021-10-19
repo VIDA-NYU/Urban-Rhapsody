@@ -14,15 +14,25 @@ export class OverviewViewMediaController {
 
         // saving component ref
         this.spectrogramlistref = spectrogramlistref;
-        
+
     }
 
     public on_mouse_enter_spectrogram_frame( event: {frame: AudioFrame} ): void {
+
+        // playing audio
         this.audioState.play_frame( event.frame );
+
+         // highlighting
+         this.spectrogramlistref.spectrogramListController.on_mouse_entered_frame( event.frame );
     }
 
     public on_mouse_leave_spectrogram_frame( event: {frame: AudioFrame} ): void {
+
+        // stop playing
         this.audioState.stop_playing();
+
+        // removing highlight
+        this.spectrogramlistref.spectrogramListController.on_mouse_left_frame( event.frame );
     }
 
     public on_click_spectrogram_frame( event: {frame: AudioFrame} ): void {
