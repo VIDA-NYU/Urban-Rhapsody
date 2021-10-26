@@ -56,7 +56,7 @@ export class OverviewViewController {
             await this.dataState.load_data( 'sonyc', { days: [event.day] });
 
             this.projectioListController.flush_projections();
-            await this.projectioListController.add_new_projection();
+            await this.projectioListController.add_new_projection( {projectionaction: 'all'} );
         }
 
         // selecting points that were retrieved by ann       

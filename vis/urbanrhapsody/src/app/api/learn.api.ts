@@ -28,7 +28,7 @@ export class LearnAPI {
 
     }
 
-    public static async load_year_distribution( frames: any, dataset: string ){
+    public static async load_year_distribution( frames: any, k: number ){
 
         // serializing request
         const uids = Serializer.format_calendar_request(frames);
@@ -37,7 +37,7 @@ export class LearnAPI {
         const url = `${environment.aiserver}/getyeardistribution`;
 
         // post parameters
-        const requestParams = { uids, dataset };
+        const requestParams = { uids, k };
 
         // post header
         const headers = {

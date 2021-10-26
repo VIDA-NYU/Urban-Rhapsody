@@ -21,7 +21,7 @@ export class SpectrogramComponent implements OnInit, AfterViewInit {
   // outputs
   @Output('onmouseenterspectrogram') onmouseenterspectrogram: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
   @Output('onmouseleavespectrogram') onmouseleavespectrogram: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
-  @Output('onspectrogramframeclicked') onspectrogramframeclicked: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
+  @Output('onspectrogramframeclicked') onspectrogramframeclicked: EventEmitter<{frame: AudioFrame, mouseEvent: MouseEvent}> = new EventEmitter<{frame: AudioFrame, mouseEvent: MouseEvent}>();
 
   // controller
   public spectrogramController!: SpectrogramController;

@@ -16,7 +16,7 @@ def get_year_distribution():
     ## reading parameters
     requestParams = request.get_json()
 
-    return engine.get_nearest_neighbors(  uids=requestParams['uids'] )
+    return engine.get_nearest_neighbors(  uids=requestParams['uids'], k=requestParams['k'] )
 
 @app.route('/getprototypeyeardistribution', methods=['POST'])
 def get_prototype_year_distribution():

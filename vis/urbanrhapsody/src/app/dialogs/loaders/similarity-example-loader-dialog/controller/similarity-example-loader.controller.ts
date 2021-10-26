@@ -6,10 +6,14 @@ import { AudioSnippet } from "src/app/model/audiosnippet.model";
 import { AudioState } from "src/app/state/audio/audio.state";
 import { DataState } from "src/app/state/data.state";
 import { Deserializer } from "src/app/utils/deserializer.util";
-import { SNIPPETEXAMPLES } from '../../../../utils/constants/constants'; 
+import { SNIPPETEXAMPLES, SNIPPETEXAMPLESLABELS } from '../../../../utils/constants/constants'; 
 import { SnippetExampleComponent } from "../snippet-example/snippet-example.component";
 
 export class SimilarityExampleLoaderController {
+
+    // slider value
+    public sliderValue: number = 100; 
+    public exampleLabels: string[] = SNIPPETEXAMPLESLABELS;
 
     // examples snippets to be shown
     public exampleSnippets: AudioSnippet[] = [];
@@ -76,7 +80,7 @@ export class SimilarityExampleLoaderController {
     public frame_selected( event: {frame: AudioFrame} ): void{
 
         this.selectedFrame = event.frame;
-        this.dataState.load_year_distribution( [this.selectedFrame] )
+        this.dataState.load_year_distribution( [this.selectedFrame], this.sliderValue );
 
     }
 

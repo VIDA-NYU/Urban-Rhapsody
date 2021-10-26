@@ -46,7 +46,7 @@
                 <app-projection-list
                     [prototypestate]='this.overviewViewController.projectioListController.prototypeState'
                     [projections]='this.projectionState.projections'
-                    
+                    (onprojectionactionrequested)='this.overviewViewController.projectioListController.add_new_projection($event)'
                     (onpointsselected)='this.overviewViewController.projectioListController.on_frames_brushed($event); this.overviewViewController.sidebarController.on_frames_brushed($event);'
                     (onlabeliconclicked)='this.overviewViewController.projectioListController.on_label_icon_clicked()'
                     #projectionlistref>

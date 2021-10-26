@@ -5,11 +5,16 @@ import { WEEKDAYS, MONTHS } from '../../../utils/constants/constants';
 
 export class CalendarTimelineController {
 
+    // constants
+    public cellGap: number = 5;
+    public monthGap: number = 20;
+
     // scales
     public xScale!: d3.ScaleSequential<any, any>;
     public yScale!: d3.ScaleBand<any>;
     public colorScale!: d3.ScaleSequential<any, any>;
-    public monthScale!: d3.ScaleBand<any>;
+    // public monthScale!: d3.ScaleBand<any>;
+    public monthScale!: any;
 
     public svg!: any;
     public chartgroup!: d3.Selection<any, any, any, any>;
@@ -29,7 +34,10 @@ export class CalendarTimelineController {
     public generate_base_dataset( yearAudioDistribution: { [ datetime: string ]: { count: number, frames: string[] } } ) {
 
         // year distribution dates
-        const yearDistribution: { date: Date, amount: number, week: number }[] = [];
+        const yearDistribution: { date: Date, amount: number, week: number, distribution: any[] }[][] = [];
+        for(let i = 0; i < 12; i++ ){
+            yearDistribution.push([]);
+        }
 
         // let currentDate: Date = new Date(Date.parse('2017-01-01'));
         // const startDate: Date = new Date(Date.parse('2017-01-01'));
@@ -53,7 +61,9 @@ export class CalendarTimelineController {
 
             }
 
-            yearDistribution.push( { date: new Date(currentDate), amount: currentAmount, week: weekNumber.length } );
+            const currentDateCopy: Date = new Date(currentDate);
+            const currentObj: { date: Date, amount: number, week: number,  distribution: any[] } = { date: currentDateCopy, amount: currentAmount, week: weekNumber.length, distribution: [{ period: 1, dayamount: currentAmount }, { period: 2, dayamount: currentAmount }, { period: 3, dayamount: currentAmount }] }
+            yearDistribution[currentDateCopy.getMonth()].push( currentObj );
             
 
             // incrementing date
@@ -90,10 +100,10 @@ export class CalendarTimelineController {
         const width: number = container.offsetWidth;
         const height: number = container.offsetHeight;
 
-        if( !this.xScale ) this.xScale = ChartUtils.create_sequential_scale( [0, 53], [0, width - this.margins.left - this.margins.right] );
+        
         if( !this.yScale ) this.yScale = ChartUtils.create_band_scale( WEEKDAYS, [0, height - this.margins.top - this.margins.bottom] );
-        // if( !this.colorScale ) this.colorScale = ChartUtils.create_color_scale( [0, 10] );
-        if( !this.monthScale ) this.monthScale = ChartUtils.create_band_scale( MONTHS, [0, width - this.margins.left - this.margins.right] );
+        if( !this.monthScale ) this.monthScale = ChartUtils.create_band_scale( MONTHS, [0, width - this.margins.left - this.margins.right  ] );
+        if( !this.xScale ) this.xScale = ChartUtils.create_sequential_scale( [0, 6], [0, this.monthScale.bandwidth() - this.monthGap] );
 
         this.update_x_axis();
         this.update_y_axis();
@@ -103,13 +113,12 @@ export class CalendarTimelineController {
 
         this.xAxisGroup = this.svg
             .append('g')
-            .style('font-size', 15)
+            .style('font-size', 20)
             .style('font-weight', 900)
             .style('color', '#8c8f94')
             .attr('transform', 'translate(' + (this.margins.left) + ',' + (this.margins.top - 5 ) + ')')
             .call(d3.axisTop(this.monthScale).tickSize(0))
             .select(".domain").remove();
-
 
     }
 
@@ -136,47 +145,97 @@ export class CalendarTimelineController {
         const dataset: any = this.generate_base_dataset( yearDistribution );
         
         // set transitions
-        const t = this.svg.transition().duration(750);
+        const t = this.svg.transition().duration(400);
 
         // cell dimensions
         const cellWidth: number = this.xScale(1) - this.xScale(0);
         const cellHeight: number = this.yScale.bandwidth();
-        const cellGap: number = 5;
 
-        this.chartgroup
-            .selectAll('.day-cell')
+        // appending month groups
+        const months = this.chartgroup
+            .selectAll('.month-group')
             .data( dataset )
             .join(
                 (enter: any) => enter
-                    .append('rect')
-                    .attr('class', 'day-cell')
-                    .attr('x', (d: any) => this.xScale(d.week) - cellGap/2 )
-                    .attr('y', (d: any) =>  this.yScale(WEEKDAYS[d.date.getDay()]) )
-                    .attr('rx', 3)
-                    .attr('ry', 3)
-                    .attr('width', cellWidth - cellGap)
-                    .attr('height', cellHeight - cellGap )
-                    .style('stroke', '#dcdcde')
-                    .style('stroke-width', 3)
-                    .style('stroke-radius', '5px')
-                    .style('cursor', 'pointer')
-                    .on('mouseover', (event: any, d: any ) => { return d3.select( event.srcElement ).style('stroke', '#8c8f94') })
-                    .on('mouseout', (event: any) => {  d3.select( event.srcElement ).style('stroke', '#dcdcde') })
-                    .on('click', (event: MouseEvent, currentDatetime: { date: Date, amount: number, week: number } ) => { this.cell_click_handler( currentDatetime ) } )
-                    .attr('fill', (d: any) => { return this.colorScale(d.amount)} ),
-                (update: any) => update.transition(t).attr('fill', (d: any) => this.colorScale(d.amount) ),
-                (exit: any) => exit.remove()
-                
+                    .append('g')
+                    .attr('class', 'month-group')
+                    .attr('transform', ( yearData: { date: Date, amount: number, week: number }[], index: number ) => 'translate(' + ( this.monthScale(MONTHS[index]) ) + ',' + 0 + ')')     
             );
+
+        const cells = months
+        .selectAll('.day-cell')
+        .data( ( monthData: any ) => monthData )
+        .join(
+            (enter: any) => enter
+                .append('rect')
+                .attr('class', 'day-cell')
+                .attr('x', (monthData: { date: Date, amount: number, week: number } ) => { 
+                    const firstDayOfTheMonth: Date = new Date(  monthData.date.getFullYear(), monthData.date.getMonth(), 1 )
+                    const timeInWeeks: any = d3.timeWeek.count( firstDayOfTheMonth, monthData.date );
+                    return this.xScale(timeInWeeks);
+                })
+                .attr('y', (monthData: { date: Date, amount: number, week: number } ) => this.yScale(WEEKDAYS[ monthData.date.getDay()]) )
+                .attr('rx', 3)
+                .attr('ry', 3)
+                .attr('width', cellWidth - this.cellGap)
+                .attr('height', cellHeight - this.cellGap)
+                .attr('fill', (d: any) => { return this.colorScale(d.amount)} )
+                .style('stroke', '#dcdcde')
+                .style('stroke-width', 3)
+                .style('stroke-radius', '5px')
+                .style('cursor', 'pointer')
+                .on('mouseover', (event: any, d: any ) => { return d3.select( event.srcElement ).style('stroke', '#8c8f94') })
+                .on('mouseout', (event: any) => {  d3.select( event.srcElement ).style('stroke', '#dcdcde') })
+                .on('click', (event: MouseEvent, currentDatetime: { date: Date, amount: number, week: number } ) => { this.cell_click_handler( currentDatetime ) } ),
+            (update: any) => update.transition(t).attr('fill', (d: any) => { return this.colorScale(d.amount) } ),
+            (exit: any) => exit.selectAll('.day-cell').remove()
+        )
+        
+
+
+        /** IMPLEMENTATION WITH DAILY DISTRIBUTION */
+        //  bar dimensions
+        // const barXScale: d3.ScaleSequential<number, number> = ChartUtils.create_sequential_scale( [0, 3], [0, cellWidth] );
+        // const barYScale: d3.ScaleSequential<number, number> = ChartUtils.create_sequential_scale( [0, 4], [0, cellHeight] );
+        // const barWidth = barXScale(1) - barXScale(0);
+
+        // const days = months
+        //     .selectAll('.day-group')
+        //     .data( ( monthData: any ) => monthData )
+        //     .join(
+        //         (enter: any) => enter
+        //             .append('g')
+        //             .attr('class', 'day-group')
+        //             .attr('transform', ( dayData: any, index: number ) => {  
+        //                 const firstDayOfTheMonth: Date = new Date(  dayData.date.getFullYear(), dayData.date.getMonth(), 1 )
+        //                 const timeInWeeks: any = d3.timeWeek.count( firstDayOfTheMonth, dayData.date );
+        //                 this.yScale(WEEKDAYS[ dayData.date.getDay()])
+        //                 return 'translate(' + this.xScale(timeInWeeks) + ',' + this.yScale(WEEKDAYS[ dayData.date.getDay()]) + ')'} ) 
+        //     )
+
+        
+        // const periods = days
+        //     .selectAll('.hour-bar')
+        //     .data( ( dayData: any ) => { return dayData.distribution } )
+        //     .join(
+        //         (enter: any) => enter
+        //             .append('rect')
+        //             .attr('class', 'hour-bar')
+        //             .attr('x', ( data: any, index: any ) => { return barXScale(index); } )
+        //             .attr('y', ( data: any, index: any ) => cellHeight - barYScale(data.period) )
+        //             .attr('width', barWidth )
+        //             .attr('height',( data: any, index: any ) => { return barYScale(data.period); } )
+        //             .attr('fill', (data: any) => { return this.colorScale(data.dayamount)} ),
+        //         (update: any) => update
+        //             .attr('y', ( data: any, index: any ) =>  barYScale(data.period) )
+        //             .attr('height',( data: any, index: any ) => { return cellHeight - barYScale(data.period); } ),
+        //         (exit: any) => exit.remove()
+        //     )
 
         // firing event when finished rendering
         this.events['onchartrendered'].emit();
 
+
     }
-
-
-
-
-
 
 }

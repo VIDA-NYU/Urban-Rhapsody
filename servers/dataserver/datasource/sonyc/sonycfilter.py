@@ -29,7 +29,6 @@ class SONYCFilter:
             currentSnippet = SONYCFilter.format_snippet_metadata_by_example( example )
             listOfSnippets.append(currentSnippet)
 
-        print(listOfSnippets)
         return listOfSnippets
 
     def format_snippet_metadata_by_example( example ):

@@ -59,12 +59,23 @@ export class DataState {
     } 
 
     // loads the year distribution of similar events
-    public async load_year_distribution( frames: AudioFrame[] ): Promise<void> {
+    public async load_year_distribution( frames: AudioFrame[], k: number ): Promise<void> {
 
+        // flushing loaded data before load new data
         this.flush_loaded_data();
 
-        const response: any = await LearnAPI.load_year_distribution( frames, 'UST');
+        const response: any = await LearnAPI.load_year_distribution( frames, k );
+        console.log(response);
+        
         _.forEach( response, yeardistribution => {
+
+            let counter: number = 0
+            _.forOwn( yeardistribution, value =>{
+                counter += value.count;
+            })
+            console.log(counter);
+
+
             this.yearAudioDistribution = yeardistribution;
         });
 

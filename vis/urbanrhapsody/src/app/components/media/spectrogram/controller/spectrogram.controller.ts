@@ -14,6 +14,8 @@ import { MediaAPI } from "src/app/api/media.api";
 
 export class SpectrogramController {
 
+    public contextMenu!: any;
+
     // svg selection
     public svg!: d3.Selection<any,any,any,any>;
 
@@ -87,7 +89,7 @@ export class SpectrogramController {
                     .style('opacity', (frame: AudioFrame) => this.opacity_picker( frame ) )
                     .on('mouseenter', (event: MouseEvent, frame: AudioFrame ) => { this.on_mouse_enter_handler( frame ); })
                     .on('mouseleave', (event: MouseEvent, frame: AudioFrame) => { this.on_mouse_leave_handler( frame ); })
-                    .on('click', (event: MouseEvent, frame: AudioFrame) => { this.on_click_handler( frame ) }),
+                    .on('click', (event: MouseEvent, frame: AudioFrame) => { this.on_click_handler( event, frame ) }),
                 update => 
                     update
                         .attr('fill', (frame: AudioFrame) => this.fill_picker( frame ) )
@@ -99,7 +101,6 @@ export class SpectrogramController {
 
 
     /****************** PRIVATE METHODS ******************/
-
     // api calls
     private get_spectrogram_encoding( audioSnippet: AudioSnippet ): void{
         MediaAPI.get_encoded_spectrogram( audioSnippet ).then( response => {
@@ -116,8 +117,8 @@ export class SpectrogramController {
         this.eventEmitters.onmouseleavespectrogram.emit({ frame });
     }
 
-    private on_click_handler( frame: AudioFrame ): void {
-        this.eventEmitters.onspectrogramframeclicked.emit({ frame });
+    private on_click_handler( mouseEvent: MouseEvent, frame: AudioFrame ): void {   
+        this.eventEmitters.onspectrogramframeclicked.emit({ frame, mouseEvent });
     }
 
 

@@ -15,7 +15,7 @@ def get_ann():
     requestParams = request.get_json()
 
     ## calculating ann
-    return engine.get_daily_ann( requestParams['vector'] )
+    return engine.get_daily_ann( requestParams['vector'], requestParams['k'] )
 
 @app.route('/heartbeat', methods=['GET'])
 def heartbeat():
@@ -27,4 +27,4 @@ if __name__ == '__main__':
 
     ## Starting Server
     print('Server is online...')
-    app.run(host='0.0.0.0', port=5003, debug=True)
+    app.run(host='0.0.0.0', port=5003, debug=True, use_reloader=False)

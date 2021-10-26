@@ -16,7 +16,7 @@ export class SnippetExampleComponent implements OnInit, AfterViewInit {
   // event emitters
   @Output('onmouseenterspectrogram') onmouseenterspectrogram: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
   @Output('onmouseleavespectrogram') onmouseleavespectrogram: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
-  @Output('onspectrogramframeclicked') onspectrogramframeclicked: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
+  @Output('onspectrogramframeclicked') onspectrogramframeclicked: EventEmitter<{frame: AudioFrame, mouseEvent: MouseEvent}> = new EventEmitter<{frame: AudioFrame, mouseEvent: MouseEvent}>();
 
   // refs
   @ViewChild('spectrogramref') spectrogramref!: SpectrogramComponent;

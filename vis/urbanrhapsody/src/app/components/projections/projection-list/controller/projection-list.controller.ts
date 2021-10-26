@@ -13,10 +13,12 @@ export class ProjectionListController {
         this.projectionComponents = projectionrefs;
     }
 
-    public select_frames( frames: AudioFrame[] ): void {
+    public select_frames( frames: AudioFrame[], projectionUID: string = '' ): void {
 
         this.projectionComponents.forEach( ( projection: ProjectionComponent ) => {
-            projection.projectionController.select_points( frames );
+            if( projection.projectionController.projection.id !== projectionUID ){
+                projection.projectionController.select_points( frames );
+            }
         });
 
     }

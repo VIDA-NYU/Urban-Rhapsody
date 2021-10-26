@@ -1,47 +1,66 @@
 <div class="component-wrapper">
 
     <div class="body">
-        <div class="examples-list-container">
-            
-            <mat-accordion>
-                <mat-expansion-panel hideToggle *ngFor='let snippet of this.similarityExampleLoaderController.exampleSnippets'>
-                    <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        The label goes here
-                    </mat-panel-title>
-                    <!-- <mat-panel-description>
-                        This is a summary of the content
-                    </mat-panel-description> -->
-                    </mat-expansion-panel-header>
-                    <div class="example-container">
-                        <app-snippet-example 
-                            #snippetexampleref
-                            [snippet]=snippet
-                            (onmouseenterspectrogram)='this.similarityExampleLoaderController.mouse_entered_frame( $event )'
-                            (onmouseleavespectrogram)='this.similarityExampleLoaderController.mouse_left_frame( $event )'
-                            (onspectrogramframeclicked)='this.similarityExampleLoaderController.frame_selected( $event )'>
-                        </app-snippet-example>
-                    </div>
-                </mat-expansion-panel>
-            </mat-accordion>
 
-        </div>
+            <div class="slider-wrapper">
+
+                <div class="slider-title">
+                    <h4>Query Size</h4>
+                </div>
+
+                <div class="slider-body">
+    
+                    <div class="slider-container">
+                        <mat-slider thumbLabel min="10" max="10000" step="1" value="100" [(ngModel)]=this.similarityExampleLoaderController.sliderValue ></mat-slider>
+                    </div>
+                    
+                </div>
+                
+            </div>
+    
+            <div class="examples-list-container">
+    
+                <div class="example-list-title">
+                    <h4>Examples</h4>
+                </div>
+    
+                <div class="example-list-body">
+    
+                    <div class="scrolable-container">
+                        <mat-accordion>
+                            <mat-expansion-panel hideToggle *ngFor='let snippet of this.similarityExampleLoaderController.exampleSnippets; let i = index;'>
+                                <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <h3>{{ this.similarityExampleLoaderController.exampleLabels[i] }}</h3>
+                                </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="example-container">
+                                    <app-snippet-example 
+                                        #snippetexampleref
+                                        [snippet]=snippet
+                                        (onmouseenterspectrogram)='this.similarityExampleLoaderController.mouse_entered_frame( $event )'
+                                        (onmouseleavespectrogram)='this.similarityExampleLoaderController.mouse_left_frame( $event )'
+                                        (onspectrogramframeclicked)='this.similarityExampleLoaderController.frame_selected( $event )'>
+                                    </app-snippet-example>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+    
+                </div>
+
+            </div>
+
     </div>
 
     <div class="footer">
 
         <button 
+            (click)=this.parentdialogref.close()
             class="loader-dialog-button"
             mat-stroked-button 
             color="primary">
             Cancel
-        </button>
-
-        <button 
-            class="loader-dialog-button"
-            mat-stroked-button 
-            color="primary">
-            Load
         </button>
 
     </div>

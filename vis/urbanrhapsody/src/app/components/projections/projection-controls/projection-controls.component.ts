@@ -15,6 +15,7 @@ export class ProjectionControlsComponent implements OnInit, AfterViewInit {
   @Output('onbrushset') onbrushset: EventEmitter<any> = new EventEmitter<any>();
   @Output('onlabeliconclicked') onlabeliconclicked: EventEmitter<void> = new EventEmitter<void>();
   @Output('onnewcolorscaleselected') onnewcolorscaleselected: EventEmitter<any> = new EventEmitter<any>();
+  @Output('ondeletebuttonclicked') ondeletebuttonclicked: EventEmitter<{projectionUID: string}> = new EventEmitter<{projectionUID: string}>();
 
   // inputs
   @Input('projection') projection!: Projection;

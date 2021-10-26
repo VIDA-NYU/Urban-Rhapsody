@@ -15,6 +15,7 @@ import { Deserializer } from 'src/app/utils/deserializer.util';
 
 // state
 import { DataState } from "../data.state";
+import { ProjectionFilters } from "src/app/utils/filters/projectionFilters.utils";
 
 @Injectable({
     providedIn: 'root'
@@ -30,7 +31,7 @@ export class ProjectionState {
     // loading projection
     public isLoadingProjection: boolean = false;
 
-    public async add_new_projection( projectionType: string, params: any = {} ): Promise<void> {
+    public async add_new_projection( projectionAction: string, projectionType: string,  params: any = {} ): Promise<void> {
 
         // setting loading flag
         this.isLoadingProjection = true;
@@ -40,7 +41,8 @@ export class ProjectionState {
         const projectionID: string = MiscUtils.UID_generator();
 
         const frames: { [frameKey: string]: AudioFrame } = this.dataState.indexedFrames;
-        const requestUIDs: { [frameKey: string]: any }  = Serializer.format_uids_projection_request_sonyc( Object.values(frames) );
+        const filteredFrames: AudioFrame[] = ProjectionFilters.filter_proxy( projectionAction, frames, this.dataState.selectedFrames )
+        const requestUIDs: { [frameKey: string]: any }  = Serializer.format_uids_projection_request_sonyc( filteredFrames );
 
         // requesting new projection
         const response: any = await LearnAPI.generate_projection( 

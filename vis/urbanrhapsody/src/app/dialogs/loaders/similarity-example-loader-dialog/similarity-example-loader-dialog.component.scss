@@ -1,8 +1,6 @@
 :host {
     width: 100%;
     height: 100%;
-
-    background-color: aqua;
 }
 
 .component-wrapper{
@@ -16,18 +14,106 @@
     width: 100%;
     height: 90%;
 
-    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.slider-wrapper{
+
+    width: 90%;
+    height: 120px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .slider-title {
+
+        width: 20%;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background-color: #1F3F49;
+
+        
+
+        h4 {
+            color: white;
+            margin: 0 0 0px;
+        }
+    
+    }
+
+    .slider-body{
+
+        width: 100%;
+        height: 50px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #1F3F49;
+
+        .slider-container{
+
+            
+            width: 90%;
+            height: 100%;
+        }
+
+    }
+
 }
 
 .examples-list-container {
 
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
+    width: 90%;
+    height: 50%;
 
+    display: flex;
+    flex-direction: column;
+    // position: absolute;
+
+}
+
+.example-list-title{
+
+    width: 20%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #1F3F49;
+
+    h4 {
+        color: white;
+        margin: 0 0 0px;
+    }
+
+}
+
+.example-list-body{
+
+    width: 100%;
+    height: 80%;
+    border: 1px solid #1F3F49;
+    position: relative;
+
+    .scrolable-container{
+
+        top: 0;  
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow-y: scroll;
+
+    }   
 }
 
 .example-container{
@@ -35,9 +121,10 @@
     width: 100%;
     height: 200px;
 
-}
+}   
 
 .footer{
+
     width: 100%;
     height: 10%;
     

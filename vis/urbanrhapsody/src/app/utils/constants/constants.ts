@@ -22,4 +22,15 @@ export const SNIPPETEXAMPLES: { sensorID: string, day: string, snippetID: string
         { sensorID: 'u01', day: '1992-03-17', snippetID: '01_000126'},
         { sensorID: 'u01', day: '1992-03-17', snippetID: '01_000006'},
         
-    ]
+    ];
+
+export const SNIPPETEXAMPLESLABELS: string[] = [
+    'engine',
+    'machinery-impact',
+    'non-machinery-impact',
+    'powered-saw',
+    'alert-signal',
+    'music',
+    'human-voice',
+    'dog'
+]

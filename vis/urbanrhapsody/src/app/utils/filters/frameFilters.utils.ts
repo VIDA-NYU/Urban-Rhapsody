@@ -20,8 +20,6 @@ export class FrameFilters {
     }
 
 
-  
-
     public static filter_by_uid( audioFrames: { [frameKey: string]: AudioFrame }, params: any = {} ): {frames: AudioFrame[], snippets: AudioSnippet[]} {
 
         // selected frames
@@ -39,7 +37,6 @@ export class FrameFilters {
             selectedSnippets.add( currentFrame.get_snippet() );
 
         });
-        
 
 
         return { frames: selectedFrames, snippets: Array.from(selectedSnippets.values()) };

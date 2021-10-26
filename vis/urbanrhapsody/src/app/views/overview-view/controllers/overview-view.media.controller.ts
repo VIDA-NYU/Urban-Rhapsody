@@ -35,8 +35,10 @@ export class OverviewViewMediaController {
         this.spectrogramlistref.spectrogramListController.on_mouse_left_frame( event.frame );
     }
 
-    public on_click_spectrogram_frame( event: {frame: AudioFrame} ): void {
-        console.log(event);
+    public on_click_spectrogram_frame( event: {frame: AudioFrame, mouseEvent: MouseEvent} ): void {
+
+        console.log('frame: ',  event.frame)
+        console.log('mouse event: ', event.mouseEvent);
     }
 
 }

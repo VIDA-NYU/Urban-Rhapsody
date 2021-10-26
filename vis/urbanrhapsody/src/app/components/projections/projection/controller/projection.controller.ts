@@ -134,6 +134,7 @@ export class ProjectionController{
             scaleDefault: 0.2,
             scaleSelected: 2.0,
             scaleHover: 1.2,
+            fillOpacity: 0.5
         }
 
         return pointStyle;

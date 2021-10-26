@@ -16,10 +16,11 @@ export class OverviewViewProjectionsController {
         public dialogManager: DialogManager,
         public prototypeState: PrototypeState ){}
 
-    public async add_new_projection( ): Promise<void> {
+    public async add_new_projection( event: {projectionaction: string} ): Promise<void> {
 
         // adding new projection
-        await this.projectionState.add_new_projection('umap', {} );
+        await this.projectionState.add_new_projection( event.projectionaction, 'umap', {} );
+        
     }
 
     public flush_projections(): void {
@@ -47,11 +48,14 @@ export class OverviewViewProjectionsController {
 
     }
 
-    public on_frames_brushed( event: { frames: AudioFrame[] } ): void{
+    public on_frames_brushed( event: { frames: AudioFrame[], projectionID: string } ): void{
 
         // selecting frames
         const uids: string[] = event.frames.map( frame => frame.uid );
         this.dataState.select_frames( { filtertype: 'uids', uids } );
+
+        // updating other projections
+        this.projectionlistref.projectionListController.select_frames( event.frames, event.projectionID );
 
     }
 

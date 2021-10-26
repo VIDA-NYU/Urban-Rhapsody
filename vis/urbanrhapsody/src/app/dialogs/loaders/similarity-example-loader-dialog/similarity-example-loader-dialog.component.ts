@@ -6,6 +6,7 @@ import { SimilarityExampleLoaderController } from './controller/similarity-examp
 import { SnippetExampleComponent } from './snippet-example/snippet-example.component';
 import { DataLoaderDialogComponent } from '../data-loader-dialog/data-loader-dialog.component';
 
+
 @Component({
   selector: 'app-similarity-example-loader-dialog',
   templateUrl: './similarity-example-loader-dialog.component.html',
@@ -27,7 +28,7 @@ export class SimilarityExampleLoaderDialogComponent implements OnInit, AfterView
   ngOnInit(): void {}
 
   ngAfterViewInit(): void{
-
+    
     // initializing controller    
     this.similarityExampleLoaderController.initialize_controller( this.snippetexamplerefs, this.audioState, this.dataState );
 

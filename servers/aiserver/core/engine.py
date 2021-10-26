@@ -15,12 +15,12 @@ class Engine:
 
     ################## ANN ##################
     
-    def get_nearest_neighbors( self, uids, embeddingModel: str = 'openl3' ):
+    def get_nearest_neighbors( self, uids, k=50, embeddingModel: str = 'openl3' ):
 
         embeddings = Datasource.get_embeddings( uids=uids, embeddingModel=embeddingModel )
         
         for uid in embeddings:
-            embeddings[uid] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[uid].tolist(), k=50 )
+            embeddings[uid] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[uid].tolist(), k=k )
 
         return json.dumps( embeddings )
 

@@ -24,7 +24,7 @@ export class Deserializer {
 
             const currentSnippetFrames: AudioFrame[] = [];
             _.forEach( audioSnippet.frames, rawframe =>{
-                
+
                 // frame metadata
                 const frameMetadata: AudioFrameMeta = ObjectFactory.create_frame_metadata( rawframe.metadata );
 
@@ -45,6 +45,7 @@ export class Deserializer {
 
         });
 
+        console.log(indexedFrames);
 
         return {indexedSnippets, indexedFrames};
 

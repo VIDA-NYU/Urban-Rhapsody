@@ -19,8 +19,8 @@ class Engine:
         self.metadb = MetaDB()
 
 
-    def get_daily_ann(self, featurevector ):
+    def get_daily_ann(self, featurevector, k ):
 
-        indices = self.indexdb.get_nearest_neighbors( np.array(featurevector) )
+        indices = self.indexdb.get_nearest_neighbors( np.array(featurevector), k )
         dailyCount = self.metadb.get_daily_count( indices )
         return json.dumps(dailyCount)
