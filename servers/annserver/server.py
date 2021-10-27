@@ -19,7 +19,7 @@ def get_ann():
 
 @app.route('/heartbeat', methods=['GET'])
 def heartbeat():
-    return jsonify({"response": "I'm alive"})
+    return jsonify({"response": "Im alive"})
 
 if __name__ == '__main__':
 
@@ -27,4 +27,4 @@ if __name__ == '__main__':
 
     ## Starting Server
     print('Server is online...')
-    app.run(host='0.0.0.0', port=5003, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=5003, debug=True)
