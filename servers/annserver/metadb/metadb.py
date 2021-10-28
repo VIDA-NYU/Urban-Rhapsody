@@ -36,15 +36,10 @@ class MetaDB:
             dailyCount[currentobj['day']]['count'] += 1
             dailyCount[currentobj['day']]['frames'].append(frameuid)
 
-            print(currentobj)
+            # frame path
+            framePath = { 'embeddingIndex': currentobj['index'], 'sensorID': currentobj['sensorid'], 'day': currentobj['day'], 'snippetID': currentobj['filename'].split('.')[0] }
+            dailyCount[currentobj['day']]['paths'].append(framePath)
 
-            ## frame path
-            # dailyCount[currentobj['day']]['paths'].append(frameuid)
-
-            # embeddingIndex: frame.embeddingIndex,
-            # sensorID: frame.audioSnippet.metadata.sensorID,
-            # day: frame.audioSnippet.metadata.localdate,
-            # snippetID: frame.audioSnippet.uid
 
         return dailyCount
             
