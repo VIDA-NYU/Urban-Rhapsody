@@ -37,8 +37,24 @@ export class OverviewViewMediaController {
 
     public on_click_spectrogram_frame( event: {frame: AudioFrame, mouseEvent: MouseEvent} ): void {
 
-        console.log('frame: ',  event.frame)
-        console.log('mouse event: ', event.mouseEvent);
+        if( event.mouseEvent.altKey ){
+
+            if(event.frame.is_selected()) {
+
+                // updating data state
+                this.dataState.remove_frames_from_current_selection( [event.frame] );
+            
+            } else {
+                
+                // updating data state
+                this.dataState.add_frames_to_current_selection( [event.frame] );
+
+            }
+
+            // updating spectrograms
+            this.spectrogramlistref.spectrogramListController.update_spectrograms();
+
+        } 
     }
 
 }

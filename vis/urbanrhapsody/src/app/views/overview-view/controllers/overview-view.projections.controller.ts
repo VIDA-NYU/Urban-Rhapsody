@@ -2,6 +2,7 @@ import { ProjectionListComponent } from "src/app/components/projections/projecti
 import { DialogManager } from "src/app/dialogs/dialog-manager.service";
 import { AudioFrame } from "src/app/model/audioframe.model";
 import { DataState } from "src/app/state/data.state";
+import { LabelingState } from "src/app/state/labeling/labeling.state";
 import { ProjectionState } from "src/app/state/projections/projections.state";
 import { PrototypeState } from "src/app/state/prototype/prototype.state";
 
@@ -14,7 +15,8 @@ export class OverviewViewProjectionsController {
         public dataState: DataState, 
         public projectionState: ProjectionState, 
         public dialogManager: DialogManager,
-        public prototypeState: PrototypeState ){}
+        public prototypeState: PrototypeState,
+        public labelingState: LabelingState ){}
 
     public async add_new_projection( event: {projectionaction: string} ): Promise<void> {
 

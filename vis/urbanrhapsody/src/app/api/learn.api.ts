@@ -55,13 +55,13 @@ export class LearnAPI {
 
     }
 
-    public static async load_prototype_year_distribution( prototypeName: string ){
+    public static async load_prototype_year_distribution( prototypeName: string, querySize: number, modelConfidence: number ){
 
         // url
         const url = `${environment.aiserver}/getprototypeyeardistribution`;
 
         // post parameters
-        const requestParams = { prototypeName };
+        const requestParams = { prototypeName, querySize, modelConfidence };
 
         // post header
         const headers = {

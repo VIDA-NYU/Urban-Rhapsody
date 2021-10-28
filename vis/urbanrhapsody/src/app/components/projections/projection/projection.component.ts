@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Outp
 import { AudioFrame } from 'src/app/model/audioframe.model';
 import { Projection } from 'src/app/model/projection.model';
 import { PrototypeState } from 'src/app/state/prototype/prototype.state';
+import { ProjectionLegendComponent } from '../projection-legend/projection-legend.component';
 import { ProjectionController } from './controller/projection.controller';
 
 @Component({
@@ -13,6 +14,7 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
 
   // DOM REFS
   @ViewChild('projectionContainer') projectionContainer!: ElementRef;
+  @ViewChild('projectionelegendref') projectionelegendref!: ProjectionLegendComponent;
 
   // inputs
   @Input('projection') projection!: Projection;
@@ -20,6 +22,7 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
   // TODO: Refactor these services as input
   @Input('prototypestate') prototypestate!: PrototypeState;
   // @Input('labelingstate') labelingstate!: LabelingState;
+  @Input('availablelabels') availablelabels: string[] = [];
 
   // projection event emitters
   @Output('onpointsselected') onpointsselected: EventEmitter<{'frames': AudioFrame[], 'projectionID': string}> = new EventEmitter<{'frames': AudioFrame[], 'projectionID': string}>(); 
@@ -27,7 +30,6 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
 
   // controls event emitters
   @Output('onlabeliconclicked') onlabeliconclicked: EventEmitter<void> = new EventEmitter<void>();
-
 
   // component controller
   public projectionController!: ProjectionController;
@@ -44,7 +46,7 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
 
     // initializing projection
     this.projectionController = new ProjectionController( this.projection );
-    this.projectionController.initialize_projection( this.projectionContainer.nativeElement, events );
+    this.projectionController.initialize_projection( this.projectionContainer.nativeElement, this.projectionelegendref, events );
 
     // setting loaded flag
     this.onprojectionloaded.emit();

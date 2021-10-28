@@ -30,11 +30,12 @@ class PrototypeManager:
         positiveFeatures = Datasource.get_embeddings( uids=positiveFeatures, embeddingModel='openl3' )
         
         ## generating random sample
-        randomSamples = Datasource.get_random_sample( len(positiveFeatures) )
+        randomSamples = Datasource.get_random_sample( len(positiveFeatures) * 2 )
         randomSamples = Datasource.get_embeddings( uids=randomSamples, embeddingModel='openl3' )
 
         ## calculating representatives
-        representativeVectors = Clusterer.calculate_representatives( positiveFeatures )
+        # representativeVectors = Clusterer.calculate_representatives( positiveFeatures )
+        representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
 
         # training the model
         model = Modeling.train_logistic_regression( positiveFeatures, randomSamples )

@@ -27,6 +27,10 @@ export class AudioFrameMeta{
 
     }
 
+    public has_label( label: string ): boolean{
+        return this.labels.has(label);
+    }
+
     public get_labels(): string[] {
 
         return Array.from(this.labels.values());

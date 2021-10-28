@@ -12,7 +12,8 @@ export class ProjectionColorsController {
         switch( attributeName ){
 
             case 'prototype': return this.get_prototype_colorer(colorScale, attributeValue, projection);
-            default: return this.get_defaut_colorer();
+            case 'label': return this.get_label_colorer( colorScale, attributeValue, projection);
+            default: return this.get_defaut_colorer( colorScale, attributeValue, projection );
         }
     }
 
@@ -25,13 +26,25 @@ export class ProjectionColorsController {
 
     }
 
-    private get_defaut_colorer(): PointColorer {
-        
+    private get_label_colorer( colorScale: any, attributeValue: any, projection: Projection ): PointColorer {
+
         return (i, selectedIndices, hoverIndex) => { 
-            return 'blue';
+            const presence: boolean = projection.points[i].metadata.has_label(attributeValue);
+            return colorScale( `${presence}` );
         }
+
     }
 
+    private get_defaut_colorer( colorScale: any, attributeValue: any, projection: Projection ): PointColorer {
+        
+        return (i, selectedIndices, hoverIndex) => { 
+            
+            const selected: boolean = projection.points[i].is_selected();
+            // const color: string = selected ?  `hsla(${204}, 100%, 50%, 1)` : `hsla(${76}, 100%, 50%, 0.05)`;
+            // return color;
+            return colorScale( `${selected}` );
+        }
+    }
 
     // creating color scales
     public get_color_scale( attributeName: string ): any {
@@ -39,13 +52,22 @@ export class ProjectionColorsController {
         switch( attributeName ){
 
             case 'prototype': return this.get_prototype_color_scale();
-            default: return '#E0E0E0';
+            case 'label': return this.get_label_color_scale();
+            default: return this.get_default_color_scale();
             
         }
     }
 
+    private get_default_color_scale(): d3.ScaleOrdinal<any, any>{
+        return ChartUtils.create_ordinal_color_scale( ['true', 'false'] );
+    }
+
     private get_prototype_color_scale(): d3.ScaleSequential<any, any> {
         return ChartUtils.create_sequential_color_scale( [0, 1] );
+    }
+
+    private get_label_color_scale(): d3.ScaleOrdinal<any, any> {
+        return ChartUtils.create_ordinal_color_scale( [ 'true', 'false' ] );
     }
 
 }

@@ -40,6 +40,40 @@ export class DataState {
         return Object.keys(this.yearAudioDistribution ).length > 0;
     }
 
+    public add_frames_to_current_selection( frames: AudioFrame[] ): void {
+
+        _.forEach( frames, ( frame: AudioFrame ) => {
+
+            // setting frame selection
+            const currentFrame: AudioFrame = this.indexedFrames[ frame.uid ];
+            currentFrame.set_selection(true)
+
+            // adding to list of selected frames
+            this.selectedFrames.push( frame );
+        });
+
+    }
+
+    public remove_frames_from_current_selection( frames: AudioFrame[] ): void {
+
+        // frames to unselecting
+        const framesToUnselect: Set<AudioFrame> = new Set<AudioFrame>();
+
+        _.forEach( frames, (frame: AudioFrame) => {
+
+            const currentFrame: AudioFrame = this.indexedFrames[ frame.uid ];
+            framesToUnselect.add(currentFrame);
+
+        });
+
+        // unselecting
+        FrameFilters.unselect_all( Array.from(framesToUnselect.values()) );
+
+        // updating selected frames
+        this.selectedFrames = this.selectedFrames.filter( (frame: AudioFrame) => !framesToUnselect.has(frame) );
+        
+    }
+
     public select_frames( params: any = {} ): void {
 
         let selection: { frames: AudioFrame[], snippets: AudioSnippet[] };
@@ -65,17 +99,8 @@ export class DataState {
         this.flush_loaded_data();
 
         const response: any = await LearnAPI.load_year_distribution( frames, k );
-        console.log(response);
         
         _.forEach( response, yeardistribution => {
-
-            let counter: number = 0
-            _.forOwn( yeardistribution, value =>{
-                counter += value.count;
-            })
-            console.log(counter);
-
-
             this.yearAudioDistribution = yeardistribution;
         });
 
@@ -85,13 +110,15 @@ export class DataState {
     } 
 
     // loads the year distribution of similar events
-    public async load_prototype_year_distribution( prototypeName: string ): Promise<void> {
+    public async load_prototype_year_distribution( prototypeName: string, querySize: number, modelConfidence: number ): Promise<void> {
 
+            // flushing previously loaded data
             this.flush_loaded_data();
 
-            const response: any = await LearnAPI.load_prototype_year_distribution( prototypeName );
-            console.log('Response', response);
-
+            // requesting prototype data
+            const response: any = await LearnAPI.load_prototype_year_distribution( prototypeName, querySize, modelConfidence );
+            console.log(response);
+            
             // const response: any = await LearnAPI.load_year_distribution( frames, 'UST');
             // _.forEach( response, yeardistribution => {
             //     this.yearAudioDistribution = yeardistribution;
@@ -100,8 +127,7 @@ export class DataState {
             // emitting loaded event
             // this.globalEvents.yearDistributionLoaded.emit();
     
-        } 
-
+    } 
 
 
     public async load_data( datasetname: string, filters: any = {} ): Promise<void> {

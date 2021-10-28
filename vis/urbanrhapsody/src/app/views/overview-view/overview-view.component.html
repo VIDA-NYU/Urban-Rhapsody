@@ -45,6 +45,7 @@
                 <!-- (onprojectionactionrequested)='' -->
                 <app-projection-list
                     [prototypestate]='this.overviewViewController.projectioListController.prototypeState'
+                    [availablelabels]='this.overviewViewController.projectioListController.labelingState.availableLabels'
                     [projections]='this.projectionState.projections'
                     (onprojectionactionrequested)='this.overviewViewController.projectioListController.add_new_projection($event)'
                     (onpointsselected)='this.overviewViewController.projectioListController.on_frames_brushed($event); this.overviewViewController.sidebarController.on_frames_brushed($event);'
@@ -58,7 +59,7 @@
                 <app-spectrogram-list 
                     (onmouseenterspectrogram)='this.overviewViewController.mediaController.on_mouse_enter_spectrogram_frame($event); this.overviewViewController.projectioListController.select_frames( [$event.frame] )'
                     (onmouseleavespectrogram)='this.overviewViewController.mediaController.on_mouse_leave_spectrogram_frame($event); this.overviewViewController.projectioListController.select_frames( this.dataState.selectedFrames )'
-                    (onspectrogramframeclicked)=this.overviewViewController.mediaController.on_click_spectrogram_frame($event);
+                    (onspectrogramframeclicked)='this.overviewViewController.mediaController.on_click_spectrogram_frame($event); this.overviewViewController.projectioListController.select_frames( this.dataState.selectedFrames );'
                     [selectedsnippets]=this.overviewViewController.mediaController.dataState.selectedSnippets
                     #spectrogramlistref>
                 </app-spectrogram-list>

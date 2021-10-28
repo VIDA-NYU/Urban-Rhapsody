@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProjectionLegendController } from './controller/projection-legend.controller';
 
 @Component({
   selector: 'app-projection-legend',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProjectionLegendComponent implements OnInit {
 
+  // controller
+  public projectionLegendController: ProjectionLegendController = new ProjectionLegendController();
+
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

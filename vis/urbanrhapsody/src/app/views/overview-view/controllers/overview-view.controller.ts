@@ -6,6 +6,7 @@ import { DialogManager } from "src/app/dialogs/dialog-manager.service";
 import { GlobalEvents } from "src/app/events/global.events";
 import { AudioState } from "src/app/state/audio/audio.state";
 import { DataState } from "src/app/state/data.state";
+import { LabelingState } from "src/app/state/labeling/labeling.state";
 import { ProjectionState } from "src/app/state/projections/projections.state";
 import { PrototypeState } from "src/app/state/prototype/prototype.state";
 import { OverviewViewCalendarTimelineController } from "./overview-view.calendarTimeline.controller";
@@ -26,12 +27,13 @@ export class OverviewViewController {
         public audioState: AudioState, 
         public projectionState: ProjectionState, 
         public dialogManager: DialogManager,
-        public prototypeState: PrototypeState, ){
+        public prototypeState: PrototypeState,
+        public labelingState: LabelingState ){
 
-         // creating controllers
+        // creating controllers
         this.calendarTimelineController = new OverviewViewCalendarTimelineController( this.dataState, this.globalEvents );
         this.mediaController = new OverviewViewMediaController( this.dataState , this.audioState );
-        this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState, this.dialogManager, prototypeState );
+        this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState, this.dialogManager, prototypeState, labelingState );
         this.sidebarController = new OverviewViewSidebarController();
 
 
@@ -65,6 +67,10 @@ export class OverviewViewController {
 
         // selecting frames on projection
         this.projectioListController.select_frames( this.dataState.selectedFrames );
+
+        // updating label state
+        this.labelingState.load_available_labels( Object.values(this.dataState.indexedFrames) );
+
         
     }
 

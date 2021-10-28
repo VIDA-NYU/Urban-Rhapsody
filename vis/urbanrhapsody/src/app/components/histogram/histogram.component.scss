@@ -21,7 +21,8 @@
     flex: 1;
     align-items: center;
     justify-content: center;
-    background-color: #1F3F49;
+    background-color: #999999;
+    opacity: 0.8;
 
 
     h2{
@@ -33,6 +34,6 @@
 .chart-container{
 
     flex: 5;
-    border: 2px solid #1F3F49;
+    border: 2px solid #999999;
 
 }

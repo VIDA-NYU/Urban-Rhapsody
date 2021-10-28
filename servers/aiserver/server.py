@@ -1,3 +1,4 @@
+from requests import models
 from core.engine import Engine
 from flask import Flask, send_from_directory, jsonify, request, Response
 from flask_cors import CORS, cross_origin ## remove in production
@@ -24,7 +25,8 @@ def get_prototype_year_distribution():
     ## reading parameters
     requestParams = request.get_json()
 
-    return engine.get_prototype_nearest_neighbors(  prototypeName=requestParams['prototypeName'] )
+    
+    return engine.get_prototype_nearest_neighbors(  prototypeName=requestParams['prototypeName'], querySize=requestParams['querySize'], modelConfidence=requestParams['modelConfidence'] )
 
 
 # ################## PROJECTIONS ##################

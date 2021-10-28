@@ -3,6 +3,10 @@ import { DataState } from "src/app/state/data.state";
 
 export class PrototypeLoaderController {
 
+    // query params
+    public querySize: number = 100;
+    public modelConfidence: number = 0.5;
+
     // available prototypes
     public availablePrototypes: string[] = [];
 
@@ -17,7 +21,7 @@ export class PrototypeLoaderController {
 
     public prototype_selected( prototypeName: string ): void{
 
-        this.dataState.load_prototype_year_distribution( prototypeName );
+        this.dataState.load_prototype_year_distribution( prototypeName, this.querySize, this.modelConfidence );
 
     }
 

@@ -9,6 +9,8 @@
         
         <mat-menu #colormenu="matMenu">
             <button mat-menu-item [matMenuTriggerFor]="prototypeMenu">Prototypes</button>
+            <button mat-menu-item [matMenuTriggerFor]="labelsMenu">Labels</button>
+            <button mat-menu-item (click)='this.projectionControlsController.select_new_color_scale( "default", "default" )'>Default</button>
         </mat-menu>
 
         <mat-menu #prototypeMenu="matMenu">
@@ -17,6 +19,15 @@
                 mat-menu-item 
                 *ngFor='let prototype of this.prototypestate.availablePrototypes'>
                 {{ prototype }}
+            </button>
+        </mat-menu>
+
+        <mat-menu #labelsMenu="matMenu">
+            <button 
+                (click)='this.projectionControlsController.select_new_color_scale( "label", label )'
+                mat-menu-item 
+                *ngFor='let label of this.availablelabels'>
+                {{ label }}
             </button>
         </mat-menu>
 

@@ -33,6 +33,13 @@ export class ChartUtils {
         return d3.scaleSequential(d3.interpolateBlues).domain(domain);
     }
 
+    public static create_ordinal_color_scale( domain: string[] ): d3.ScaleOrdinal<any, any>{
+
+        const colors: string[] = d3.schemeCategory10.slice(0, domain.length );
+        return d3.scaleOrdinal(colors).domain(domain);
+        
+    }
+
     public static change_img_src( imgContainer: HTMLElement, newsrc: string ): void {
         d3.select(imgContainer).select('img').attr('src', newsrc);
     } 

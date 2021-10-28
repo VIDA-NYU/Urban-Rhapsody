@@ -24,12 +24,14 @@ class Engine:
 
         return json.dumps( embeddings )
 
-    def get_prototype_nearest_neighbors( self, prototypeName: str, embeddingModel: str = 'openl3' ):
+    def get_prototype_nearest_neighbors( self, prototypeName: str, querySize: int, modelConfidence: float, embeddingModel: str = 'openl3' ):
 
         embeddings = self.prototypeManager.get_prototype_representatives( prototypeName=prototypeName )
         
         for clusterIndex in embeddings:
-            embeddings[clusterIndex] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[clusterIndex].tolist(), k=50 )
+            embeddings[clusterIndex] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[clusterIndex].tolist(), k=10 )
+
+        print(embeddings)
 
         return json.dumps( embeddings )
     
@@ -60,8 +62,6 @@ class Engine:
 
 
     ################## PROTOTYPES ##################
-
-
 
     '''
         prototypeName: str, 

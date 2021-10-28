@@ -7,6 +7,7 @@ import { DialogManager } from 'src/app/dialogs/dialog-manager.service';
 import { GlobalEvents } from 'src/app/events/global.events';
 import { AudioState } from 'src/app/state/audio/audio.state';
 import { DataState } from 'src/app/state/data.state';
+import { LabelingState } from 'src/app/state/labeling/labeling.state';
 import { ProjectionState } from 'src/app/state/projections/projections.state';
 import { PrototypeState } from 'src/app/state/prototype/prototype.state';
 import { OverviewViewController } from './controllers/overview-view.controller';
@@ -36,12 +37,13 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
     public audioState: AudioState, 
     public projectionState: ProjectionState,
     public dialogManager: DialogManager,
-    public prototypeState: PrototypeState  ) {}
+    public prototypeState: PrototypeState,
+    public labelingState: LabelingState  ) {}
 
   ngOnInit(): void {
 
     // creating controller
-    this.overviewViewController = new OverviewViewController( this.globalEvents, this.dataState, this.audioState, this.projectionState, this.dialogManager, this.prototypeState );
+    this.overviewViewController = new OverviewViewController( this.globalEvents, this.dataState, this.audioState, this.projectionState, this.dialogManager, this.prototypeState, this.labelingState );
 
   }
 

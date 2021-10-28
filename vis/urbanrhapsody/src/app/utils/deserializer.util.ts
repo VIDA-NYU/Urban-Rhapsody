@@ -45,8 +45,6 @@ export class Deserializer {
 
         });
 
-        console.log(indexedFrames);
-
         return {indexedSnippets, indexedFrames};
 
     }

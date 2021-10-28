@@ -22,23 +22,13 @@ class MetaDB:
 
         dailyCount = {}
 
-        positive = 0
-        negative = 0
-
         for idx in indices:
-            
-            if(idx == -1):
-                negative += 1
-                continue
-
-
-            positive += 1
 
             currentobj = self.db.get(str(idx).encode("utf-8"))
             currentobj = json.loads(currentobj.decode("utf-8"))
 
             if( not (currentobj['day'] in dailyCount) ):
-                dailyCount[currentobj['day']] = { 'count': 0, 'frames': [] }
+                dailyCount[currentobj['day']] = { 'count': 0, 'frames': [], 'paths': [] }
 
             ## creating frameuid
             frameuid = f"{currentobj['filename'].split('.wav')[0]}_{currentobj['index']}"
@@ -46,9 +36,15 @@ class MetaDB:
             dailyCount[currentobj['day']]['count'] += 1
             dailyCount[currentobj['day']]['frames'].append(frameuid)
 
+            print(currentobj)
 
-        print('positive: ', positive)
-        print('negative: ', negative)
+            ## frame path
+            # dailyCount[currentobj['day']]['paths'].append(frameuid)
+
+            # embeddingIndex: frame.embeddingIndex,
+            # sensorID: frame.audioSnippet.metadata.sensorID,
+            # day: frame.audioSnippet.metadata.localdate,
+            # snippetID: frame.audioSnippet.uid
 
         return dailyCount
             

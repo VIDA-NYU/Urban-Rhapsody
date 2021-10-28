@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { AudioFrame } from 'src/app/model/audioframe.model';
 import { Projection } from 'src/app/model/projection.model';
-import { LabelingState } from 'src/app/state/labeling/labeling.state';
-import { ProjectionState } from 'src/app/state/projections/projections.state';
 import { PrototypeState } from 'src/app/state/prototype/prototype.state';
 import { ProjectionComponent } from '../projection/projection.component';
 import { ProjectionListController } from './controller/projection-list.controller';
@@ -31,9 +29,10 @@ export class ProjectionListComponent implements OnInit, AfterViewInit {
 
   // TODO: Refactor these services as input
   @Input('prototypestate') prototypestate!: PrototypeState;
-  @Input('labelingstate') labelingstate!: LabelingState;
+  @Input('availablelabels') availablelabels: string[] = [];
+  // @Input('labelingstate') labelingstate!: LabelingState;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.projectionListController = new ProjectionListController();

@@ -5,6 +5,7 @@
         <div class="projection-controls">
             <app-projection-controls 
                 [prototypestate]='this.prototypestate'
+                [availablelabels]='this.availablelabels'
                 [projection]='this.projection' 
                 (onbrushset)='this.projectionController.set_brush_mode()'
                 (onlabeliconclicked)=this.onlabeliconclicked.emit()
@@ -16,7 +17,9 @@
             <div class="projection-scatterplot" #projectionContainer></div>
         </div>
         
-        <div class="projection-legend"></div>
+        <div class="projection-legend">
+            <app-projection-legend #projectionelegendref></app-projection-legend>
+        </div>
 
     </div>
 

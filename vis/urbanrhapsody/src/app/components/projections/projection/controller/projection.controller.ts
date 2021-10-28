@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { EventEmitter } from "@angular/core";
 import { ProjectionColorsController } from "./projection-colors.controller";
 import { PointColorer } from "scatter-gl/dist/scatter_gl";
+import { ProjectionLegendComponent } from "../../projection-legend/projection-legend.component";
 
 export class ProjectionController{
 
@@ -21,15 +22,21 @@ export class ProjectionController{
     // event emitters
     public events: { [eventname: string]: EventEmitter<any> } = {};
 
+    // legends ref
+    public projectionlegend!: ProjectionLegendComponent;
+
     // index mapper: maps indices to audioFrames Objs
     public frameMapper: { [frameuid: string]: number } = {};
 
     constructor( public projection: Projection ){}
 
-    public initialize_projection( container: HTMLElement, events: { [eventname: string]: EventEmitter<any> } ){
+    public initialize_projection( container: HTMLElement, projectionlegend: ProjectionLegendComponent, events: { [eventname: string]: EventEmitter<any> } ){
 
         // attaching events
         this.events = events;
+
+        // legend ref
+        this.projectionlegend = projectionlegend;
 
         this.generate_dataset( this.projection.points, this.projection.id );
         this.generate_projection( container );
@@ -55,6 +62,9 @@ export class ProjectionController{
         const colorScale: any = this.projectionColorController.get_color_scale( event.attributeName )
         const pointColorer: PointColorer = this.projectionColorController.get_point_colorer( event.attributeName, event.attributeValue, colorScale, this.projection)
         this.scatterGL.setPointColorer( pointColorer );
+
+        // setting new legends
+        this.projectionlegend.projectionLegendController.update_legends( colorScale );
 
     }
 

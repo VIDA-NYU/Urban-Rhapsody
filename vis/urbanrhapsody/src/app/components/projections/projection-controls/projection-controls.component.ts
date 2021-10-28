@@ -22,7 +22,7 @@ export class ProjectionControlsComponent implements OnInit, AfterViewInit {
 
   // services as input
   @Input('prototypestate') prototypestate!: PrototypeState;
-  // @Input('labelingstate') labelingstate!: LabelingState;
+  @Input('availablelabels') availablelabels: string[] = [];
 
   // controller
   public projectionControlsController: ProjectionControlsController = new ProjectionControlsController();
