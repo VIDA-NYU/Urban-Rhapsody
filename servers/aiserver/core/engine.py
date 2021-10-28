@@ -29,9 +29,9 @@ class Engine:
         embeddings = self.prototypeManager.get_prototype_representatives( prototypeName=prototypeName )
         
         for clusterIndex in embeddings:
-            embeddings[clusterIndex] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[clusterIndex].tolist(), k=10 )
 
-        print(embeddings)
+            ## getting nearest neighbors for current representative
+            embeddings[clusterIndex] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[clusterIndex].tolist(), k=querySize )
 
         return json.dumps( embeddings )
     

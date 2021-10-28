@@ -11,6 +11,28 @@ import { AudioFrameMeta } from "../model/audioframemeta.model";
 
 export class Deserializer {
 
+    public static deserialize_prototype_year_distribution( response: any ): { [ datetime: string ]: { count: number, frames: string[] } }{
+
+        const prototypeYearDistribution: { [ datetime: string ]: { count: number, frames: Set<string> } } = {};
+
+        _.forEach( response, (representativeIndex: any) => {
+            _.forOwn( representativeIndex, (value, day) => {
+
+                if( !(day in prototypeYearDistribution) ){
+                    prototypeYearDistribution[day] = { count: 0, frames: new Set<string>() };
+                }
+                
+
+                // prototypeYearDistribution[day]
+                // console.log(day);
+            })
+            // console.log(representativeIndex);
+        })
+
+        return {}
+
+    }
+
     public static deserialize_snippets( audioSnippets: any ): { indexedSnippets: any, indexedFrames: any } {
 
         const indexedSnippets: { [snippetKey: string]: AudioSnippet } = {};

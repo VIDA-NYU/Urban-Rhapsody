@@ -117,11 +117,9 @@ export class DataState {
 
             // requesting prototype data
             const response: any = await LearnAPI.load_prototype_year_distribution( prototypeName, querySize, modelConfidence );
-            console.log(response);
-            
-            // const response: any = await LearnAPI.load_year_distribution( frames, 'UST');
             // _.forEach( response, yeardistribution => {
-            //     this.yearAudioDistribution = yeardistribution;
+            Deserializer.deserialize_prototype_year_distribution(response);
+                // this.yearAudioDistribution = yeardistribution;
             // });
     
             // emitting loaded event

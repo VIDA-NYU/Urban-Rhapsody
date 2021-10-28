@@ -25,7 +25,7 @@ def get_prototype_year_distribution():
     ## reading parameters
     requestParams = request.get_json()
 
-    
+    ## returning 
     return engine.get_prototype_nearest_neighbors(  prototypeName=requestParams['prototypeName'], querySize=requestParams['querySize'], modelConfidence=requestParams['modelConfidence'] )
 
 
