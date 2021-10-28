@@ -1,9 +1,9 @@
 
 INDEXCONSTS = {
-    'saf7': '../../data/sonyc/indices/ann-faiss/saf7flat.index'
+    'saf7': '../../data/sonyc/indices/ann-faiss/saf7ivfflat.index'
 }
 
 METADB = {
-    'saf7': '../../data/sonyc/indices/ann-faiss/saf7flat.db'
+    'saf7': '../../data/sonyc/indices/ann-faiss/saf7ivfflat.db'
    
 }
