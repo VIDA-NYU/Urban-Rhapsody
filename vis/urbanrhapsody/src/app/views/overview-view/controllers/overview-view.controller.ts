@@ -34,7 +34,7 @@ export class OverviewViewController {
         this.calendarTimelineController = new OverviewViewCalendarTimelineController( this.dataState, this.globalEvents );
         this.mediaController = new OverviewViewMediaController( this.dataState , this.audioState );
         this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState, this.dialogManager, prototypeState, labelingState );
-        this.sidebarController = new OverviewViewSidebarController();
+        this.sidebarController = new OverviewViewSidebarController( this.prototypeState );
 
 
     }
@@ -71,6 +71,8 @@ export class OverviewViewController {
         // updating label state
         this.labelingState.load_available_labels( Object.values(this.dataState.indexedFrames) );
 
+        // updating sidebar
+        this.sidebarController.on_day_loaded( this.dataState.selectedFrames );
         
     }
 

@@ -35,10 +35,19 @@ class Clusterer:
 
         clusterer = hdbscan.HDBSCAN(min_cluster_size=10)
         cluster_labels = clusterer.fit_predict(listOfEmbeddings)
+
+
+        ## checking if no cluster was created
+        currentClusterPoints = listOfEmbeddings[ cluster_labels == -1, : ]
+        if( currentClusterPoints.shape[0] == listOfEmbeddings.shape[0] ):
+            currentCentroid = np.mean(currentClusterPoints, axis=0)
+            return [currentCentroid]
         
+
         ## calculating centroids
         centroids = []
         clusterID = 0
+
         while( True ):
 
             currentClusterPoints = listOfEmbeddings[ cluster_labels == clusterID, : ]

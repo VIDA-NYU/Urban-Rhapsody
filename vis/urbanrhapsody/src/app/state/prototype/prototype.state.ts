@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 export class PrototypeState {
 
     // calculated prototypes for the current loaded data
-    public availablePrototypes: string[] = [];
+    public loadedPrototypes: string[] = ['test1', 'test2', 'test3'];
 
     constructor( public dataState: DataState ){}
 
@@ -31,7 +31,7 @@ export class PrototypeState {
         });
 
         // saving available prototypes
-        this.availablePrototypes.push( prototypeName );
+        this.loadedPrototypes.push( prototypeName );
         
     }
 

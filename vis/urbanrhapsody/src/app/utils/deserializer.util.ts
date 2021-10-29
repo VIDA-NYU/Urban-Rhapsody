@@ -13,7 +13,7 @@ export class Deserializer {
 
     public static deserialize_prototype_year_distribution( response: any ): { [ datetime: string ]: { count: number, frames: string[] } }{
 
-        const prototypeYearDistribution: { [ datetime: string ]: { count: number, frames: Set<string> } } = {};
+        const prototypeYearDistribution: { [ datetime: string ]: { count: number, frames: any } } = {};
 
         _.forEach( response, (representativeIndex: any) => {
             _.forOwn( representativeIndex, (value, day) => {
@@ -21,15 +21,23 @@ export class Deserializer {
                 if( !(day in prototypeYearDistribution) ){
                     prototypeYearDistribution[day] = { count: 0, frames: new Set<string>() };
                 }
-                
 
-                // prototypeYearDistribution[day]
-                // console.log(day);
+                // looping through the frames
+                _.forEach( value.frames, ( frameuid: string ) => {
+                    prototypeYearDistribution[day].frames.add(frameuid);
+                });
+
+                prototypeYearDistribution[day].count = prototypeYearDistribution[day].frames.size;
             })
-            // console.log(representativeIndex);
         })
 
-        return {}
+
+        // transforming sets into lists
+        _.forOwn( prototypeYearDistribution, (value, day) => {
+            value.frames = Array.from(value.frames.values());
+        })
+
+        return prototypeYearDistribution;
 
     }
 

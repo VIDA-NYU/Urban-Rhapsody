@@ -5,18 +5,31 @@ class ResponseFormatter:
 
 
     @staticmethod
-    def format_ann_response( responseList ):
+    def format_ann_response( indexNeighbors ):
 
-        datesCounter = {}
-        for file in responseList:
+        embeddings = {}
+
+        for day in indexNeighbors:
+            for index, path in enumerate(indexNeighbors[day]['paths']):
+
+                frameuid = indexNeighbors[day]['frames'][index]
+                embeddings[frameuid] = path
+                
+        return embeddings
+    
+    # @staticmethod
+    # def format_ann_response( responseList ):
+
+    #     datesCounter = {}
+    #     for file in responseList:
             
-            day = file.split('/')[-2]
+    #         day = file.split('/')[-2]
 
-            if(day in datesCounter):
-                datesCounter[day] = 0
-            datesCounter[day] += 1
+    #         if(day in datesCounter):
+    #             datesCounter[day] = 0
+    #         datesCounter[day] += 1
 
-        return datesCounter
+    #     return datesCounter
 
 
     @staticmethod

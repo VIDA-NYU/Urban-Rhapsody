@@ -1,3 +1,5 @@
+from utils.filterhelper import FilterHelper
+from utils.responseformatter import ResponseFormatter
 from spatial.spatialmanager import SpatialManager
 from prototype.prototypemanager import PrototypeManager
 from serialization.projectionencoder import ProjectionEncoder
@@ -31,7 +33,24 @@ class Engine:
         for clusterIndex in embeddings:
 
             ## getting nearest neighbors for current representative
-            embeddings[clusterIndex] = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[clusterIndex].tolist(), k=querySize )
+            indexNeighbors = self.spatialManager.get_nearest_neighbors( featureVector=embeddings[clusterIndex].tolist(), k=querySize )
+            
+            ## calculating model confidence
+            print('formating ann response')
+            frameuids = ResponseFormatter.format_ann_response( indexNeighbors )
+            
+            print('getting embeddings')
+            frameuids = Datasource.get_embeddings( uids=frameuids, embeddingModel=embeddingModel )
+            
+            print('calculating prototypes')
+            frameuids = self.prototypeManager.calculate_prototype( prototypeName=prototypeName, uids=frameuids )
+            
+            print('filtering by model confidence')
+            embeddings[clusterIndex] = FilterHelper.filter_frames_by_model_confidence( indexNeighbors, frameuids, modelConfidence )            
+
+            # embeddings[clusterIndex] = indexNeighbors
+
+
 
         return json.dumps( embeddings )
     

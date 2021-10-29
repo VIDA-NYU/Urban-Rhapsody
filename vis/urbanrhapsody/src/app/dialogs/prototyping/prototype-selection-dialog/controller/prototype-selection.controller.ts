@@ -11,7 +11,7 @@ export class PrototypeSelectionController {
 
     public async initialize_controller(): Promise<void> {
 
-        const availablePrototypes: { [responseType: string]: string[] } =  await LearnAPI.get_all_prototypes();
+        const availablePrototypes: { [responseType: string]: string[] } = await LearnAPI.get_all_prototypes();
         this.availablePrototypes = availablePrototypes.prototypes;
 
     }

@@ -17,7 +17,7 @@
             <button 
                 (click)='this.projectionControlsController.select_new_color_scale( "prototype", prototype )'
                 mat-menu-item 
-                *ngFor='let prototype of this.prototypestate.availablePrototypes'>
+                *ngFor='let prototype of this.prototypestate.loadedPrototypes'>
                 {{ prototype }}
             </button>
         </mat-menu>

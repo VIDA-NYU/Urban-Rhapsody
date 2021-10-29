@@ -38,7 +38,8 @@ class PrototypeManager:
         representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
 
         # training the model
-        model = Modeling.train_logistic_regression( positiveFeatures, randomSamples )
+        # model = Modeling.train_logistic_regression( positiveFeatures, randomSamples )
+        model = Modeling.train_random_forest( positiveFeatures, randomSamples )
 
         # ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
@@ -67,7 +68,6 @@ class PrototypeManager:
     def get_prototype_representatives( self, prototypeName: str ):
         return ModelPersistor.load_representatives( prototypeName )
 
-        pass
 
     # def get_prototype_frames( self, dataset, prototypeName ):
     #     return self.managers[dataset].get_prototype_frames( prototypeName )

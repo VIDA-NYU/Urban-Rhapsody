@@ -17,8 +17,8 @@
                         #histogramref ></app-histogram>
                 </div>
 
-                <div class="prototype-distributions-container distribution-chart-container">
-                    <app-histogram [charttitle]='"Prototype Distribution"' ></app-histogram>
+                <div *ngFor='let prototype of this.overviewViewController.sidebarController.prototypeState.loadedPrototypes' class="prototype-distributions-container distribution-chart-container">
+                    <app-histogram [charttitle]=prototype></app-histogram>
                 </div>
 
             </div>
