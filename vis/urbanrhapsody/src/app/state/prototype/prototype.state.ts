@@ -13,7 +13,7 @@ import * as _ from 'lodash';
 export class PrototypeState {
 
     // calculated prototypes for the current loaded data
-    public loadedPrototypes: string[] = ['test1', 'test2', 'test3'];
+    public loadedPrototypes: string[] = [];
 
     constructor( public dataState: DataState ){}
 
