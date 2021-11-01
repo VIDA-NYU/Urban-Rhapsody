@@ -34,7 +34,11 @@ export class HistogramController {
     constructor(){}
 
     public initialize_controller( 
-        chartContainer: HTMLElement ): void {
+        chartContainer: HTMLElement, 
+        chartTitle: string ): void {
+
+        // saving chart title
+        this.chartTitle = chartTitle;
 
         // saving chart container ref
         this.chartContainer = chartContainer;
@@ -76,10 +80,6 @@ export class HistogramController {
         // updating axes
         this.xScale = ChartUtils.create_linear_scale( [0, histogramData.length], [0, this.chartContainer.clientWidth - this.margins.left - this.margins.right ] );
         this.yScale = ChartUtils.create_linear_scale( [0, d3.max(histogramData) ], [ 0, this.chartContainer.clientHeight - this.margins.top - this.margins.bottom ] );
-
-        // updating brush
-        // this.brush = ChartUtils.create_brush( this.group, this.margins, this.chartContainer );
-        // this.brush.on('end', (brushEvent: any) => this.brushed(brushEvent) );
 
         if(this.yScale.domain()[1] === 0) {this.group.selectAll('.hour-bar').remove(); return;} 
 

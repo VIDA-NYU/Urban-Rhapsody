@@ -1,3 +1,4 @@
+import { QueryList } from "@angular/core";
 import { CalendarTimelineComponent } from "src/app/components/calendar-timeline/calendar-timeline.component";
 import { HistogramComponent } from "src/app/components/histogram/histogram.component";
 import { SpectrogramListComponent } from "src/app/components/media/spectrogram-list/spectrogram-list.component";
@@ -39,13 +40,18 @@ export class OverviewViewController {
 
     }
 
-    public initialize_controllers( appcalendartimelineref: CalendarTimelineComponent, spectrogramlistref : SpectrogramListComponent, projectionlistref : ProjectionListComponent, histogramref: HistogramComponent ): void {
+    public initialize_controllers( 
+        appcalendartimelineref: CalendarTimelineComponent, 
+        spectrogramlistref : SpectrogramListComponent, 
+        projectionlistref : ProjectionListComponent, 
+        histogramref: HistogramComponent,
+        prototypehistogramrefs: QueryList<HistogramComponent> ): void {
 
         // initializing controllers
         this.calendarTimelineController.initialize_controller( appcalendartimelineref );
         this.projectioListController.initialize_controller( projectionlistref );
         this.mediaController.initialize_controller( spectrogramlistref );
-        this.sidebarController.initialize_controller( histogramref );
+        this.sidebarController.initialize_controller( histogramref, prototypehistogramrefs );
 
     }
 
@@ -61,6 +67,9 @@ export class OverviewViewController {
             await this.projectioListController.add_new_projection( {projectionaction: 'all'} );
         }
 
+        // flushing loaded prototypes
+        this.prototypeState.flush_prototypes();
+
         // selecting points that were retrieved by ann       
         let uids: string[] = this.dataState.yearAudioDistribution[event.day].frames;       
         this.dataState.select_frames( { filtertype: 'uids', uids } );
@@ -73,6 +82,9 @@ export class OverviewViewController {
 
         // updating sidebar
         this.sidebarController.on_day_loaded( this.dataState.selectedFrames );
+
+
+        
         
     }
 

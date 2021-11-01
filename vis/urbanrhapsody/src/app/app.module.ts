@@ -37,6 +37,8 @@ import { PrototypeLoaderDialogComponent } from './dialogs/loaders/prototype-load
 import { HistogramComponent } from './components/histogram/histogram.component';
 import { SensorMapComponent } from './components/sensor-map/sensor-map.component';
 import { RangeSliderComponent } from './components/range-slider/range-slider.component';
+import { FocusedClassificationListComponent } from './components/focused-classification/focused-classification-list/focused-classification-list.component';
+import { FocusedClassificationComponent } from './components/focused-classification/focused-classification/focused-classification.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,9 @@ import { RangeSliderComponent } from './components/range-slider/range-slider.com
     PrototypeLoaderDialogComponent,
     HistogramComponent,
     SensorMapComponent,
-    RangeSliderComponent  
+    RangeSliderComponent,
+    FocusedClassificationListComponent,
+    FocusedClassificationComponent  
   ],
   imports: [
     BrowserModule,

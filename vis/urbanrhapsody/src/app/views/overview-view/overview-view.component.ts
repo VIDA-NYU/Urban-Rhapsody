@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CalendarTimelineComponent } from 'src/app/components/calendar-timeline/calendar-timeline.component';
 import { HistogramComponent } from 'src/app/components/histogram/histogram.component';
 import { SpectrogramListComponent } from 'src/app/components/media/spectrogram-list/spectrogram-list.component';
@@ -30,6 +30,7 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
   @ViewChild('spectrogramlistref') spectrogramlistref !: SpectrogramListComponent;
   @ViewChild('projectionlistref') projectionlistref !: ProjectionListComponent;
   @ViewChild('histogramref') histogramref !: HistogramComponent;
+  @ViewChildren('prototypehistogramrefs') prototypehistogramrefs !: QueryList<HistogramComponent>;
 
   constructor( 
     public globalEvents: GlobalEvents, 
@@ -55,7 +56,7 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
 
   public initialize_controllers(): void{
   
-    this.overviewViewController.initialize_controllers( this.appcalendartimelineref, this.spectrogramlistref, this.projectionlistref, this.histogramref );
+    this.overviewViewController.initialize_controllers( this.appcalendartimelineref, this.spectrogramlistref, this.projectionlistref, this.histogramref, this.prototypehistogramrefs );
 
   }
 

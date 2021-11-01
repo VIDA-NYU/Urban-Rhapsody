@@ -7,7 +7,7 @@
 .projections-component-container {
 
     display: flex;
-    flex: 4;
+    flex: 5;
     position: relative;
 
 }
@@ -15,8 +15,9 @@
 .media-component-container {
 
     display: flex;
-    flex: 2;
+    flex: 3;
 }
+
 
 .main-content-container{
         
@@ -60,14 +61,12 @@
         }
 
     }
-
-
 }
 
 
 .placeholder{
 
     display: flex;
-    flex: 3;
+    flex: 1;
     
 }

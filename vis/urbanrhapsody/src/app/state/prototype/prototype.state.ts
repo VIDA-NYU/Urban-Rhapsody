@@ -35,4 +35,12 @@ export class PrototypeState {
         
     }
 
+
+    public flush_prototypes(): void{
+
+        // cleaning loaded prototypes
+        this.loadedPrototypes = [];
+
+    }
+
 }

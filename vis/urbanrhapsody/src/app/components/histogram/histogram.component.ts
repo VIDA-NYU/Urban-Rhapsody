@@ -18,21 +18,14 @@ export class HistogramComponent implements OnInit, AfterViewInit {
   // inputs
   @Input('charttitle') charttitle!: string;
 
-  // outputs
-  // @Output('onhistogrambrushed') onhistogrambrushed: EventEmitter<{chartTitle: string, values: number[]}> = new EventEmitter<{chartTitle: string, values: number[]}>();
-
   constructor() { }
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
 
-    // const events: { [eventName: string]: EventEmitter<any> } = {
-    //   'onhistogrambrushed': this.onhistogrambrushed
-    // }
-
     // initializing controller
-    this.histogramController.initialize_controller( this.chartcontainerref.nativeElement );
+    this.histogramController.initialize_controller( this.chartcontainerref.nativeElement, this.charttitle );
 
   }
 

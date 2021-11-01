@@ -14,11 +14,12 @@
                 <div class="hour-distribution-container distribution-chart-container">
                     <app-histogram 
                         [charttitle]='"Hour Distribution"'
-                        #histogramref ></app-histogram>
+                        #histogramref>
+                    </app-histogram>
                 </div>
 
                 <div *ngFor='let prototype of this.overviewViewController.sidebarController.prototypeState.loadedPrototypes' class="prototype-distributions-container distribution-chart-container">
-                    <app-histogram [charttitle]=prototype></app-histogram>
+                    <app-histogram [charttitle]=prototype #prototypehistogramrefs></app-histogram>
                 </div>
 
             </div>
@@ -53,7 +54,8 @@
                     #projectionlistref>
                 </app-projection-list>
             </div>
-        
+            
+
 
             <div class="media-component-container">
                 <app-spectrogram-list 

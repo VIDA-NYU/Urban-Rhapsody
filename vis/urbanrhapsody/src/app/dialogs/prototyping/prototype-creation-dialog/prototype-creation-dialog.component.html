@@ -1,5 +1,10 @@
 <div class="component-wrapper">
 
+
+    <div class="spinner-container" *ngIf='this.prototypeCreationController.isLoadingPrototype'>
+        <mat-spinner></mat-spinner>
+    </div>
+
     <div class="dialog-header">
         <h3>Create Prototype</h3>
     </div>

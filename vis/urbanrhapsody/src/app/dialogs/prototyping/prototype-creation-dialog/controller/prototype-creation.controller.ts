@@ -5,6 +5,9 @@ import { PrototypeCreationDialogComponent } from "../prototype-creation-dialog.c
 
 export class PrototypeCreationController {  
 
+    // spinner flag
+    public isLoadingPrototype: boolean = false;
+
     // input label
     public prototypeForm = new FormGroup({prototypeName: new FormControl()});
 
@@ -23,8 +26,14 @@ export class PrototypeCreationController {
 
     public async create_prototype(): Promise<void>{
 
+        // setting spinner
+        this.isLoadingPrototype = true;
+
         // creating prototype
         await LabelingAPI.create_prototype( this.prototypeForm.value.prototypeName, Array.from(this.createdLabelsSet.values()) )
+
+        // setting spinner
+        this.isLoadingPrototype = false;
 
         // closing dialog
         this.dialogRef.close();

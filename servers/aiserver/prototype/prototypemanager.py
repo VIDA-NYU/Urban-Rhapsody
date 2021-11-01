@@ -38,8 +38,8 @@ class PrototypeManager:
         representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
 
         # training the model
-        # model = Modeling.train_logistic_regression( positiveFeatures, randomSamples )
-        model = Modeling.train_random_forest( positiveFeatures, randomSamples )
+        model = Modeling.train_logistic_regression( positiveFeatures, randomSamples )
+        # model = Modeling.train_random_forest( positiveFeatures, randomSamples )
 
         # ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
