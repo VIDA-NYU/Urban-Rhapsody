@@ -36,6 +36,7 @@ import { PrototypeSelectionDialogComponent } from './dialogs/prototyping/prototy
 import { PrototypeLoaderDialogComponent } from './dialogs/loaders/prototype-loader-dialog/prototype-loader-dialog.component';
 import { HistogramComponent } from './components/histogram/histogram.component';
 import { SensorMapComponent } from './components/sensor-map/sensor-map.component';
+import { RangeSliderComponent } from './components/range-slider/range-slider.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { SensorMapComponent } from './components/sensor-map/sensor-map.component
     PrototypeSelectionDialogComponent,
     PrototypeLoaderDialogComponent,
     HistogramComponent,
-    SensorMapComponent  
+    SensorMapComponent,
+    RangeSliderComponent  
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@ export class AudioFrameMeta{
     }
 
     public get_prototype_prediction( prototypeName: string ): number {
-        return this.prototypePredictions[prototypeName]
+        return this.prototypePredictions[prototypeName];
     }
 
     public add_labels( labels: string[] ): void {

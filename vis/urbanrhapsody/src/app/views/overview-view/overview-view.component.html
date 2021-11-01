@@ -42,11 +42,11 @@
                     <mat-spinner></mat-spinner>
                 </div>
                 
-                <!-- (onprojectionactionrequested)='' -->
                 <app-projection-list
                     [prototypestate]='this.overviewViewController.projectioListController.prototypeState'
                     [availablelabels]='this.overviewViewController.projectioListController.labelingState.availableLabels'
                     [projections]='this.projectionState.projections'
+                    (onrangeselected)='this.overviewViewController.projectioListController.on_slider_brushed($event); this.overviewViewController.sidebarController.on_frames_brushed( {frames: this.dataState.selectedFrames});'
                     (onprojectionactionrequested)='this.overviewViewController.projectioListController.add_new_projection($event)'
                     (onpointsselected)='this.overviewViewController.projectioListController.on_frames_brushed($event); this.overviewViewController.sidebarController.on_frames_brushed($event);'
                     (onlabeliconclicked)='this.overviewViewController.projectioListController.on_label_icon_clicked()'

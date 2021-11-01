@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { AudioFrame } from 'src/app/model/audioframe.model';
 import { Projection } from 'src/app/model/projection.model';
 import { PrototypeState } from 'src/app/state/prototype/prototype.state';
@@ -13,6 +14,9 @@ import { ProjectionListController } from './controller/projection-list.controlle
 })
 export class ProjectionListComponent implements OnInit, AfterViewInit {
 
+  public toppings = new FormControl();
+  public toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
   // controller
   public projectionListController!: ProjectionListController;
 
@@ -26,6 +30,9 @@ export class ProjectionListComponent implements OnInit, AfterViewInit {
   @Output('onpointsselected') onpointsselected: EventEmitter<{'frames': AudioFrame[], 'projectionID': string}> = new EventEmitter<{'frames': AudioFrame[], 'projectionID': string}>(); 
   @Output('onlabeliconclicked') onlabeliconclicked: EventEmitter<void> = new EventEmitter<void>();
   @Output('onprojectionactionrequested') onprojectionactionrequested: EventEmitter<{ projectionaction: string }> = new EventEmitter<{ projectionaction: string }>();
+  
+  // slider events
+  @Output('onrangeselected') onrangeselected: EventEmitter<{title: string, selection: number[]}> = new EventEmitter<{title: string, selection: number[]}>();
 
   // TODO: Refactor these services as input
   @Input('prototypestate') prototypestate!: PrototypeState;

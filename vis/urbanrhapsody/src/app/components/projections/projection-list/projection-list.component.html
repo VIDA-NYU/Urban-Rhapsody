@@ -17,6 +17,28 @@
             </mat-menu>
 
         </div>
+
+
+        <div class="range-sliders-container">
+            
+            <div class="range-slider-wrapper">
+                <app-range-slider 
+                    (onrangeselected)='this.onrangeselected.emit($event)'
+                    rangeslidertitle='hours'>
+                </app-range-slider>
+            </div>
+
+            <div class="range-slider-wrapper">
+                
+            </div>
+
+            <div class="range-slider-wrapper">
+                
+            </div>
+
+        </div>
+
+
         
     </div>
 

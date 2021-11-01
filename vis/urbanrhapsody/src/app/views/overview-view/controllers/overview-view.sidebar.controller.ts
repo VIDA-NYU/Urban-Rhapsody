@@ -36,4 +36,5 @@ export class OverviewViewSidebarController {
         this.hourHistogramRef.histogramController.render_chart( hourDistribution );
         
     }
+
 }

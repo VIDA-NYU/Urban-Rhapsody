@@ -5,7 +5,9 @@ import { ProjectionComponent } from "../../projection/projection.component";
 export class ProjectionListController {
 
     // projection refs
-    public projectionComponents!: QueryList<ProjectionComponent>
+    public projectionComponents!: QueryList<ProjectionComponent>;
+
+    
 
     constructor(){}
 

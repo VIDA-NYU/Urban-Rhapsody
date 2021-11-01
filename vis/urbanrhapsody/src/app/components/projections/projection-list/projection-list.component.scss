@@ -27,6 +27,24 @@
     display: flex;
     flex-direction: row;
 
+    .range-sliders-container{
+
+        height: 100%;
+        width: calc( 100% - 270px);
+
+        display: flex;
+        flex-direction: row;
+
+        .range-slider-wrapper{
+
+            height: 100%;
+            width: 250px;
+            margin: 0 20px 0 20px;
+            
+        }
+
+    }
+    
     .icon-container{
 
         width: 70px;
@@ -39,7 +57,7 @@
         cursor: pointer;
 
     }
-    
+
     .component-title{
 
         width: 200px;

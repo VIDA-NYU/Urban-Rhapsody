@@ -20,9 +20,26 @@ export class ChartUtils {
         return svgselection.append('g').attr('transform', 'translate(' + margins.left + ',' + margins.top + ')')
     }
 
+    public static create_brush( selection: d3.Selection<any,any,any,any>, margins: { top: number, bottom: number, left: number, right: number }, container: HTMLElement ): any {
+
+        // creating brush
+        const brush = d3.brushX()
+            .extent([ [0, 0], [container.clientWidth - margins.right - margins.left, container.clientHeight - margins.bottom - margins.top ] ]);
+        
+        // appending group
+        selection.append('g').attr('class', 'brush').call(brush);
+
+
+        return brush;
+    }
+
     // scales
     public static create_sequential_scale( domain: [any, any], range: [number, number]): d3.ScaleSequential<any, any> {
         return d3.scaleSequential().domain(domain).range(range);
+    }
+
+    public static create_linear_scale(domain: [any, any], range: [number, number]): d3.ScaleLinear<any, any> {
+        return d3.scaleLinear().domain(domain).range(range);
     }
 
     public static create_band_scale( domain: string[], range: [number, number]): d3.ScaleBand<any> {
@@ -40,6 +57,7 @@ export class ChartUtils {
         
     }
 
+    // images
     public static change_img_src( imgContainer: HTMLElement, newsrc: string ): void {
         d3.select(imgContainer).select('img').attr('src', newsrc);
     } 

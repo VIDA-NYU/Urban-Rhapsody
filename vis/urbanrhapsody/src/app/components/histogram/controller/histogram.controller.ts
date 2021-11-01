@@ -1,11 +1,14 @@
 import { ChartUtils } from "src/app/utils/chart/chart.utils";
 import * as d3 from 'd3';
-import { NumberValue } from "d3";
 
-export class HistogramController {
+export class HistogramController {  
 
-    // public histogramData: Array<number> = Array<number>(10).fill(0)
+    // chart title
+    public chartTitle!: string;
 
+    // brush group
+    public brush!: any;
+    
     // chart container
     public chartContainer!: HTMLElement;
     public xAxisGroup!: d3.Selection<any,any,any,any>;
@@ -16,7 +19,7 @@ export class HistogramController {
     // scales
     // public xScale!: d3.ScaleSequential<number, number>;
     public xScale!: any;
-    public yScale!: d3.ScaleSequential<any, any>;
+    public yScale!: any; //d3.ScaleSequential<any, any>;
 
     // axes
     public xAxis!: d3.Axis<Number>;
@@ -30,7 +33,8 @@ export class HistogramController {
 
     constructor(){}
 
-    public initialize_controller( chartContainer: HTMLElement ): void {
+    public initialize_controller( 
+        chartContainer: HTMLElement ): void {
 
         // saving chart container ref
         this.chartContainer = chartContainer;
@@ -45,7 +49,14 @@ export class HistogramController {
         // creating svg
         this.svg = ChartUtils.create_svg( this.chartContainer );
         this.group = ChartUtils.create_group( this.svg, this.margins );
-        this.xAxisGroup = ChartUtils.create_group( this.svg, { top: this.chartContainer.clientHeight - this.margins.bottom, bottom: 0, left: this.margins.left, right: 0 } )
+        this.xAxisGroup = ChartUtils.create_group( this.svg, { top: this.chartContainer.clientHeight - this.margins.bottom, bottom: 0, left: this.margins.left, right: 0 } );
+
+    }
+
+    // TODO: Remove it
+    public brushed( brushEvent: any ): void {
+        
+        const values: number[] = [this.xScale.invert(brushEvent.selection[0]), this.xScale.invert(brushEvent.selection[1])];
 
     }
 
@@ -63,8 +74,12 @@ export class HistogramController {
         const t = this.svg.transition().duration(750);
         
         // updating axes
-        this.xScale = ChartUtils.create_sequential_scale( [0, histogramData.length], [0, this.chartContainer.clientWidth - this.margins.left - this.margins.right ] );
-        this.yScale = ChartUtils.create_sequential_scale( [0, d3.max(histogramData) ], [ 0, this.chartContainer.clientHeight - this.margins.top - this.margins.bottom ] );
+        this.xScale = ChartUtils.create_linear_scale( [0, histogramData.length], [0, this.chartContainer.clientWidth - this.margins.left - this.margins.right ] );
+        this.yScale = ChartUtils.create_linear_scale( [0, d3.max(histogramData) ], [ 0, this.chartContainer.clientHeight - this.margins.top - this.margins.bottom ] );
+
+        // updating brush
+        // this.brush = ChartUtils.create_brush( this.group, this.margins, this.chartContainer );
+        // this.brush.on('end', (brushEvent: any) => this.brushed(brushEvent) );
 
         if(this.yScale.domain()[1] === 0) {this.group.selectAll('.hour-bar').remove(); return;} 
 
