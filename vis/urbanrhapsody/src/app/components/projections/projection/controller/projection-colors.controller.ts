@@ -63,7 +63,7 @@ export class ProjectionColorsController {
     }
 
     private get_prototype_color_scale(): d3.ScaleSequential<any, any> {
-        return ChartUtils.create_sequential_color_scale( [0, 1] );
+        return ChartUtils.create_sequential_color_scale( [0, 1], d3.interpolateGreens );
     }
 
     private get_label_color_scale(): d3.ScaleOrdinal<any, any> {

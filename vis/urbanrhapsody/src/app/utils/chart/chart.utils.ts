@@ -34,7 +34,7 @@ export class ChartUtils {
     }
 
     // scales
-    public static create_sequential_scale( domain: [any, any], range: [number, number]): d3.ScaleSequential<any, any> {
+    public static create_sequential_scale( domain: [any, any], range: [number, number] ): d3.ScaleSequential<any, any> {
         return d3.scaleSequential().domain(domain).range(range);
     }
 
@@ -46,8 +46,8 @@ export class ChartUtils {
         return d3.scaleBand().domain(domain).range(range);
     }
 
-    public static create_sequential_color_scale( domain: [number, number] ): d3.ScaleSequential<any, any> {
-        return d3.scaleSequential(d3.interpolateBlues).domain(domain);
+    public static create_sequential_color_scale( domain: [number, number], colorScale: any = d3.interpolateBlues  ): d3.ScaleSequential<any, any> {
+        return d3.scaleSequential(colorScale).domain(domain);
     }
 
     public static create_ordinal_color_scale( domain: string[] ): d3.ScaleOrdinal<any, any>{

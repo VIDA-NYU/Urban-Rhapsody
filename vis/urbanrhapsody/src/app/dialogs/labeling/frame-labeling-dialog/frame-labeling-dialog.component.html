@@ -1,64 +1,120 @@
 <div class="component-wrapper">
 
-    <div class="dialog-header">
-        <h3>Frame Labels</h3>
-    </div>
+    <mat-tab-group mat-align-tabs="center">
 
-    <div class="dialog-body">
+        <mat-tab label="Positives">
 
-        <div class="body-section">
+            <div class="tab-wrapper">
 
-            <div class="text-input-container">
-                <form [formGroup]='this.labelForm' class="new-label-form"> 
-                    <mat-form-field class="example-full-width">
-                        <mat-label>New Label</mat-label>
-                        <input matInput placeholder="Ex. birds" type='text' name='new-label' formControlName='labelName'>
-                    </mat-form-field>
-                </form>
+                <div class="dialog-body">
+
+                    <div class="body-section">
+            
+                        <div class="text-input-container">
+                            <form [formGroup]='this.labelForm' class="new-label-form"> 
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>New Label</mat-label>
+                                    <input matInput placeholder="Ex. birds" type='text' name='new-label' formControlName='labelName'>
+                                </mat-form-field>
+                            </form>
+                        </div>
+            
+                        <div class="button-container">
+                            <button mat-icon-button 
+                                    (click)='this.add_new_label( this.labelForm.value.labelName)'>
+                                <mat-icon>add_circle_outline</mat-icon>
+                            </button>
+                        </div>
+            
+                    </div>
+            
+            
+                    <div class="body-section">
+                        <mat-chip-list aria-label="Label selection">
+                            <mat-chip
+                                [removable]=true 
+                                *ngFor='let label of this.frameLabels'
+                                class='label-chip'
+                                (removed)="this.remove_label(label)">
+                                {{ label }}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+            
+                </div>
+            
+                <div class="dialog-footer">
+            
+                    <button 
+                        class='loader-dialog-button'
+                        mat-stroked-button 
+                        color="primary"
+                        (click)='this.dialogRef.close()'>
+                        Cancel
+                    </button>
+                
+                    <button 
+                        (click)='this.save_labels()'
+                        class='loader-dialog-button'
+                        mat-stroked-button
+                        color="primary">
+                        Save
+                    </button>
+            
+                </div>
+
+            </div>
+            
+        </mat-tab>
+
+        <mat-tab label="Negatives">
+            
+            <div class="dialog-body">        
+        
+                <div class="body-section" >
+                    <mat-chip-list>
+                        <mat-chip
+                            (click)=this.add_new_negative_label(label)
+                            [ngStyle]='{ backgroundColor: this.negativeFrameLabels.has( label ) ? "#BB86FC": "#FFFFFF" }'
+                            *ngFor='let label of this.labelingState.availableLabels'
+                            class='label-chip'>
+                            {{ label }}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+        
             </div>
 
-            <div class="button-container">
-                <button mat-icon-button 
-                        (click)='this.add_new_label( this.labelForm.value.labelName)'>
-                    <mat-icon>add_circle_outline</mat-icon>
+            <div class="dialog-footer">
+            
+                <button 
+                    class='loader-dialog-button'
+                    mat-stroked-button 
+                    color="primary"
+                    (click)='this.dialogRef.close()'>
+                    Cancel
                 </button>
+            
+                <button 
+                    class='loader-dialog-button'
+                    mat-stroked-button
+                    color="primary">
+                    Save
+                </button>
+        
             </div>
 
-        </div>
+
+        </mat-tab>
+
+    </mat-tab-group>
+
+    <!-- <div class="dialog-header">
+        <h3>Frame Labels</h3>
+    </div> -->
 
 
-        <div class="body-section">
-            <mat-chip-list aria-label="Label selection">
-                <mat-chip
-                    [removable]=true 
-                    *ngFor='let label of this.frameLabels'
-                    class='label-chip'
-                    (removed)="this.remove_label(label)">
-                    {{ label }}
-                    <mat-icon matChipRemove>cancel</mat-icon>
-                </mat-chip>
-            </mat-chip-list>
-        </div>
 
-    </div>
 
-    <div class="dialog-footer">
-
-        <button 
-            class='loader-dialog-button'
-            mat-stroked-button 
-            color="primary"
-            (click)='this.dialogRef.close()'>
-            Cancel
-        </button>
-    
-        <button 
-            (click)='this.save_labels()'
-            class='loader-dialog-button'
-            mat-stroked-button
-            color="primary">
-            Save
-        </button>
-
-    </div>
 </div>

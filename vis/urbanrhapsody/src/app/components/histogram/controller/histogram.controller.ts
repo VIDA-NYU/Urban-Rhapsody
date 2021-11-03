@@ -101,6 +101,8 @@ export class HistogramController {
                 .append('rect')
                 .attr('x', (occurrences: number, index: number) => this.xScale(index) + this.pad/2   )
                 .attr('y', (occurrences: number, index: number) =>  baseHeight - this.yScale(occurrences) )
+                .attr('rx', 2)
+                .attr('ry', 2)
                 .attr('width', barWidth - this.pad )
                 .attr('height', (occurrences: number, index: number) => this.yScale(occurrences ) )
                 .attr('class', 'hour-bar')

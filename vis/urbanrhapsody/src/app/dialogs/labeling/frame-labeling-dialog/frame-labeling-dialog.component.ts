@@ -17,24 +17,28 @@ export class FrameLabelingDialogComponent implements OnInit {
 
   // unique labels
   public frameLabels: string[] = [];
+  public negativeFrameLabels: Set<string> = new Set<string>();
 
   constructor( public dialogRef: MatDialogRef<FrameLabelingDialogComponent>, public dataState: DataState, public labelingState: LabelingState ) { }
 
   ngOnInit(): void { this.initialize_dialog(); } 
 
   public initialize_dialog(): void {
-    
+  
     // showing previously done labels
     const currentLabels: Set<string> = new Set<string>();
     this.dataState.selectedFrames.forEach( (frame: AudioFrame ) => { 
       
       const frameLabels: string[] = frame.metadata.get_labels();
+      const negativeFrameLabels: string[] = frame.metadata.get_negative_labels();
+
       frameLabels.forEach( (label: string) => currentLabels.add(label) );
+      negativeFrameLabels.forEach( (negativeLabel: string) => this.negativeFrameLabels.add(negativeLabel) );
 
     });
 
     this.frameLabels = Array.from(currentLabels.values());
-
+    
   }
 
   public add_new_label( label: string ): void {
@@ -50,6 +54,16 @@ export class FrameLabelingDialogComponent implements OnInit {
       // updating labels
       this.frameLabels = Array.from( helperSet.values() );
 
+    }
+
+  }
+
+  public add_new_negative_label( label: string ): void {
+
+    if( this.negativeFrameLabels.has(label) ){
+      this.negativeFrameLabels.delete(label);
+    } else {
+      this.negativeFrameLabels.add(label);
     }
 
   }

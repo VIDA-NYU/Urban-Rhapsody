@@ -53,7 +53,7 @@ export class DialogManager {
         this.dialog.open( FrameLabelingDialogComponent, {
             panelClass: 'custom-dialog-container',
             width: '800px',
-            height: '400px'
+            height: '500px'
         });
 
     }

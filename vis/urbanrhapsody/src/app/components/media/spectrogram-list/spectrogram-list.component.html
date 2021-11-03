@@ -17,7 +17,11 @@
 
     <!-- THIS COMPONENT IS SUPPOSED TO SHOW THE FRAME CLASSIFICATION -->
     <div class='focused-classification-container'>
-        <app-focused-classification-list></app-focused-classification-list>
+        <app-focused-classification-list
+            #focusedclassificationlistref
+            [selectedsnippets]=this.spectrogramListController.showingSnippets
+            [availableprototypes]=this.availableprototypes>
+        </app-focused-classification-list>
     </div>
 
     <div class="controls-container">

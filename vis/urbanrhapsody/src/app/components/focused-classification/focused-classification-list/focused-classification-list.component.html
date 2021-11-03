@@ -1,5 +1,21 @@
 <div class="component-wrapper">
-    <div class="scrollable-container">
-        
+    <div class="scrollable-container" #focusedclassificationlistcontainerref>
+        <div 
+            *ngFor='let prototype of this.availableprototypes' 
+            class="focused-prototype-classification-container">
+
+            <div
+                *ngFor='let snippet of this.selectedsnippets' 
+                [style.width]='this.focusedClassificationListController.focusedClassificationContainerWidth'
+                class="snippet-prototype-focused-classification-container">
+
+                <app-focused-classification 
+                    [snippet]=snippet
+                    [prototypename]=prototype>
+                </app-focused-classification>
+
+            </div>
+
+        </div>
     </div>
 </div>
