@@ -13,6 +13,26 @@ import json
 class ModelPersistor:
 
     @staticmethod
+    def flush_model( prototypeName: str ):
+        filepath = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}{prototypeName}.pkl"
+        
+        if os.path.exists(filepath):
+            os.remove(filepath)
+
+    @staticmethod
+    def flush_representatives( prototypeName: str ):
+
+        filepath = f"{SONYCCONSTS['PROTOTYPES']['REPRESENTATIVES']}/{prototypeName}"
+        if( not os.path.isdir(filepath) ):
+
+            representatives = glob.glob( f"{filepath}/*")
+            for npfile in representatives:
+                os.remove(npfile)
+
+        os.rmdir(filepath)
+        
+
+    @staticmethod
     def save_model( prototypeName: str, model ):
 
         filepath = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}{prototypeName}.pkl"
@@ -53,7 +73,7 @@ class ModelPersistor:
         return representatives
 
     @staticmethod
-    def save_model_summary( prototypeName: str, labels: list[str] ):
+    def save_model_summary( prototypeName: str, labels: [str] ):
 
         ## creating model summary
         modelSummary = {

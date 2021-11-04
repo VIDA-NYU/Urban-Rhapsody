@@ -89,6 +89,11 @@ class Engine:
         self.prototypeManager.set_prototype( prototypeName, labels )
         return json.dumps({'response': 'success'})
 
+    def refine_prototype( self, prototypeName, labels ):
+
+        self.prototypeManager.refine_prototype( prototypeName, labels )
+        return json.dumps({'response': 'success'})
+
     def get_available_prototypes( self ):
         
         prototypes = self.prototypeManager.get_available_prototypes()
@@ -108,9 +113,3 @@ class Engine:
         summary = self.prototypeManager.get_prototype_summary( prototypeName )
         return json.dumps( summary )
 
-    def refine_prototype( self, prototypeName, labels ):
-
-        print(prototypeName)
-        print(labels)
-
-        return json.dumps({'response': 'success'})

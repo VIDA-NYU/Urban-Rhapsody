@@ -1,41 +1,45 @@
 from sklearn.cluster import DBSCAN
 import hdbscan
 import numpy as np
+from cuml.cluster import HDBSCAN
+
 
 class Clusterer:
 
-    @staticmethod
-    def calculate_representatives( embeddings ):
+    # @staticmethod
+    # def calculate_representatives( embeddings ):
 
-        listOfEmbeddings = np.array(list(embeddings.values()))
-        clustering = DBSCAN(eps=8, min_samples=10).fit( listOfEmbeddings )
+    #     listOfEmbeddings = np.array(list(embeddings.values()))
+    #     clustering = DBSCAN(eps=8, min_samples=10).fit( listOfEmbeddings )
         
-        ## calculating centroids
-        centroids = []
-        clusterID = 0
-        while( True ):
+    #     ## calculating centroids
+    #     centroids = []
+    #     clusterID = 0
+    #     while( True ):
 
-            currentClusterPoints = listOfEmbeddings[ clustering.labels_ == clusterID, : ]
+    #         currentClusterPoints = listOfEmbeddings[ clustering.labels_ == clusterID, : ]
 
-            if(currentClusterPoints.shape[0] == 0):
-                break
+    #         if(currentClusterPoints.shape[0] == 0):
+    #             break
             
-            currentCentroid = np.mean(currentClusterPoints, axis=0)
-            centroids.append(currentCentroid)
+    #         currentCentroid = np.mean(currentClusterPoints, axis=0)
+    #         centroids.append(currentCentroid)
 
-            clusterID += 1
+    #         clusterID += 1
             
-        return centroids
+    #     return centroids
 
 
     @staticmethod
     def calculate_representatives_hdbscan( embeddings ):
 
-        listOfEmbeddings = np.array(list(embeddings.values()))
+        listOfEmbeddings = np.array( list(embeddings.values()), dtype="float32" )
 
-        clusterer = hdbscan.HDBSCAN(min_cluster_size=10)
+        clusterer = HDBSCAN(min_samples=10, gen_min_span_tree=True)
         cluster_labels = clusterer.fit_predict(listOfEmbeddings)
 
+        ##clusterer = hdbscan.HDBSCAN(min_cluster_size=10)
+        ##cluster_labels = clusterer.fit_predict(listOfEmbeddings)
 
         ## checking if no cluster was created
         currentClusterPoints = listOfEmbeddings[ cluster_labels == -1, : ]

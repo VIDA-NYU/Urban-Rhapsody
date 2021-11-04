@@ -4,6 +4,7 @@ from prototype.modeling.modeling import Modeling
 from utils.responseformatter import ResponseFormatter
 import requests
 import json
+import numpy as np
 from datasource.datasource import Datasource
 
 class PrototypeManager:
@@ -21,13 +22,13 @@ class PrototypeManager:
         ## getting all uids
         uids = []
         for label in labels:
-            response = requests.post('http://localhost:5002/getframesperannotation', json={ 'annotation': label } )
+            response = requests.post('http://216.165.113.162:5002/getframesperannotation', json={ 'annotation': label } )
             response = json.loads(response.text)
             uids.extend(response[label])
 
         negativeUids = []
         for label in labels: 
-            response = requests.post('http://localhost:5002/getframespernegativeannotation', json={ 'annotation': label } )
+            response = requests.post('http://216.165.113.162:5002/getframespernegativeannotation', json={ 'annotation': label } )
             response = json.loads(response.text)
 
             if(response[label] != None):
@@ -48,13 +49,58 @@ class PrototypeManager:
         representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
 
         # training the model
-        model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
-        # model = Modeling.train_random_forest( positiveFeatures, randomSamples )
+        # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        model = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
 
         ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
         ModelPersistor.save_representatives( prototypeName, representativeVectors )
         ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
+
+        return
+
+    def refine_prototype( self, prototypeName, labels ):
+
+        ModelPersistor.flush_model( prototypeName )
+        ModelPersistor.flush_representatives( prototypeName )
+
+        # ## getting all uids
+        # uids = []
+        # for label in labels:
+        #     response = requests.post('http://216.165.113.162:5002/getframesperannotation', json={ 'annotation': label } )
+        #     response = json.loads(response.text)
+        #     uids.extend(response[label])
+
+        # negativeUids = []
+        # for label in labels: 
+        #     response = requests.post('http://216.165.113.162:5002/getframespernegativeannotation', json={ 'annotation': label } )
+        #     response = json.loads(response.text)
+
+        #     if(response[label] != None):
+        #         negativeUids.extend(response[label])
+
+        # negativeFeatures = ResponseFormatter.format_labeled_frames( negativeUids )
+        # negativeFeatures = Datasource.get_embeddings( uids=negativeFeatures, embeddingModel='openl3' )
+
+        # positiveFeatures = ResponseFormatter.format_labeled_frames( uids )
+        # positiveFeatures = Datasource.get_embeddings( uids=positiveFeatures, embeddingModel='openl3' )
+        
+        # ## generating random sample
+        # randomSamples = Datasource.get_random_sample( len(positiveFeatures) * 2 )
+        # randomSamples = Datasource.get_embeddings( uids=randomSamples, embeddingModel='openl3' )
+
+        # ## calculating representatives
+        # # representativeVectors = Clusterer.calculate_representatives( positiveFeatures )
+        # representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
+
+        # # training the model
+        # # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        # model = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+
+        # ## saving prototype
+        # ModelPersistor.save_model( prototypeName=prototypeName, model=model )
+        # ModelPersistor.save_representatives( prototypeName, representativeVectors )
+        # # ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
 
         return
 
@@ -70,12 +116,12 @@ class PrototypeManager:
         model = ModelPersistor.load_model( prototypeName )
 
         ## predicting
-        # X = list( uids.values() )
-        # predictions = model.predict_proba( X )
+        X = list( uids.values() )
+        X = np.array(X, dtype="float32")
+        predictions = model.predict_proba(X)
 
-        for uid in uids:
-            positiveLikelihood = model.predict_proba( [ uids[uid] ])[0][1]
-            uids[uid] = positiveLikelihood
+        for index, uid in enumerate(uids):
+            uids[uid] = predictions[index][1].item()
         
         return uids
 
