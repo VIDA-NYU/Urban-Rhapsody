@@ -1,0 +1,79 @@
+:host{
+    width: 100%;
+    height: 100%;
+}
+
+.spinner-container{
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: gray;
+    opacity: 50%;
+
+}
+
+.component-wrapper{
+
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+}
+
+.dialog-header{
+
+    width: 100%;
+    height: 10%;
+
+    display: flex;
+    align-items: center;
+}
+
+.dialog-body{
+
+    width: 100%;
+    height: 80%;
+
+    display: flex;
+    flex-direction: column;
+
+    .body-section {
+
+        width: 100%;
+        height: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+}
+
+.dialog-footer{
+
+    width: 100%;
+    height: 10%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    
+    button{
+        margin-left: 5px;
+    }
+}
+
+.label-chip{
+
+    cursor: pointer;
+}

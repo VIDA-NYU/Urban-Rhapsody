@@ -39,6 +39,7 @@ import { SensorMapComponent } from './components/sensor-map/sensor-map.component
 import { RangeSliderComponent } from './components/range-slider/range-slider.component';
 import { FocusedClassificationListComponent } from './components/focused-classification/focused-classification-list/focused-classification-list.component';
 import { FocusedClassificationComponent } from './components/focused-classification/focused-classification/focused-classification.component';
+import { PrototypeRefinementDialogComponent } from './dialogs/prototyping/prototype-refinement-dialog/prototype-refinement-dialog.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { FocusedClassificationComponent } from './components/focused-classificat
     SensorMapComponent,
     RangeSliderComponent,
     FocusedClassificationListComponent,
-    FocusedClassificationComponent  
+    FocusedClassificationComponent,
+    PrototypeRefinementDialogComponent  
   ],
   imports: [
     BrowserModule,

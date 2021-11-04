@@ -74,6 +74,23 @@ def apply_prototype():
     requestParams = request.get_json()
 
     return engine.apply_prototype( requestParams['prototypeName'], requestParams['uids'] )
+
+@app.route('/getprototypesummary', methods=['POST'])
+def get_prototype_summary():
+
+    ## reading params
+    requestParams = request.get_json()
+
+    return engine.get_prototype_summary( prototypeName=requestParams['prototypeName'] )
+
+
+@app.route('/refineprototype', methods=['POST'])
+def refine_prototype():
+
+    ## reading params
+    requestParams = request.get_json()
+
+    return engine.refine_prototype( requestParams['prototypeName'], requestParams['labels'] )
     
 if __name__ == '__main__':
 

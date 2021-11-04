@@ -11,6 +11,7 @@ class Engine:
 
         self.annotationsManager = AnnotationManager()
 
+    ## positive labeling
     def get_frame_annotations( self, uids: list[str] ):
         return json.dumps(self.annotationsManager.get_frame_annotations( uids )) 
 
@@ -20,6 +21,20 @@ class Engine:
     def set_frame_annotations( self, uids: dict[ str, any ], annotations: list[str] ):
         self.annotationsManager.set_frame_annotations( uids, annotations )
         return json.dumps({'response': 'success'})
+
+
+    ## negative labeling
+    def get_frame_negative_annotations( self, uids: list[str] ):
+        return json.dumps(self.annotationsManager.get_frame_negative_annotations( uids )) 
+
+    def get_frames_per_negative_annotation( self, annotation: str ):
+        return json.dumps( { annotation: self.annotationsManager.get_frames_per_negative_annotations( annotation ) })
+
+    def set_frame_negative_annotations( self, uids: dict[ str, any ], annotations: list[str] ):
+        self.annotationsManager.set_frame_negative_annotations( uids, annotations )
+        return json.dumps({'response': 'success'})
+
+
 
     def get_all_labels( self ):
         return json.dumps({'labels': self.annotationsManager.get_all_labels() })

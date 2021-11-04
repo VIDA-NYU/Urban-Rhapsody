@@ -1,5 +1,5 @@
 from core.engine import Engine
-from flask import Flask, send_from_directory, jsonify, request, Response
+from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin ## remove in production
 
 app = Flask(__name__)
@@ -9,6 +9,36 @@ app.config['CORS_HEADERS'] = 'Content-Type' ## remove in production
 ## API ENGINE
 engine = None
 
+
+## NEGATIVE LABELING
+@app.route('/getframenegativeannotations', methods=['POST'])
+def get_frame_negative_annotations():
+
+    ## reading parameters
+    requestParams = request.get_json()
+
+    ## return list of annotations per frame
+    return engine.get_frame_negative_annotations( requestParams['uids'] )
+
+@app.route('/getframespernegativeannotation', methods=['POST'])
+def get_frames_per_negative_annotation():
+
+    ## reading parameters
+    requestParams = request.get_json()
+
+    ## return list of annotations per frame
+    return engine.get_frames_per_negative_annotation( requestParams['annotation'] )
+
+@app.route('/setframenegativeannotations', methods=['POST'])
+def set_frame_negative_annotations():
+
+    ## reading parameters
+    requestParams = request.get_json()
+
+    return engine.set_frame_negative_annotations( requestParams['uids'], requestParams['annotations'] )
+
+
+## POSITIVE LABELING
 @app.route('/getframeannotations', methods=['POST'])
 def get_frame_annotations():
 

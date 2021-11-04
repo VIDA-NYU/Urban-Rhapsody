@@ -64,4 +64,24 @@ export class LabelingState {
         this.update_available_labels( annotations );
     }
 
+    public async negative_label_frames( annotations: string[], frames: AudioFrame[] ): Promise<void> {
+
+        // extracting frame UIDs
+        const uids: { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string } } = Serializer.format_uids_labeling_request( frames );
+
+        // saving labels
+        await LabelingAPI.negative_label_frames( uids, annotations );
+
+        // synchronizing labels 
+        frames.forEach( (frame: AudioFrame) => frame.metadata.add_negative_labels(annotations) );
+
+    }
+
+    public async get_all_created_labels(): Promise<{ labels: string[] }> {
+
+        const allLabels: { labels: string[] } = await LabelingAPI.get_all_labels();
+        return allLabels;
+        
+    }
+
 }

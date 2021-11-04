@@ -5,9 +5,13 @@ from sklearn.ensemble import RandomForestClassifier
 class Modeling:
 
     @staticmethod
-    def train_logistic_regression( positiveDict, negativeDict ):
+    def train_logistic_regression( positiveDict, randomDict, negativeDict ):
 
         X, y = [], []
+        for frameuid, vector in randomDict.items():
+            X.append( vector.tolist() )
+            y.append(0)
+
         for frameuid, vector in negativeDict.items():
             X.append( vector.tolist() )
             y.append(0)

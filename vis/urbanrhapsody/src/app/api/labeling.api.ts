@@ -26,6 +26,31 @@ export class LabelingAPI {
 
     }
 
+    public static async negative_label_frames( uids: { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string } }, annotations: string[] ): Promise<void> {
+
+        // url
+        const url = `${environment.userserver}/setframenegativeannotations`;
+
+        // post parameters
+        const requestParams = {  uids, annotations };
+
+        // post header
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        // Return a new promise.
+        const response = await fetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(requestParams),
+        });
+
+        return await response.json();
+
+    }
+
+
     public static async get_all_labels(): Promise<{ labels: string[] }> {
 
         // url
@@ -46,6 +71,7 @@ export class LabelingAPI {
 
     }
 
+    // TODO: Remove it from here
     public static async create_prototype( prototypeName: string, labels: string[] ): Promise<void>{
 
         // url

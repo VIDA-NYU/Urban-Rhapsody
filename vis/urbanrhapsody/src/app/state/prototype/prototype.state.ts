@@ -36,6 +36,19 @@ export class PrototypeState {
     }
 
 
+    public async get_prototype_summary( prototypeName: string ): Promise<void>{
+
+        const prototypeSummary: any = await LearnAPI.get_prototype_summary( prototypeName );
+        return prototypeSummary;
+    }
+
+    public async get_all_prototypes(): Promise<{ prototypes: string[] }> {
+
+        const prototypes: any = await LearnAPI.get_all_prototypes();
+        return prototypes;
+        
+    }
+
     public flush_prototypes(): void{
 
         // cleaning loaded prototypes

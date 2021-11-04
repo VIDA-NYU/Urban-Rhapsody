@@ -12,7 +12,8 @@ SONYCCONSTS = {
     'CLASS_PREDICTIONS': '../../data/sonyc/class_predictions/',
     'PROTOTYPES': {
         'MODELS': '../../data/sonyc/prototypes/models/',
-        'REPRESENTATIVES': '../../data/sonyc/prototypes/representatives/'
+        'REPRESENTATIVES': '../../data/sonyc/prototypes/representatives/',
+        'SUMMARIES': '../../data/sonyc/prototypes/summaries/'
     },
     'INDICES' : {
         'MAPPER': '../../data/sonyc/indices/ann/audioindices.json',

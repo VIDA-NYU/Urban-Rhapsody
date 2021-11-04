@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { LabelingAPI } from 'src/app/api/labeling.api';
 import { AudioFrame } from 'src/app/model/audioframe.model';
 import { DataState } from 'src/app/state/data.state';
 import { LabelingState } from 'src/app/state/labeling/labeling.state';
@@ -17,13 +18,18 @@ export class FrameLabelingDialogComponent implements OnInit {
 
   // unique labels
   public frameLabels: string[] = [];
-  public negativeFrameLabels: Set<string> = new Set<string>();
+  public selectionNegativeFrameLabels: Set<string> = new Set<string>();
+  public allNegativeFrameLabels: string[] = [];
 
   constructor( public dialogRef: MatDialogRef<FrameLabelingDialogComponent>, public dataState: DataState, public labelingState: LabelingState ) { }
 
   ngOnInit(): void { this.initialize_dialog(); } 
 
-  public initialize_dialog(): void {
+  public async initialize_dialog(): Promise<void> {
+
+    // requesting all available labels
+    const response: { labels: string[] } = await LabelingAPI.get_all_labels();
+    this.allNegativeFrameLabels = response.labels;
   
     // showing previously done labels
     const currentLabels: Set<string> = new Set<string>();
@@ -33,7 +39,7 @@ export class FrameLabelingDialogComponent implements OnInit {
       const negativeFrameLabels: string[] = frame.metadata.get_negative_labels();
 
       frameLabels.forEach( (label: string) => currentLabels.add(label) );
-      negativeFrameLabels.forEach( (negativeLabel: string) => this.negativeFrameLabels.add(negativeLabel) );
+      negativeFrameLabels.forEach( (negativeLabel: string) => this.selectionNegativeFrameLabels.add(negativeLabel) );
 
     });
 
@@ -60,10 +66,10 @@ export class FrameLabelingDialogComponent implements OnInit {
 
   public add_new_negative_label( label: string ): void {
 
-    if( this.negativeFrameLabels.has(label) ){
-      this.negativeFrameLabels.delete(label);
+    if( this.selectionNegativeFrameLabels.has(label) ){
+      this.selectionNegativeFrameLabels.delete(label);
     } else {
-      this.negativeFrameLabels.add(label);
+      this.selectionNegativeFrameLabels.add(label);
     }
 
   }
@@ -85,6 +91,16 @@ export class FrameLabelingDialogComponent implements OnInit {
     // closing dialog
     this.dialogRef.close();
 
+  }
+
+  public async save_negative_labels(): Promise<void>{
+
+    // saving negative labels
+    this.labelingState.negative_label_frames( Array.from(this.selectionNegativeFrameLabels.values()) , this.dataState.selectedFrames );
+
+
+    // closing dialog
+    this.dialogRef.close();
   }
 
   public remove_label( label: string ): void{

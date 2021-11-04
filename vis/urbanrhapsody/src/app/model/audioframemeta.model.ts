@@ -2,15 +2,17 @@ export class AudioFrameMeta{
 
     // TODO: refactor label variable name
     public labels: Set<string> = new Set<string>();
-    public negativeLabels: Set<string> = new Set<string>(['car-horn', 'engine']);
+    public negativeLabels: Set<string> = new Set<string>();
 
     // prototype predictions
     public prototypePredictions: { [prototypeName: string]:  number } = {};
 
-    constructor( labels: string[] = [] ){
+    constructor( labels: string[] = [], negativeLabels: string[] = [] ){
 
         // adding labels
         this.add_labels( labels );
+        this.add_negative_labels( negativeLabels );
+
     }
 
     public set_prototype_prediction( prototypeName: string, likelihood: number ): void{
@@ -49,7 +51,7 @@ export class AudioFrameMeta{
 
     public get_negative_labels(): string[] {
 
-        return Array.from(this.labels.values());
+        return Array.from(this.negativeLabels.values());
 
     }
 }

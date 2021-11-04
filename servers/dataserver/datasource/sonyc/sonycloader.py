@@ -43,13 +43,18 @@ class SONYCLoader:
 
         ## attaching metadata to frame
         frameAnnotations = SONYCLoaderUtils.request_frame_anntations( list(listOfFrames.keys()) )
+        frameNegativeAnnotations = SONYCLoaderUtils.request_frame_negative_annotations( list(listOfFrames.keys()) )
         for frameuid in listOfFrames:
             
-            currentFrameAnnotation = []
+            currentFrameAnnotation = []            
             if( frameuid in frameAnnotations ):
                 currentFrameAnnotation = frameAnnotations[frameuid]
 
-            currentFrameMetadata = AudioFrameMetadata(annotations=currentFrameAnnotation)
+            currentFrameNegativeAnnotation = []
+            if( frameuid in frameNegativeAnnotations ):
+                currentFrameNegativeAnnotation = frameNegativeAnnotations[frameuid]
+
+            currentFrameMetadata = AudioFrameMetadata(annotations=currentFrameAnnotation, negativeAnnotations=currentFrameNegativeAnnotation)
             listOfFrames[frameuid].attach_metadata(currentFrameMetadata)
 
         return listOfAudioSnippets 

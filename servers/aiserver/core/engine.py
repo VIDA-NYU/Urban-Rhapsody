@@ -50,8 +50,6 @@ class Engine:
 
             # embeddings[clusterIndex] = indexNeighbors
 
-
-
         return json.dumps( embeddings )
     
     ################## PROJECTIONS ##################
@@ -104,3 +102,15 @@ class Engine:
         ## calculating log-likelihood for each frame
         likelihoods = self.prototypeManager.calculate_prototype( prototypeName, embeddingList )
         return json.dumps({ 'likelihood': likelihoods })
+
+    def get_prototype_summary( self, prototypeName: str ):
+
+        summary = self.prototypeManager.get_prototype_summary( prototypeName )
+        return json.dumps( summary )
+
+    def refine_prototype( self, prototypeName, labels ):
+
+        print(prototypeName)
+        print(labels)
+
+        return json.dumps({'response': 'success'})

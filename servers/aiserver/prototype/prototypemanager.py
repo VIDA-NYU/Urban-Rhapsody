@@ -25,6 +25,16 @@ class PrototypeManager:
             response = json.loads(response.text)
             uids.extend(response[label])
 
+        negativeUids = []
+        for label in labels: 
+            response = requests.post('http://localhost:5002/getframespernegativeannotation', json={ 'annotation': label } )
+            response = json.loads(response.text)
+
+            if(response[label] != None):
+                negativeUids.extend(response[label])
+
+        negativeFeatures = ResponseFormatter.format_labeled_frames( negativeUids )
+        negativeFeatures = Datasource.get_embeddings( uids=negativeFeatures, embeddingModel='openl3' )
 
         positiveFeatures = ResponseFormatter.format_labeled_frames( uids )
         positiveFeatures = Datasource.get_embeddings( uids=positiveFeatures, embeddingModel='openl3' )
@@ -38,17 +48,21 @@ class PrototypeManager:
         representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
 
         # training the model
-        model = Modeling.train_logistic_regression( positiveFeatures, randomSamples )
+        model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
         # model = Modeling.train_random_forest( positiveFeatures, randomSamples )
 
-        # ## saving prototype
+        ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
         ModelPersistor.save_representatives( prototypeName, representativeVectors )
+        ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
 
         return
 
     def get_available_prototypes( self ):
         return ModelPersistor.get_available_models()
+
+    def get_prototype_summary( self, prototypeName: str ):
+        return ModelPersistor.load_model_summary( prototypeName )
 
     def calculate_prototype( self, prototypeName: str, uids ):
 

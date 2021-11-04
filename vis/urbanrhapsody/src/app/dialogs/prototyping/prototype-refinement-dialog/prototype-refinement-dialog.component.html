@@ -1,0 +1,62 @@
+<div class="component-wrapper">
+
+<!-- 
+    <div class="spinner-container" *ngIf='this.prototypeCreationController.isLoadingPrototype'>
+        <mat-spinner></mat-spinner>
+    </div> -->
+
+    <div class="dialog-header">
+        <h3>Refine Prototype</h3>
+    </div>
+
+    <div class="dialog-body">
+
+        <div class="body-section">
+
+            <mat-form-field appearance="fill">
+                <mat-label>Prototype</mat-label>
+                <mat-select (selectionChange)=this.prototypeRefinementDialogController.on_prototype_selected($event) [(ngModel)]=this.prototypeRefinementDialogController.selectedPrototype>
+                    <mat-option *ngFor='let prototype of this.prototypeRefinementDialogController.availablePrototypes' [value]='prototype'> {{ prototype }} </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+
+        <div class="body-section">
+            <mat-chip-list aria-label="Label selection">
+                <mat-chip
+                    *ngFor='let label of this.prototypeRefinementDialogController.createdLabels'
+                    (click)=this.prototypeRefinementDialogController.on_prototype_label_added(label)
+                    [ngStyle]='{ backgroundColor: this.prototypeRefinementDialogController.prototypeLabels.has( label ) ? "#BB86FC": "#FFFFFF" }'
+                    class='label-chip'>
+                    {{ label }}
+                </mat-chip>
+            </mat-chip-list>
+        </div>
+
+
+
+    </div>
+
+    <div class="dialog-footer">
+
+        <button 
+            (click)='this.dialogRef.close()'
+            class='loader-dialog-button'
+            mat-stroked-button 
+            color="primary">
+            Cancel
+        </button>
+        
+        <!-- (click)=this.prototypeCreationController.create_prototype() -->
+        <button 
+            (click)=this.prototypeRefinementDialogController.refine_prototype()
+            class='loader-dialog-button'
+            mat-stroked-button
+            color="primary">
+            Refine
+        </button>
+
+    </div>
+
+</div>

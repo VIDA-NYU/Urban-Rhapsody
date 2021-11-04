@@ -8,6 +8,7 @@ import numpy as np
 import pickle
 import glob
 import os
+import json
 
 class ModelPersistor:
 
@@ -50,6 +51,29 @@ class ModelPersistor:
             representatives[index] = currentEmbedding
 
         return representatives
+
+    @staticmethod
+    def save_model_summary( prototypeName: str, labels: list[str] ):
+
+        ## creating model summary
+        modelSummary = {
+            'name': prototypeName,
+            'labels': labels,
+            'accuracy': []
+        }
+
+        ## saving model summary as json
+        filepath = f"{SONYCCONSTS['PROTOTYPES']['SUMMARIES']}{prototypeName}.json"
+        with open(filepath, 'w') as file:
+            json.dump(modelSummary, file)
+        
+
+    @staticmethod
+    def load_model_summary( prototypeName: str ):
+
+        filepath = f"{SONYCCONSTS['PROTOTYPES']['SUMMARIES']}{prototypeName}.json"
+        with open(filepath) as file:
+            return json.load(file)
 
     @staticmethod
     def get_available_models():

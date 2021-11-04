@@ -76,8 +76,8 @@
                     <mat-chip-list>
                         <mat-chip
                             (click)=this.add_new_negative_label(label)
-                            [ngStyle]='{ backgroundColor: this.negativeFrameLabels.has( label ) ? "#BB86FC": "#FFFFFF" }'
-                            *ngFor='let label of this.labelingState.availableLabels'
+                            [ngStyle]='{ backgroundColor: this.selectionNegativeFrameLabels.has( label ) ? "#BB86FC": "#FFFFFF" }'
+                            *ngFor='let label of this.allNegativeFrameLabels'
                             class='label-chip'>
                             {{ label }}
                         </mat-chip>
@@ -99,7 +99,8 @@
                 <button 
                     class='loader-dialog-button'
                     mat-stroked-button
-                    color="primary">
+                    color="primary"
+                    (click)='this.save_negative_labels()'>
                     Save
                 </button>
         

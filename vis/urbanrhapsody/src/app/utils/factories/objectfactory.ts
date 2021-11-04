@@ -1,4 +1,3 @@
-import { AudioFrame } from "src/app/model/audioframe.model";
 import { AudioFrameMeta } from "src/app/model/audioframemeta.model";
 import { AudioSnippet } from "src/app/model/audiosnippet.model";
 import { AudioSnippetMeta } from "src/app/model/audiosnippetmeta.model";
@@ -38,7 +37,7 @@ export class ObjectFactory {
 
     public static create_frame_metadata( rawobj: any ): AudioFrameMeta {
 
-        const frameMetadata: AudioFrameMeta = new AudioFrameMeta( rawobj.annotations );
+        const frameMetadata: AudioFrameMeta = new AudioFrameMeta( rawobj.annotations, rawobj.negativeAnnotations );
         return frameMetadata;
 
     }
