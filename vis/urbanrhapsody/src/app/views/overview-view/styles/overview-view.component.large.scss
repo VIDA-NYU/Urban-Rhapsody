@@ -37,6 +37,35 @@
 
 }
 
+.models-summaries-wrapper{
+
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .models-summaries-container{
+
+        margin-top: 20px;
+        width: 90%;
+
+        .model-summary-container{
+
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+    
+            margin-bottom: 10px;
+    
+        }
+
+    }    
+
+}
+
 .left-sidebar-container {
 
     width: 15%;  

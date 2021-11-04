@@ -5,6 +5,9 @@ import { PrototypeState } from "src/app/state/prototype/prototype.state";
 
 export class PrototypeRefinementDialogController {
 
+    // loading spinner flag
+    public refiningPrototype: boolean = false;
+
     // selected prototype
     public selectedPrototype: string = '';
 
