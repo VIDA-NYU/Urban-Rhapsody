@@ -6,7 +6,7 @@ import { PrototypeState } from "src/app/state/prototype/prototype.state";
 export class PrototypeRefinementDialogController {
 
     // loading spinner flag
-    public refiningPrototype: boolean = false;
+    public refinePrototypeLoading: boolean = false;
 
     // selected prototype
     public selectedPrototype: string = '';
@@ -51,8 +51,16 @@ export class PrototypeRefinementDialogController {
 
     public refine_prototype(): void {
 
+        // setting spinner flag
+        this.refinePrototypeLoading = true; 
+
+        // refining prototype
+        this.prototypeState.refine_prototype( this.selectedPrototype, Array.from(this.prototypeLabels.values()) )
+
+        // setting spinner flag
+        this.refinePrototypeLoading = false;
+
         
-        console.log(this.selectedPrototype);
 
     }
 }

@@ -1,9 +1,8 @@
 <div class="component-wrapper">
 
-<!-- 
-    <div class="spinner-container" *ngIf='this.prototypeCreationController.isLoadingPrototype'>
+    <div class="spinner-container" *ngIf='this.prototypeRefinementDialogController.refinePrototypeLoading'>
         <mat-spinner></mat-spinner>
-    </div> -->
+    </div>
 
     <div class="dialog-header">
         <h3>Refine Prototype</h3>
@@ -50,7 +49,7 @@
         
         <!-- (click)=this.prototypeCreationController.create_prototype() -->
         <button 
-            (click)=this.prototypeRefinementDialogController.refine_prototype()
+            (click)='this.prototypeRefinementDialogController.refine_prototype(); this.dialogRef.close();'
             class='loader-dialog-button'
             mat-stroked-button
             color="primary">

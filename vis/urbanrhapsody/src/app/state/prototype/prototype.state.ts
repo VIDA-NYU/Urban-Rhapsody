@@ -36,6 +36,18 @@ export class PrototypeState {
     }
 
 
+    public async refine_prototype( prototypeName: string, labels: string[]): Promise<void>{
+
+        // refining prototype
+        await LearnAPI.refine_prototype( prototypeName, labels );
+        
+        // flushing
+        this.flush_prototypes();
+    
+        return;
+        
+    }
+
     public async get_prototype_summary( prototypeName: string ): Promise<void>{
 
         const prototypeSummary: any = await LearnAPI.get_prototype_summary( prototypeName );

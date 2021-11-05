@@ -24,8 +24,8 @@ export class PrototypeLoaderDialogComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void{
 
-    this.prototypeLoaderController.initialize_controller();
-
+    this.prototypeLoaderController.initialize_controller( this.dialogRef );
+    
   }
 
 }
