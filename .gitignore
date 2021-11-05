@@ -4,3 +4,4 @@ backup
 
 
 *.pyc
+*cpython*

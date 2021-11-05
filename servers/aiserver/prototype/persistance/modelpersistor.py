@@ -15,7 +15,7 @@ class ModelPersistor:
     @staticmethod
     def flush_model( prototypeName: str ):
         filepath = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}{prototypeName}.pkl"
-        
+
         if os.path.exists(filepath):
             os.remove(filepath)
 
@@ -23,7 +23,7 @@ class ModelPersistor:
     def flush_representatives( prototypeName: str ):
 
         filepath = f"{SONYCCONSTS['PROTOTYPES']['REPRESENTATIVES']}/{prototypeName}"
-        if( not os.path.isdir(filepath) ):
+        if( os.path.isdir(filepath) ):
 
             representatives = glob.glob( f"{filepath}/*")
             for npfile in representatives:
@@ -73,7 +73,7 @@ class ModelPersistor:
         return representatives
 
     @staticmethod
-    def save_model_summary( prototypeName: str, labels: [str] ):
+    def save_model_summary( prototypeName: str, labels: 'list[str]' ):
 
         ## creating model summary
         modelSummary = {

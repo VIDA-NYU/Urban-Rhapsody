@@ -61,46 +61,47 @@ class PrototypeManager:
 
     def refine_prototype( self, prototypeName, labels ):
 
+        ## flusing previous models
         ModelPersistor.flush_model( prototypeName )
         ModelPersistor.flush_representatives( prototypeName )
 
-        # ## getting all uids
-        # uids = []
-        # for label in labels:
-        #     response = requests.post('http://216.165.113.162:5002/getframesperannotation', json={ 'annotation': label } )
-        #     response = json.loads(response.text)
-        #     uids.extend(response[label])
+        ## getting all uids
+        uids = []
+        for label in labels:
+            response = requests.post('http://216.165.113.162:5002/getframesperannotation', json={ 'annotation': label } )
+            response = json.loads(response.text)
+            uids.extend(response[label])
 
-        # negativeUids = []
-        # for label in labels: 
-        #     response = requests.post('http://216.165.113.162:5002/getframespernegativeannotation', json={ 'annotation': label } )
-        #     response = json.loads(response.text)
+        negativeUids = []
+        for label in labels: 
+            response = requests.post('http://216.165.113.162:5002/getframespernegativeannotation', json={ 'annotation': label } )
+            response = json.loads(response.text)
 
-        #     if(response[label] != None):
-        #         negativeUids.extend(response[label])
+            if(response[label] != None):
+                negativeUids.extend(response[label])
 
-        # negativeFeatures = ResponseFormatter.format_labeled_frames( negativeUids )
-        # negativeFeatures = Datasource.get_embeddings( uids=negativeFeatures, embeddingModel='openl3' )
+        negativeFeatures = ResponseFormatter.format_labeled_frames( negativeUids )
+        negativeFeatures = Datasource.get_embeddings( uids=negativeFeatures, embeddingModel='openl3' )
 
-        # positiveFeatures = ResponseFormatter.format_labeled_frames( uids )
-        # positiveFeatures = Datasource.get_embeddings( uids=positiveFeatures, embeddingModel='openl3' )
+        positiveFeatures = ResponseFormatter.format_labeled_frames( uids )
+        positiveFeatures = Datasource.get_embeddings( uids=positiveFeatures, embeddingModel='openl3' )
         
-        # ## generating random sample
-        # randomSamples = Datasource.get_random_sample( len(positiveFeatures) * 2 )
-        # randomSamples = Datasource.get_embeddings( uids=randomSamples, embeddingModel='openl3' )
+        ## generating random sample
+        randomSamples = Datasource.get_random_sample( len(positiveFeatures) * 2 )
+        randomSamples = Datasource.get_embeddings( uids=randomSamples, embeddingModel='openl3' )
 
-        # ## calculating representatives
-        # # representativeVectors = Clusterer.calculate_representatives( positiveFeatures )
-        # representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
+        ## calculating representatives
+        # representativeVectors = Clusterer.calculate_representatives( positiveFeatures )
+        representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
 
-        # # training the model
-        # # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
-        # model = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        # training the model
+        # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        model = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
 
-        # ## saving prototype
-        # ModelPersistor.save_model( prototypeName=prototypeName, model=model )
-        # ModelPersistor.save_representatives( prototypeName, representativeVectors )
-        # # ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
+        ## saving prototype
+        ModelPersistor.save_model( prototypeName=prototypeName, model=model )
+        ModelPersistor.save_representatives( prototypeName, representativeVectors )
+        # ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
 
         return
 
