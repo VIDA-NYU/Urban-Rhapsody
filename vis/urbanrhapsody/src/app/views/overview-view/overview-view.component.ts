@@ -6,6 +6,7 @@ import { ProjectionListComponent } from 'src/app/components/projections/projecti
 import { DialogManager } from 'src/app/dialogs/dialog-manager.service';
 import { GlobalEvents } from 'src/app/events/global.events';
 import { AudioState } from 'src/app/state/audio/audio.state';
+import { ClusteringState } from 'src/app/state/clustering/clustering.state';
 import { DataState } from 'src/app/state/data.state';
 import { LabelingState } from 'src/app/state/labeling/labeling.state';
 import { ProjectionState } from 'src/app/state/projections/projections.state';
@@ -39,12 +40,13 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
     public projectionState: ProjectionState,
     public dialogManager: DialogManager,
     public prototypeState: PrototypeState,
-    public labelingState: LabelingState  ) {}
+    public labelingState: LabelingState,
+    public clusteringState: ClusteringState  ) {}
 
   ngOnInit(): void {
 
     // creating controller
-    this.overviewViewController = new OverviewViewController( this.globalEvents, this.dataState, this.audioState, this.projectionState, this.dialogManager, this.prototypeState, this.labelingState );
+    this.overviewViewController = new OverviewViewController( this.globalEvents, this.dataState, this.audioState, this.projectionState, this.dialogManager, this.prototypeState, this.labelingState, this.clusteringState );
 
   }
 

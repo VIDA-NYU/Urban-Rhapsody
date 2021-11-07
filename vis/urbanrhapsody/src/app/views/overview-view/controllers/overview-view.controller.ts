@@ -6,6 +6,7 @@ import { ProjectionListComponent } from "src/app/components/projections/projecti
 import { DialogManager } from "src/app/dialogs/dialog-manager.service";
 import { GlobalEvents } from "src/app/events/global.events";
 import { AudioState } from "src/app/state/audio/audio.state";
+import { ClusteringState } from "src/app/state/clustering/clustering.state";
 import { DataState } from "src/app/state/data.state";
 import { LabelingState } from "src/app/state/labeling/labeling.state";
 import { ProjectionState } from "src/app/state/projections/projections.state";
@@ -29,7 +30,8 @@ export class OverviewViewController {
         public projectionState: ProjectionState, 
         public dialogManager: DialogManager,
         public prototypeState: PrototypeState,
-        public labelingState: LabelingState ){
+        public labelingState: LabelingState,
+        public clusteringState: ClusteringState ){
 
         // creating controllers
         this.calendarTimelineController = new OverviewViewCalendarTimelineController( this.dataState, this.globalEvents );
@@ -83,7 +85,8 @@ export class OverviewViewController {
         // updating sidebar
         this.sidebarController.on_day_loaded( this.dataState.selectedFrames );
 
-
+        // calculating cluster tree
+        this.clusteringState.generate_cluster_tree( Object.values(this.dataState.indexedFrames)  );
         
         
     }
