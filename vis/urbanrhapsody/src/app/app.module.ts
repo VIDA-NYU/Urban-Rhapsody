@@ -40,6 +40,7 @@ import { RangeSliderComponent } from './components/range-slider/range-slider.com
 import { FocusedClassificationListComponent } from './components/focused-classification/focused-classification-list/focused-classification-list.component';
 import { FocusedClassificationComponent } from './components/focused-classification/focused-classification/focused-classification.component';
 import { PrototypeRefinementDialogComponent } from './dialogs/prototyping/prototype-refinement-dialog/prototype-refinement-dialog.component';
+import { ClusterTreeComponent } from './components/cluster-tree/cluster-tree.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { PrototypeRefinementDialogComponent } from './dialogs/prototyping/protot
     RangeSliderComponent,
     FocusedClassificationListComponent,
     FocusedClassificationComponent,
-    PrototypeRefinementDialogComponent  
+    PrototypeRefinementDialogComponent,
+    ClusterTreeComponent  
   ],
   imports: [
     BrowserModule,

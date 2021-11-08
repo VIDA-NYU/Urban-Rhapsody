@@ -28,6 +28,30 @@ export class LearnAPI {
 
     }
 
+    public static async generate_cluster_tree( uids: any ): Promise<any> {
+
+        // url
+        const url = `${environment.aiserver}/generateclustertree`;
+
+        // post parameters
+        const requestParams = {  uids };
+
+        // post header
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+
+        // Return a new promise.
+        const response = await fetch(url, {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(requestParams),
+        });
+
+        return await response.json();
+
+    }
+
     public static async load_year_distribution( frames: any, k: number ){
 
         // serializing request
@@ -151,6 +175,8 @@ export class LearnAPI {
 
     }
 
+
+
     // TODO: Remove it from here
     public static async refine_prototype( prototypeName: string, labels: string[] ): Promise<void>{
 
@@ -176,4 +202,6 @@ export class LearnAPI {
 
 
     }
+
+
 }
