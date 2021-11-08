@@ -14,6 +14,7 @@ export class PrototypeState {
 
     // calculated prototypes for the current loaded data
     public loadedPrototypes: string[] = [];
+    public prototypeSummary: any = null;
 
     constructor( public dataState: DataState ){}
 
@@ -41,6 +42,9 @@ export class PrototypeState {
         // refining prototype
         await LearnAPI.refine_prototype( prototypeName, labels );
         
+        // getting prototype summary
+        this.prototypeSummary = await LearnAPI.get_prototype_summary( prototypeName );
+
         // flushing
         this.flush_prototypes();
     

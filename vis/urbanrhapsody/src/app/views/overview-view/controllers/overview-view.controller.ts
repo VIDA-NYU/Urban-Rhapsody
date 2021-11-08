@@ -85,7 +85,7 @@ export class OverviewViewController {
         this.sidebarController.on_day_loaded( this.dataState.selectedFrames );
 
         // calculating cluster tree
-        this.clusteringState.generate_cluster_tree( Object.values(this.dataState.indexedFrames)  );
+        // this.clusteringState.generate_cluster_tree( Object.values(this.dataState.indexedFrames)  );
         
         
     }
