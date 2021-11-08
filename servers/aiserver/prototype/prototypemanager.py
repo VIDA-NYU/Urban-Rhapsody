@@ -101,6 +101,7 @@ class PrototypeManager:
         ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
         ModelPersistor.save_representatives( prototypeName, representativeVectors )
+        ModelPersistor.update_model_summary( prototypeName )
         # ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
 
         return

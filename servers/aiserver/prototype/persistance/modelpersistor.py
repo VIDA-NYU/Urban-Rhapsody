@@ -9,6 +9,7 @@ import pickle
 import glob
 import os
 import json
+import random
 
 class ModelPersistor:
 
@@ -73,13 +74,25 @@ class ModelPersistor:
         return representatives
 
     @staticmethod
+    def update_model_summary( prototypeName: str ):
+
+        currentSummary = ModelPersistor.load_model_summary( prototypeName=prototypeName )
+        currentSummary['accuracy'].append(random.uniform(0,1))
+
+        ## saving model summary as json
+        filepath = f"{SONYCCONSTS['PROTOTYPES']['SUMMARIES']}{prototypeName}.json"
+        with open(filepath, 'w') as file:
+            json.dump(currentSummary, file)
+
+
+    @staticmethod
     def save_model_summary( prototypeName: str, labels: 'list[str]' ):
 
         ## creating model summary
         modelSummary = {
             'name': prototypeName,
             'labels': labels,
-            'accuracy': []
+            'accuracy': [random.uniform(0,1)]
         }
 
         ## saving model summary as json
