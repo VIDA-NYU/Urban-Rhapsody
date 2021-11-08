@@ -3,9 +3,15 @@ import { AudioFrame } from "src/app/model/audioframe.model";
 
 // third-party
 import * as d3 from 'd3';
+import * as _ from 'lodash';
+
+
 import { HistogramComponent } from "src/app/components/histogram/histogram.component";
 import { PrototypeState } from "src/app/state/prototype/prototype.state";
 import { QueryList } from "@angular/core";
+import { ClusteringState } from "src/app/state/clustering/clustering.state";
+import { DataState } from "src/app/state/data.state";
+import { ProjectionListComponent } from "src/app/components/projections/projection-list/projection-list.component";
 
 export class OverviewViewSidebarController {
 
@@ -13,13 +19,23 @@ export class OverviewViewSidebarController {
     public hourHistogramRef!: HistogramComponent;
     public prototypehistogramrefs!: QueryList<HistogramComponent>;
 
-    constructor( public prototypeState: PrototypeState ){}
+    constructor( public prototypeState: PrototypeState, public clusteringState: ClusteringState, public dataState: DataState ){}
 
     public initialize_controller( hourhistogramref: HistogramComponent, prototypehistogramrefs: QueryList<HistogramComponent> ){
 
         // saving histogram refs
         this.hourHistogramRef = hourhistogramref;
         this.prototypehistogramrefs = prototypehistogramrefs;
+    }
+
+    public on_cluster_node_selected( event: {uids: string[]} ): void {
+
+        // selecting frames
+        const uids: string [] = event.uids;
+        this.dataState.select_frames( { filtertype: 'uids', uids } );
+
+        // updating histograms
+        this.on_frames_brushed( { frames: this.dataState.selectedFrames } );
 
     }
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ClusterTreeController } from './controller/cluster-tree.controller';
 
 @Component({
@@ -11,8 +11,17 @@ export class ClusterTreeComponent implements OnInit, AfterViewInit {
   // controller
   public clusterTreeController: ClusterTreeController = new ClusterTreeController();
 
+  // outputs
+  @Output('clusternodeselected') clusternodeselected: EventEmitter<{'uids': string[]}> = new EventEmitter<{'uids': string[]}>();
+
   // dom refs
   @ViewChild('chartcontainerref') chartcontainerref!: ElementRef;
+
+  // inputs
+  @Input('isloadingtree') isLoadingTree: boolean = false;
+  @Input('clustertree') set clustertree( clusterTree: any ){
+    if(clusterTree !== null ) this.clusterTreeController.update_tree( clusterTree );
+  } 
 
   constructor() { }
 
@@ -20,8 +29,13 @@ export class ClusterTreeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
+    // events
+    const events: {} = {
+      'clusternodeselected': this.clusternodeselected
+    }
+
     // initializing chart
-    this.clusterTreeController.initialize_controller( this.chartcontainerref.nativeElement );
+    this.clusterTreeController.initialize_controller( this.chartcontainerref.nativeElement, events );
 
   }
 

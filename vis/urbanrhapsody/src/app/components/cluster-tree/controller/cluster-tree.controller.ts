@@ -1,8 +1,12 @@
 import { ChartUtils } from "src/app/utils/chart/chart.utils";
 import * as d3hieararchy from 'd3-hierarchy'
 import * as d3 from 'd3';
+import { EventEmitter } from "@angular/core";
 
 export class ClusterTreeController {
+
+    // events
+    public events: { [event: string]: EventEmitter<any> } = {};
 
     // chart container
     public container!: HTMLElement;
@@ -19,8 +23,10 @@ export class ClusterTreeController {
 
     constructor(){}
 
+    public initialize_controller( container: HTMLElement, events: { [event: string]: EventEmitter<any> } ): void {
 
-    public initialize_controller( container: HTMLElement ): void {
+        // saving events
+        this.events = events;
 
         // saving refs
         this.container = container;
@@ -43,10 +49,10 @@ export class ClusterTreeController {
 
     private create_tree_layout(){
 
-        const targetWidth = this.container.clientWidth - 30;
-        const targetHeight = this.container.clientHeight - 30;
+        const targetWidth = this.container.clientWidth - this.margins.left - this.margins.right;
+        const targetHeight = this.container.clientHeight - this.margins.bottom - this.margins.top;
 
-        this.treeLayout = d3hieararchy.tree().size([targetWidth,targetHeight]);
+        return d3hieararchy.tree().size([targetWidth,targetHeight]);
 
     }
 
@@ -79,111 +85,112 @@ export class ClusterTreeController {
             .attr('stroke', '#272449')
             .attr('stroke-width', 2);
         
-        // // nodes enter
+        // nodes enter
+        this.group
+            .selectAll('circle.node')
+            .data(rootLayout.descendants())
+            .enter()
+            .append('circle')
+            .classed('node', true)
+            .on('click', (event, data) => {
+                
+                // preventing defaulg
+                event.preventDefault();
+
+                const indices: string [] = this.get_all_children_frames(data);
+                this.events['clusternodeselected'].emit({'uids': indices})
+                // this.sample_uids(indices);
+
+            })
+            .attr('cx', (d: any)  => d['x'] )
+            .attr('cy', (d: any)  => d['y'] )
+            .attr('r', 6)
+            .attr('fill', '#ecd16f')
+            .style('cursor', 'pointer');
+
+        // nodes enter
         // this.group
         //     .selectAll('circle.node')
         //     .data(rootLayout.descendants())
         //     .enter()
-        //     .append('circle')
+        //     .append('rect')
         //     .classed('node', true)
-        //     .on('click', (event, data) => {
+        //     .on('click', (event: any, data: any) => {
                 
         //         // preventing defaulg
         //         event.preventDefault();
 
         //         const indices: string [] = this.get_all_children_frames(data);
-        //         this.sample_uids(indices);
+                
+        //         // firing event
+        //         // this.onclusterselected.emit({ 'uids': indices });
+
+        //         // this.sample_uids(indices);
 
         //     })
-        //     .attr('cx', d  => d['x'] )
-        //     .attr('cy', d  => d['y'] )
-        //     .attr('r', 6)
-        //     .attr('fill', '#ecd16f')
+        //     .attr('x', (d: any)  => d['x'] - 12 )
+        //     .attr('y', (d: any)  => d['y'] -2 )
+        //     .attr('width', 24)
+        //     .attr('height', 19 )
+        //     .attr('fill', 'black' )
         //     .style('cursor', 'pointer');
 
-        // nodes enter
-        this.group
-            .selectAll('circle.node')
-            .data(rootLayout.descendants())
-            .enter()
-            .append('rect')
-            .classed('node', true)
-            .on('click', (event: any, data: any) => {
+        // // nodes enter
+        // this.group
+        //     .selectAll('circle.node')
+        //     .data(rootLayout.descendants())
+        //     .enter()
+        //     .append('rect')
+        //     .classed('node', true)
+        //     .on('click', (event: any, data: any) => {
                 
-                // preventing defaulg
-                event.preventDefault();
+        //         // preventing defaulg
+        //         event.preventDefault();
 
-                const indices: string [] = this.get_all_children_frames(data);
+        //         const indices: string [] = this.get_all_children_frames(data);
                 
-                // firing event
-                // this.onclusterselected.emit({ 'uids': indices });
+        //         // firing event
+        //         // this.onclusterselected.emit({ 'uids': indices });
 
-                // this.sample_uids(indices);
+        //         // this.sample_uids(indices);
 
-            })
-            .attr('x', (d: any)  => d['x'] - 12 )
-            .attr('y', (d: any)  => d['y'] -2 )
-            .attr('width', 24)
-            .attr('height', 19 )
-            .attr('fill', 'black' )
-            .style('cursor', 'pointer');
+        //     })
+        //     .attr('x', (d: any)  => d['x'] - 10 )
+        //     .attr('y', (d: any)  => d['y'] )
+        //     .attr('width', 10)
+        //     .attr('height', 15)
+        //     // .attr('fill', (d, i) => this.color_node(d, 4) )
+        //     .style('cursor', 'pointer');
+        //     // .style('stroke' , 'black')
+        //     // .style('stroke-width', '2px');
 
-        // nodes enter
-        this.group
-            .selectAll('circle.node')
-            .data(rootLayout.descendants())
-            .enter()
-            .append('rect')
-            .classed('node', true)
-            .on('click', (event: any, data: any) => {
+        // this.group
+        //     .selectAll('circle.node')
+        //     .data(rootLayout.descendants())
+        //     .enter()
+        //     .append('rect')
+        //     .classed('node', true)
+        //     .on('click', (event: any, data: any) => {
                 
-                // preventing defaulg
-                event.preventDefault();
+        //         // preventing defaulg
+        //         event.preventDefault();
 
-                const indices: string [] = this.get_all_children_frames(data);
+        //         const indices: string [] = this.get_all_children_frames(data);
                 
-                // firing event
-                // this.onclusterselected.emit({ 'uids': indices });
+        //         // firing event
+        //         // this.onclusterselected.emit({ 'uids': indices });
 
-                // this.sample_uids(indices);
+        //         // this.sample_uids(indices);
 
-            })
-            .attr('x', (d: any)  => d['x'] - 10 )
-            .attr('y', (d: any)  => d['y'] )
-            .attr('width', 10)
-            .attr('height', 15)
-            // .attr('fill', (d, i) => this.color_node(d, 4) )
-            .style('cursor', 'pointer');
-            // .style('stroke' , 'black')
-            // .style('stroke-width', '2px');
-
-        this.group
-            .selectAll('circle.node')
-            .data(rootLayout.descendants())
-            .enter()
-            .append('rect')
-            .classed('node', true)
-            .on('click', (event: any, data: any) => {
-                
-                // preventing defaulg
-                event.preventDefault();
-
-                const indices: string [] = this.get_all_children_frames(data);
-                
-                // firing event
-                // this.onclusterselected.emit({ 'uids': indices });
-
-                // this.sample_uids(indices);
-
-            })
-            .attr('x', (d: any)  => d['x'] )
-            .attr('y', (d: any)  => d['y'] )
-            .attr('width', 10)
-            .attr('height', 15)
-            // .attr('fill', (d, i) => this.color_node(d, 4) )
-            .style('cursor', 'pointer');
-            // .style('stroke' , 'black')
-            // .style('stroke-width', '2px');
+        //     })
+        //     .attr('x', (d: any)  => d['x'] )
+        //     .attr('y', (d: any)  => d['y'] )
+        //     .attr('width', 10)
+        //     .attr('height', 15)
+        //     // .attr('fill', (d, i) => this.color_node(d, 4) )
+        //     .style('cursor', 'pointer');
+        //     // .style('stroke' , 'black')
+        //     // .style('stroke-width', '2px');
 
         
 

@@ -37,7 +37,7 @@ export class OverviewViewController {
         this.calendarTimelineController = new OverviewViewCalendarTimelineController( this.dataState, this.globalEvents );
         this.mediaController = new OverviewViewMediaController( this.dataState , this.audioState );
         this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState, this.dialogManager, prototypeState, labelingState );
-        this.sidebarController = new OverviewViewSidebarController( this.prototypeState );
+        this.sidebarController = new OverviewViewSidebarController( this.prototypeState, this.clusteringState, this.dataState );
 
 
     }
@@ -56,7 +56,6 @@ export class OverviewViewController {
         this.sidebarController.initialize_controller( histogramref, prototypehistogramrefs );
 
     }
-
 
     public async on_calendar_heatmap_cell_clicked( event: any ): Promise<void> {
 
