@@ -10,8 +10,11 @@ import { Serializer } from "src/app/utils/serializer.utils";
 
 export class ClusteringState {
 
+    // loading flag
+    public loadingTree: boolean = false;
+
     // available trees
-    public availableTrees: any[] = [];
+    public availableTree: any = null;
 
     constructor(){}
 
@@ -21,8 +24,14 @@ export class ClusteringState {
         const requestFrames: any = Serializer.format_uids_cluster_tree_request( frames )
 
         // requesting tree
-        LearnAPI.generate_cluster_tree( requestFrames ).then(() => {
+        this.loadingTree = true;
+        LearnAPI.generate_cluster_tree( requestFrames ).then( (clusterTree: {tree: any}) => {
             
+            // setting spinner flag
+            this.loadingTree = false;
+
+            // setting available tree
+            this.availableTree = clusterTree.tree;
         });
     }
 
