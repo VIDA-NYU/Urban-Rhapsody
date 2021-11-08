@@ -1,3 +1,4 @@
+from clusterer.clusterer import Clusterer
 from utils.filterhelper import FilterHelper
 from utils.responseformatter import ResponseFormatter
 from spatial.spatialmanager import SpatialManager
@@ -65,6 +66,18 @@ class Engine:
             embeddingList[frameuid] = { 'x': f'{x[index].item():.3f}' , 'y': f'{y[index].item():.3f}' }
 
         return json.dumps( embeddingList, cls=ProjectionEncoder )
+
+
+    ################## CLUSTERING ##################
+    def generate_cluster_tree( self, uids, embeddingModel='openl3' ):
+
+        embeddingList = Datasource.get_embeddings( uids=uids, embeddingModel=embeddingModel )
+        ##embeddings = list( map(lambda uid: embeddingList[uid], embeddingList ))
+
+        clusterTree = Clusterer.generate_cluster_tree( embeddingList )
+
+
+        return json.dumps({'tree': clusterTree})
 
 
     # ################## CLASSIFICATION ##################

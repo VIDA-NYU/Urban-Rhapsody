@@ -29,7 +29,7 @@ def get_prototype_year_distribution():
     return engine.get_prototype_nearest_neighbors(  prototypeName=requestParams['prototypeName'], querySize=requestParams['querySize'], modelConfidence=requestParams['modelConfidence'] )
 
 
-# ################## PROJECTIONS ##################
+################## PROJECTIONS ##################
 @app.route('/projectpoints', methods=['POST'])
 def project_points():
 
@@ -53,6 +53,15 @@ def project_points():
 
 #     return engine.get_frame_classification(dataset=requestParams['dataset'], uids=requestParams['uids'] )
 
+################## Clustering ##################
+@app.route('/generateclustertree', methods=['POST'])
+def generate_cluster_tree():
+
+    ## reading parameters
+    requestParams = request.get_json()
+
+    ## return projection
+    return engine.generate_cluster_tree( uids=requestParams['uids'] )  
 
 # ################## PROTOTYPES ##################
 @app.route('/createprototype', methods=['POST'])
@@ -82,7 +91,6 @@ def get_prototype_summary():
     requestParams = request.get_json()
 
     return engine.get_prototype_summary( prototypeName=requestParams['prototypeName'] )
-
 
 @app.route('/refineprototype', methods=['POST'])
 def refine_prototype():
