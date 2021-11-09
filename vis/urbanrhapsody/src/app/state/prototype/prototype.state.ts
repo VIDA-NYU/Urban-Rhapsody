@@ -31,6 +31,9 @@ export class PrototypeState {
             loadedFrames[frameuid].metadata.set_prototype_prediction( prototypeName, likelihood );
         });
 
+        // getting prototype summary
+        this.prototypeSummary = await LearnAPI.get_prototype_summary( prototypeName );
+
         // saving available prototypes
         this.loadedPrototypes.push( prototypeName );
         
@@ -41,9 +44,6 @@ export class PrototypeState {
 
         // refining prototype
         await LearnAPI.refine_prototype( prototypeName, labels );
-        
-        // getting prototype summary
-        this.prototypeSummary = await LearnAPI.get_prototype_summary( prototypeName );
 
         // flushing
         this.flush_prototypes();

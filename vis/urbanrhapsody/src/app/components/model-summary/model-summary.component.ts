@@ -15,15 +15,7 @@ export class ModelSummaryComponent implements OnInit, AfterViewInit {
   // inputs
   @Input('modelsummary') set modelsummary( modelsummary: any ){
     if(modelsummary !== null ){
-
-      
-      const accuracies: any = modelsummary.accuracy;
-      const formatted: {accuracy: number}[] = [];
-      _.forEach(accuracies, (accuracy: any) =>{
-        formatted.push( {'accuracy': accuracy.accuracy })
-      })
-      console.log(formatted)
-      this.modelSummaryController.update_chart(formatted);
+      this.modelSummaryController.update_chart( modelsummary.accuracy );
     } 
   } 
 

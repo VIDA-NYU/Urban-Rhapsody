@@ -15,6 +15,8 @@ export class ProjectionFilters {
                 return ProjectionFilters.filter_focused_projection( loadedAudioFrames, selectedFrames );
             case 'remove':
                 return ProjectionFilters.filter_removal_projection( loadedAudioFrames, selectedFrames );
+            case 'learn':
+                return ProjectionFilters.filter_learn_projection( loadedAudioFrames, selectedFrames );
             default:
                 return Object.values(loadedAudioFrames);
         }
@@ -58,6 +60,10 @@ export class ProjectionFilters {
 
         return selectedFrames
 
+    }
+
+    public static filter_learn_projection( loadedAudioFrames: { [frameKey: string]: AudioFrame }, selectedAudioFrames: AudioFrame[] ): AudioFrame[] {
+        return Object.values(loadedAudioFrames);
     }
 
 

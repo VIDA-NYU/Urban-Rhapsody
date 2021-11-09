@@ -49,7 +49,8 @@
                                 <app-cluster-tree 
                                     (clusternodeselected)='this.overviewViewController.sidebarController.on_cluster_node_selected($event); this.overviewViewController.projectioListController.select_frames( this.dataState.selectedFrames );'
                                     [isloadingtree]='this.overviewViewController.sidebarController.clusteringState.loadingTree'
-                                    [clustertree]='this.overviewViewController.sidebarController.clusteringState.availableTree'></app-cluster-tree>
+                                    [clustertree]='this.overviewViewController.sidebarController.clusteringState.availableTree'>
+                                </app-cluster-tree>
                             </div>
                             
                         </mat-expansion-panel>

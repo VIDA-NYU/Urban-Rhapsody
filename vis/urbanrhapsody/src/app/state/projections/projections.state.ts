@@ -42,7 +42,14 @@ export class ProjectionState {
 
         const frames: { [frameKey: string]: AudioFrame } = this.dataState.indexedFrames;
         const filteredFrames: AudioFrame[] = ProjectionFilters.filter_proxy( projectionAction, frames, this.dataState.selectedFrames )
-        const requestUIDs: { [frameKey: string]: any }  = Serializer.format_uids_projection_request_sonyc( filteredFrames );
+
+        // serializing request
+        let requestUIDs!: { [frameKey: string]: any };
+        if( projectionType === 'learn '){
+            requestUIDs  = Serializer.format_uids_projection_request_sonyc( filteredFrames );
+        } else {
+            requestUIDs  = Serializer.format_uids_projection_metric_learning_request( filteredFrames );
+        }
 
         // requesting new projection
         const response: any = await LearnAPI.generate_projection( 

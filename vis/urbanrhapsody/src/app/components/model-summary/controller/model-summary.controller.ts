@@ -56,21 +56,22 @@ export class ModelSummaryController {
     }
 
 
-    public update_chart( modelSummary: {accuracy: number}[] ): void {
+    public update_chart( accuracy: number[] ): void {
 
         // update scales
-        this.update_scales( modelSummary );
+        this.update_scales( accuracy );
 
         // updating axes
         this.update_axes();
 
-        const line = d3.line<{accuracy: number}>()
+        const line = d3.line<number>()
             .curve(d3.curveCatmullRom)
-            .x( (summaryInstance: {accuracy: number}, index: number) => this.xScale(index) )
-            .y( (summaryInstance: {accuracy: number}, index: number) => this.yScale(summaryInstance.accuracy) )
+            .x( (currentAccuracy: number, index: number) => this.xScale(index) )
+            .y( (currentAccuracy: number, index: number) => this.yScale(currentAccuracy) )
 
-        this.group.append("path")
-            .datum( modelSummary ) 
+        this.group
+            .append("path")
+            .datum( accuracy ) 
             .attr("class", "line") 
             .attr('fill', 'none')
             .attr('stroke', 'black')
@@ -79,22 +80,20 @@ export class ModelSummaryController {
 
         this.group
             .selectAll('.summary-instance')
-            .data( modelSummary )
+            .data( accuracy )
             .join(
                 enter => 
                     enter
                     .append('circle')
-                    .attr( 'cx', (summaryInstance: {accuracy: number}, index: number) => this.xScale(index) )
-                    .attr( 'cy', (summaryInstance: {accuracy: number}, index: number) => this.yScale(summaryInstance.accuracy) )
+                    .attr( 'cx', (currentAccuracy: number, index: number) => this.xScale(index) )
+                    .attr( 'cy', (currentAccuracy: number, index: number) => this.yScale(currentAccuracy) )
                     .attr( 'r', 5 )
                     .attr('class', 'summary-instance')
                     .attr('fill', '#9D9D9D' ),
-                // update => 
-                //     update.transition(t)
-                //         .attr('x', (occurrences: number, index: number) => this.xScale(index) + this.pad/2   )
-                //         .attr('y', (occurrences: number, index: number) =>  baseHeight - this.yScale(occurrences) )
-                //         .attr('width', barWidth - this.pad )
-                //         .attr('height', (occurrences: number, index: number) => this.yScale(occurrences ) ),
+                update => 
+                    update
+                        .attr( 'cx', (currentAccuracy: number, index: number) => this.xScale(index) )
+                        .attr( 'cy', (currentAccuracy: number, index: number) => this.yScale(currentAccuracy) ),
             exit => 
                 exit.remove()
         );
@@ -110,9 +109,9 @@ export class ModelSummaryController {
 
     }
     
-    public update_scales( modelSummary: { accuracy: number }[] ): void {
+    public update_scales( accuracy: number[] ): void {
 
-        this.xScale = ChartUtils.create_sequential_scale( [0, modelSummary.length ], [ 0, this.chartContainer.clientWidth - this.margins.right - this.margins.left] )
+        this.xScale = ChartUtils.create_sequential_scale( [0, accuracy.length ], [ 0, this.chartContainer.clientWidth - this.margins.right - this.margins.left] )
         this.yScale = ChartUtils.create_sequential_scale( [0, 1], [ this.chartContainer.clientHeight - this.margins.top - this.margins.bottom, 0] )
         
     }
