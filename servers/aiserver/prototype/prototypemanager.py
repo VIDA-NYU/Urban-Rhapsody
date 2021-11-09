@@ -50,12 +50,12 @@ class PrototypeManager:
 
         # training the model
         # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
-        model = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        model, score = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
 
         ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
         ModelPersistor.save_representatives( prototypeName, representativeVectors )
-        ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
+        ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels, score=score )
 
         return
 
@@ -96,12 +96,12 @@ class PrototypeManager:
 
         # training the model
         # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
-        model = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        model, score = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
 
         ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
         ModelPersistor.save_representatives( prototypeName, representativeVectors )
-        ModelPersistor.update_model_summary( prototypeName )
+        ModelPersistor.update_model_summary( prototypeName, score )
         # ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
 
         return

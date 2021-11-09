@@ -74,10 +74,10 @@ class ModelPersistor:
         return representatives
 
     @staticmethod
-    def update_model_summary( prototypeName: str ):
+    def update_model_summary( prototypeName: str, score ):
 
         currentSummary = ModelPersistor.load_model_summary( prototypeName=prototypeName )
-        currentSummary['accuracy'].append(random.uniform(0,1))
+        currentSummary['accuracy'].append(score)
 
         ## saving model summary as json
         filepath = f"{SONYCCONSTS['PROTOTYPES']['SUMMARIES']}{prototypeName}.json"
@@ -86,13 +86,13 @@ class ModelPersistor:
 
 
     @staticmethod
-    def save_model_summary( prototypeName: str, labels: 'list[str]' ):
+    def save_model_summary( prototypeName: str, labels: 'list[str]', score ):
 
         ## creating model summary
         modelSummary = {
             'name': prototypeName,
             'labels': labels,
-            'accuracy': [random.uniform(0,1)]
+            'accuracy': [score]
         }
 
         ## saving model summary as json
