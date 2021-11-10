@@ -45,15 +45,17 @@ export class ProjectionState {
 
         // serializing request
         let requestUIDs!: { [frameKey: string]: any };
-        if( projectionType === 'learn '){
+        if( projectionAction !== 'learn'){
             requestUIDs  = Serializer.format_uids_projection_request_sonyc( filteredFrames );
         } else {
-            requestUIDs  = Serializer.format_uids_projection_metric_learning_request( filteredFrames );
+            const formattedObj  = Serializer.format_uids_projection_metric_learning_request( filteredFrames );
+            requestUIDs = formattedObj.formattedObj;
+            params.labels = formattedObj.labels;
+            projectionType = 'learn'
         }
 
         // requesting new projection
         const response: any = await LearnAPI.generate_projection( 
-            'SONYC',
             projectionType,
             'openl3',
             requestUIDs,

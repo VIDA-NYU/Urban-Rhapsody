@@ -71,9 +71,10 @@ export class Serializer {
 
     }
 
-    public static format_uids_projection_metric_learning_request( audioFrames: AudioFrame[] ): { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string, labels: string[] } } {
+    public static format_uids_projection_metric_learning_request( audioFrames: AudioFrame[] ): { formattedObj: { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string } }, labels: string[][] }  {
 
-        const formattedObj:  { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string, labels: string[] } } = {};
+        const formattedObj:  { [uid: string]: { embeddingIndex: number, sensorID: string, day: string, snippetID: string } } = {};
+        const labels: string[][] = [];
 
         _.forEach( audioFrames, frame => {
             formattedObj[ frame.uid ] = 
@@ -81,12 +82,14 @@ export class Serializer {
                     embeddingIndex: frame.embeddingIndex,
                     sensorID: frame.audioSnippet.metadata.sensorID,
                     day: frame.audioSnippet.metadata.localdate,
-                    snippetID: frame.audioSnippet.uid,
-                    labels: frame.metadata.get_labels()
+                    snippetID: frame.audioSnippet.uid
                 };
+            
+            // 
+            labels.push( frame.metadata.get_labels() );
         });
 
-        return formattedObj;
+        return { formattedObj, labels };
 
     }
 

@@ -4,13 +4,13 @@ import { Serializer } from "../utils/serializer.utils";
 
 export class LearnAPI {
 
-    public static async generate_projection( dataset: string, projectionType: string, embeddingModel: string, uids: any, projectionParams: any ): Promise<any> {
+    public static async generate_projection( projectionType: string, embeddingModel: string, uids: any, projectionParams: any ): Promise<any> {
         
         // url
         const url = `${environment.aiserver}/projectpoints`;
 
         // post parameters
-        const requestParams = { dataset, projectionType, embeddingModel, uids, projectionParams };
+        const requestParams = { projectionType, embeddingModel, uids, projectionParams };
 
         // post header
         const headers = {
