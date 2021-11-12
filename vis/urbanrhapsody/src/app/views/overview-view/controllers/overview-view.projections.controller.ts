@@ -31,6 +31,12 @@ export class OverviewViewProjectionsController {
 
     }
 
+    public delete_projection( event: {projectionUID: string }): void {
+        
+        this.projectionState.delete_projection(event.projectionUID);
+    
+    }
+
     public initialize_controller( projectionlistref: ProjectionListComponent ): void {
 
         // saving component ref

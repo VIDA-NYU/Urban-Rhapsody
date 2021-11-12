@@ -1,3 +1,6 @@
+// third-party
+import * as _ from 'lodash';
+
 export class MiscUtils {
 
 
@@ -27,6 +30,36 @@ export class MiscUtils {
 
         const currentDatetimeString: string = `${hour}:${minutes}:${seconds}`
         return currentDatetimeString;
+    }
+
+    // generates the distribution of events within a day
+    // currently generates the amount of retrieved instances for morning/afternoon12/night
+    public static generate_slice_distribution( instance:any ): { period: number, count: number }[]{
+
+        const dayDistribution: { period: number, count: number, total: 0 }[] = [{ period: 0, count: 0, total: instance.paths.length }, { period: 1, count: 0, total: instance.paths.length }, { period: 2, count: 0, total: instance.paths.length }, { period: 3, count: 0, total: instance.paths.length } ];
+        
+        _.forEach( instance.paths, path => {
+
+            const currentTimestamp: string = path.snippetID;
+            const currentDate: Date = new Date( parseInt(path.snippetID)*1000 );
+            const periodOfTheDay: number = MiscUtils.get_day_period( currentDate.getHours() );
+            dayDistribution[periodOfTheDay].count ++;
+
+        });
+
+        
+
+        return dayDistribution;
+    }
+
+    // takes an hour as input and return the period of the day as output morning/afternoon/night
+    public static get_day_period( hour: number ): number {
+
+       if( hour >=0 && hour <= 6 ) { return 0; } 
+       else if( hour >= 7 && hour <= 12 ){ return 1; } 
+       else if( hour >= 13 && hour <= 18 ){ return 2; } 
+       else { return 3; }
+
     }
 
     public static UID_generator(): string {

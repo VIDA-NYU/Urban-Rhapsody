@@ -30,6 +30,7 @@ export class ProjectionListComponent implements OnInit, AfterViewInit {
   @Output('onpointsselected') onpointsselected: EventEmitter<{'frames': AudioFrame[], 'projectionID': string}> = new EventEmitter<{'frames': AudioFrame[], 'projectionID': string}>(); 
   @Output('onlabeliconclicked') onlabeliconclicked: EventEmitter<void> = new EventEmitter<void>();
   @Output('onprojectionactionrequested') onprojectionactionrequested: EventEmitter<{ projectionaction: string }> = new EventEmitter<{ projectionaction: string }>();
+  @Output('ondeletebuttonclicked') ondeletebuttonclicked: EventEmitter<{projectionUID: string}> = new EventEmitter<{projectionUID: string}>();
   
   // slider events
   @Output('onrangeselected') onrangeselected: EventEmitter<{title: string, selection: number[]}> = new EventEmitter<{title: string, selection: number[]}>();
@@ -39,7 +40,10 @@ export class ProjectionListComponent implements OnInit, AfterViewInit {
   @Input('availablelabels') availablelabels: string[] = [];
   // @Input('labelingstate') labelingstate!: LabelingState;
 
-  constructor() {}
+  constructor() {
+
+    
+  }
 
   ngOnInit(): void {
     this.projectionListController = new ProjectionListController();
