@@ -16,11 +16,11 @@ class MetricLearningProjector:
         for index, label in enumerate(params['labels']):
 
             if( len(label) == 0 ):
-                projectionIndices[index] = -1
+                projectionIndices[index] = 0
                 continue
 
             if( not (label[0] in helperset) ):
-                helperset[label[0]] = len(helperset)
+                helperset[label[0]] = len(helperset) + 1
             projectionIndices[index] = helperset[label[0]]
             
 

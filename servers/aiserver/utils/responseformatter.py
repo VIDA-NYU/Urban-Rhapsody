@@ -11,7 +11,7 @@ class ResponseFormatter:
 
         for day in indexNeighbors:
             for index, path in enumerate(indexNeighbors[day]['paths']):
-
+                
                 frameuid = indexNeighbors[day]['frames'][index]
                 embeddings[frameuid] = path
                 
