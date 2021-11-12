@@ -80,4 +80,12 @@ export class ProjectionState {
         
     }
 
+
+    public delete_projection( projectionUID: string ): void {
+
+        // removing projection with same UIDS
+        this.projections = this.projections.filter( (projection: Projection) => projection.id !== projectionUID  );
+
+    }
+
 }

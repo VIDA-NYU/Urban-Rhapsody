@@ -99,7 +99,8 @@ export class DataState {
         this.flush_loaded_data();
 
         const response: any = await LearnAPI.load_year_distribution( frames, k );
-        
+        console.log(response);
+
         _.forEach( response, yeardistribution => {
             this.yearAudioDistribution = yeardistribution;
         });

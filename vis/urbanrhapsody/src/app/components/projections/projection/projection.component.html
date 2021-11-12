@@ -7,6 +7,7 @@
                 [prototypestate]='this.prototypestate'
                 [availablelabels]='this.availablelabels'
                 [projection]='this.projection' 
+                (ondeletebuttonclicked)=this.ondeletebuttonclicked.emit($event)
                 (onbrushset)='this.projectionController.set_brush_mode()'
                 (onlabeliconclicked)=this.onlabeliconclicked.emit()
                 (onnewcolorscaleselected)=this.projectionController.set_color_scale($event)>

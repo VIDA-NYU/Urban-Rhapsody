@@ -2,7 +2,7 @@
 
     <mat-drawer-container class="drawer-container">
 
-        <mat-drawer mode="side" opened class="left-sidebar-container">
+        <mat-drawer mode="side" position='end' opened class="left-sidebar-container">
 
             <div class="models-summaries-wrapper">
 
@@ -29,6 +29,7 @@
                 </div>
                 
             </div>
+
 
             <div class="clustering-view-wrapper">
 
@@ -60,6 +61,13 @@
                 </div>
               
             </div>
+
+
+
+        </mat-drawer>
+
+
+        <mat-drawer mode="side" opened class="left-sidebar-container">
 
             <div class="sidebar-content-container">
 
@@ -103,6 +111,7 @@
                     [prototypestate]='this.overviewViewController.projectioListController.prototypeState'
                     [availablelabels]='this.overviewViewController.projectioListController.labelingState.availableLabels'
                     [projections]='this.projectionState.projections'
+                    (ondeletebuttonclicked)='this.overviewViewController.projectioListController.delete_projection($event)'
                     (onrangeselected)='this.overviewViewController.projectioListController.on_slider_brushed($event); this.overviewViewController.sidebarController.on_frames_brushed( {frames: this.dataState.selectedFrames});'
                     (onprojectionactionrequested)='this.overviewViewController.projectioListController.add_new_projection($event)'
                     (onpointsselected)='this.overviewViewController.projectioListController.on_frames_brushed($event); this.overviewViewController.sidebarController.on_frames_brushed($event);'

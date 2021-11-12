@@ -54,7 +54,7 @@
 
         <!-- DELETE -->
         <div class="icon-container">
-            <mat-icon class='control-icon'>delete</mat-icon>
+            <mat-icon class='control-icon' (click)='this.ondeletebuttonclicked.emit({projectionUID: this.projection.id })' >delete</mat-icon>
         </div>
 
     </div>

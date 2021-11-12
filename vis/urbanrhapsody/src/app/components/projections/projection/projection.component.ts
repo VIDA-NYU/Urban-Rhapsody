@@ -30,7 +30,8 @@ export class ProjectionComponent implements OnInit, AfterViewInit {
 
   // controls event emitters
   @Output('onlabeliconclicked') onlabeliconclicked: EventEmitter<void> = new EventEmitter<void>();
-
+  @Output('ondeletebuttonclicked') ondeletebuttonclicked: EventEmitter<{projectionUID: string}> = new EventEmitter<{projectionUID: string}>();
+  
   // component controller
   public projectionController!: ProjectionController;
 

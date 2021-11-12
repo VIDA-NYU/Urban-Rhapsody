@@ -11,20 +11,26 @@ import { AudioFrameMeta } from "../model/audioframemeta.model";
 
 export class Deserializer {
 
-    public static deserialize_prototype_year_distribution( response: any ): { [ datetime: string ]: { count: number, frames: string[] } }{
+    public static deserialize_prototype_year_distribution( response: any ): { [ datetime: string ]: { count: number, frames: string[], paths: any[] } }{
 
-        const prototypeYearDistribution: { [ datetime: string ]: { count: number, frames: any } } = {};
+        const prototypeYearDistribution: { [ datetime: string ]: { count: number, frames: any, paths: any[] } } = {};
 
         _.forEach( response, (representativeIndex: any) => {
             _.forOwn( representativeIndex, (value, day) => {
 
                 if( !(day in prototypeYearDistribution) ){
-                    prototypeYearDistribution[day] = { count: 0, frames: new Set<string>() };
+                    prototypeYearDistribution[day] = { count: 0, frames: new Set<string>(), paths: [] };
                 }
 
                 // looping through the frames
-                _.forEach( value.frames, ( frameuid: string ) => {
-                    prototypeYearDistribution[day].frames.add(frameuid);
+                _.forEach( value.frames, ( frameuid: string, index: number ) => {
+
+                    if( !(prototypeYearDistribution[day].frames.has(frameuid)) ){
+                        prototypeYearDistribution[day].frames.add(frameuid);
+                        prototypeYearDistribution[day].paths.push( value.paths[index] )
+                    }
+                    
+                    
                 });
 
                 prototypeYearDistribution[day].count = prototypeYearDistribution[day].frames.size;

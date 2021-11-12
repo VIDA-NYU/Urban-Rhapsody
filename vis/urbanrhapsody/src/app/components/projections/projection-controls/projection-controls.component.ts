@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Projection } from 'src/app/model/projection.model';
-import { LabelingState } from 'src/app/state/labeling/labeling.state';
 import { PrototypeState } from 'src/app/state/prototype/prototype.state';
 import { ProjectionControlsController } from './controller/projection-controls.controller';
 
