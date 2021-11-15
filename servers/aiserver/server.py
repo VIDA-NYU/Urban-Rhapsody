@@ -92,6 +92,12 @@ def get_prototype_summary():
 
     return engine.get_prototype_summary( prototypeName=requestParams['prototypeName'] )
 
+
+@app.route('/getprototypeallsummaries', methods=['POST'])
+def get_all_prototype_summaries():
+
+    return engine.get_all_prototype_summaries()
+
 @app.route('/refineprototype', methods=['POST'])
 def refine_prototype():
 

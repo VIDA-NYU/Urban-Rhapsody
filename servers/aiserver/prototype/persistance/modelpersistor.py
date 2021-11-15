@@ -32,21 +32,50 @@ class ModelPersistor:
 
         os.rmdir(filepath)
         
-
     @staticmethod
     def save_model( prototypeName: str, model ):
 
-        filepath = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}{prototypeName}.pkl"
+        ## creating folder if doesn't exist
+        basepath = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}/{prototypeName}"
+        if(not os.path.isdir(basepath)):
+            os.makedirs(basepath)
+
+        ## getting model number id
+        modelPaths = glob.glob(f"{basepath}/*") 
+        nModels = len(modelPaths)
+        
+        ## saving model
+        filepath = f"{basepath}/{nModels}_{prototypeName}.pkl"
         with open(filepath, 'wb') as file:
             pickle.dump(model, file)
 
     @staticmethod
     def load_model( prototypeName: str ):
 
-        # model = pickle.loads(s)
-        filepath = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}{prototypeName}.pkl"
+        ## getting last model's id
+        basepath = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}/{prototypeName}"
+        nModels = len(glob.glob(f"{basepath}/*"))
+
+        ## loading
+        filepath = f"{basepath}/{nModels - 1}_{prototypeName}.pkl"
         model = pickle.load(open(filepath, 'rb'))
         return model
+
+    @staticmethod
+    def load_all_models( prototypeName: str ):
+
+        ## getting last model's id
+        basepath = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}/{prototypeName}"
+        modelspaths = len(glob.glob(f"{basepath}/*"))
+
+        ## loading
+        models = []
+        for modelIndex in range(modelspaths):
+            filepath = f"{basepath}/{modelIndex}_{prototypeName}.pkl"
+            model = pickle.load(open(filepath, 'rb'))
+            models.append(model)
+
+        return models
 
     @staticmethod
     def save_representatives( prototypeName: str, listOfEmbeddings ):
@@ -74,10 +103,17 @@ class ModelPersistor:
         return representatives
 
     @staticmethod
-    def update_model_summary( prototypeName: str, score ):
+    def update_model_summary( prototypeName: str, currentScore: float, previousScores: 'list[float]' ):
 
         currentSummary = ModelPersistor.load_model_summary( prototypeName=prototypeName )
-        currentSummary['accuracy'].append(score)
+
+        ## appending previous scores
+        for index, score in enumerate(previousScores):
+            currentSummary['accuracy'][index].append(score)
+
+        ## appending current score
+        currentSummary['accuracy'].append([0]*len(previousScores))
+        currentSummary['accuracy'][len(currentSummary['accuracy'])-1].append(currentScore)
 
         ## saving model summary as json
         filepath = f"{SONYCCONSTS['PROTOTYPES']['SUMMARIES']}{prototypeName}.json"
@@ -92,7 +128,7 @@ class ModelPersistor:
         modelSummary = {
             'name': prototypeName,
             'labels': labels,
-            'accuracy': [score]
+            'accuracy': [[score]]
         }
 
         ## saving model summary as json
@@ -111,7 +147,7 @@ class ModelPersistor:
     @staticmethod
     def get_available_models():
 
-        modelsfolder = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}*"
+        modelsfolder = f"{SONYCCONSTS['PROTOTYPES']['MODELS']}/*"
         models = glob.glob(modelsfolder)
         models = list(map( lambda modelpath: os.path.basename(modelpath).split('.')[0], models ))
         return models

@@ -14,7 +14,6 @@ class SpatialManager:
 
     def get_nearest_neighbors( self, featureVector, k ):
 
-        print(featureVector)
         ## params
         data = {
             'vector': featureVector, 

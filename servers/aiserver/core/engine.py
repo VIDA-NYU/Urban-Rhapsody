@@ -126,3 +126,18 @@ class Engine:
         summary = self.prototypeManager.get_prototype_summary( prototypeName )
         return json.dumps( summary )
 
+
+    def get_all_prototype_summaries( self ):
+
+        ## creating summary obj
+        summaries = {}
+
+        ## getting all available prototypes
+        availablePrototypes = self.prototypeManager.get_available_prototypes()
+        for availablePrototype in availablePrototypes:
+            summaries[ availablePrototype ] = self.prototypeManager.get_prototype_summary( availablePrototype )
+
+        ## returning
+        return json.dumps( summaries )
+    
+

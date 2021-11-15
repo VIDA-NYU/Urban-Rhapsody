@@ -1,3 +1,4 @@
+from prototype.evaluator.evaluator import Evaluator
 from clusterer.clusterer import Clusterer
 from prototype.persistance.modelpersistor import ModelPersistor
 from prototype.modeling.modeling import Modeling
@@ -50,7 +51,8 @@ class PrototypeManager:
 
         # training the model
         # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
-        model, score = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        X, y = Modeling.build_training_dataset( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        model, score = Modeling.train_random_forest( X, y )
 
         ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
@@ -96,13 +98,19 @@ class PrototypeManager:
 
         # training the model
         # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
-        model, score = Modeling.train_random_forest( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        X, y = Modeling.build_training_dataset( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
+        model, score = Modeling.train_random_forest( X, y )
+
+
 
         ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
         ModelPersistor.save_representatives( prototypeName, representativeVectors )
-        ModelPersistor.update_model_summary( prototypeName, score )
-        # ModelPersistor.save_model_summary( prototypeName=prototypeName, labels=labels )
+        
+        ## updating model summary
+        models = ModelPersistor.load_all_models( prototypeName=prototypeName )
+        previousScores = Evaluator.evaluate_previous_models( models=models, X=X, y=y )
+        ModelPersistor.update_model_summary( prototypeName, currentScore=score, previousScores=previousScores )
 
         return
 

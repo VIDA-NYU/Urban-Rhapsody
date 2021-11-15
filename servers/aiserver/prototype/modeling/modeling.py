@@ -10,6 +10,32 @@ from cuml.ensemble import RandomForestClassifier as cuRFC
 class Modeling:
 
     @staticmethod
+    def build_training_dataset( positiveDict, randomDict, negativeDict ):
+
+        X, y = [], []
+        for frameuid, vector in randomDict.items():
+            X.append( vector.tolist() )
+            y.append(0)
+
+        for frameuid, vector in negativeDict.items():
+            X.append( vector.tolist() )
+            y.append(0)
+
+        for frameuid, vector in positiveDict.items():
+            X.append( vector.tolist() )
+            y.append(1)
+
+        print('Training model')
+        print('Len X: ', len(X))
+        print('Len y: ', len(y))
+
+        ## making np array
+        X = np.array(X, dtype="float32")
+        y = np.array(y, dtype="float32")
+
+        return X, y
+
+    @staticmethod
     def train_logistic_regression( positiveDict, randomDict, negativeDict ):
 
         X, y = [], []
@@ -34,31 +60,8 @@ class Modeling:
         
         return clf
 
-
-
     @staticmethod
-    def train_random_forest( positiveDict, randomDict, negativeDict ):
-
-        X, y = [], []
-        for frameuid, vector in randomDict.items():
-            X.append( vector.tolist() )
-            y.append(0)
-
-        for frameuid, vector in negativeDict.items():
-            X.append( vector.tolist() )
-            y.append(0)
-
-        for frameuid, vector in positiveDict.items():
-            X.append( vector.tolist() )
-            y.append(1)
-
-        print('Training model')
-        print('Len X: ', len(X))
-        print('Len y: ', len(y))
-
-        ## making np array
-        X = np.array(X, dtype="float32")
-        y = np.array(y, dtype="float32")
+    def train_random_forest( X, y ):
 
         ## splitting
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -69,7 +72,6 @@ class Modeling:
 
         ## calculating score
         score = cuml_model.score(X_test, y_test)
-        print(score)
         
         return cuml_model, score
         
