@@ -24,7 +24,7 @@ export class PrototypeRefinementDialogComponent implements OnInit, AfterViewInit
 
   ngAfterViewInit(): void {
 
-    this.prototypeRefinementDialogController.initialize_controller();
+    this.prototypeRefinementDialogController.initialize_controller( this.dialogRef );
 
   }
 

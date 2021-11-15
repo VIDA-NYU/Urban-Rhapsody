@@ -1,9 +1,14 @@
+import { MatDialogRef } from "@angular/material/dialog";
 import { MatSelectChange } from "@angular/material/select";
 import { LearnAPI } from "src/app/api/learn.api";
 import { LabelingState } from "src/app/state/labeling/labeling.state";
 import { PrototypeState } from "src/app/state/prototype/prototype.state";
+import { PrototypeRefinementDialogComponent } from "../prototype-refinement-dialog.component";
 
 export class PrototypeRefinementDialogController {
+
+    // dialog ref
+    public dialogRef!: MatDialogRef<PrototypeRefinementDialogComponent>;
 
     // loading spinner flag
     public refinePrototypeLoading: boolean = false;
@@ -20,7 +25,10 @@ export class PrototypeRefinementDialogController {
 
     constructor(  public prototypeState: PrototypeState, public labelingState: LabelingState ){}
 
-    public async initialize_controller(): Promise<void> {
+    public async initialize_controller( dialogRef: MatDialogRef<PrototypeRefinementDialogComponent> ): Promise<void> {
+
+        // saving dialog ref
+        this.dialogRef = dialogRef;
 
         // requesting all available prototypes
         const availablePrototypes: { prototypes: string[] } = await this.prototypeState.get_all_prototypes();
@@ -49,18 +57,19 @@ export class PrototypeRefinementDialogController {
 
     }
 
-    public refine_prototype(): void {
+    public async refine_prototype(): Promise<void> {
 
         // setting spinner flag
         this.refinePrototypeLoading = true; 
 
         // refining prototype
-        this.prototypeState.refine_prototype( this.selectedPrototype, Array.from(this.prototypeLabels.values()) )
+        await this.prototypeState.refine_prototype( this.selectedPrototype, Array.from(this.prototypeLabels.values()) )
 
         // setting spinner flag
         this.refinePrototypeLoading = false;
 
-        
+        // closing dialog
+        this.dialogRef.close();
 
     }
 }

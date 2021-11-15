@@ -5,6 +5,8 @@ import { DataState } from "../data.state";
 
 // third-party
 import * as _ from 'lodash';
+import { PrototypeSummary } from "src/app/model/prototypesummary.model";
+import { Deserializer } from "src/app/utils/deserializer.util";
 
 @Injectable({
     providedIn: 'root'
@@ -14,9 +16,14 @@ export class PrototypeState {
 
     // calculated prototypes for the current loaded data
     public loadedPrototypes: string[] = [];
-    public prototypeSummary: any = null;
+    public prototypeSummaries: PrototypeSummary[] =[];
 
-    constructor( public dataState: DataState ){}
+    constructor( public dataState: DataState ){
+
+        // loading all available summaries
+        this.load_all_prototype_summaries();
+
+    }
 
     public async apply_prototype( prototypeName: string ): Promise<void> {
 
@@ -31,12 +38,19 @@ export class PrototypeState {
             loadedFrames[frameuid].metadata.set_prototype_prediction( prototypeName, likelihood );
         });
 
-        // getting prototype summary
-        this.prototypeSummary = await LearnAPI.get_prototype_summary( prototypeName );
-
         // saving available prototypes
         this.loadedPrototypes.push( prototypeName );
         
+    }
+
+    public async create_prototype( prototypeName: string, labelSet: string[] ): Promise<void>{
+
+        // creating prototype
+        await LearnAPI.create_prototype( prototypeName, labelSet );
+
+        // updating available summaries
+        await this.load_all_prototype_summaries();
+
     }
 
 
@@ -45,6 +59,9 @@ export class PrototypeState {
         // refining prototype
         await LearnAPI.refine_prototype( prototypeName, labels );
 
+        // updating available summaries
+        await this.load_all_prototype_summaries();
+
         // flushing
         this.flush_prototypes();
     
@@ -52,10 +69,11 @@ export class PrototypeState {
         
     }
 
-    public async get_prototype_summary( prototypeName: string ): Promise<void>{
+    public async load_all_prototype_summaries(): Promise<void>{
 
-        const prototypeSummary: any = await LearnAPI.get_prototype_summary( prototypeName );
-        return prototypeSummary;
+        const prototypeSummary: any = await LearnAPI.get_all_prototype_summaries();
+        this.prototypeSummaries = Deserializer.deserialize_prototype_summaries( prototypeSummary );
+
     }
 
     public async get_all_prototypes(): Promise<{ prototypes: string[] }> {

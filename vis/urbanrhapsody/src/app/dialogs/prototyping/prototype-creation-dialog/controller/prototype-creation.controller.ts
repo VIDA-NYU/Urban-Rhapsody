@@ -1,9 +1,13 @@
 import { FormControl, FormGroup } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { LabelingAPI } from "src/app/api/labeling.api";
+import { PrototypeState } from "src/app/state/prototype/prototype.state";
 import { PrototypeCreationDialogComponent } from "../prototype-creation-dialog.component";
 
 export class PrototypeCreationController {  
+
+    // prototype state
+    public prototypeState!: PrototypeState;
 
     // spinner flag
     public isLoadingPrototype: boolean = false;
@@ -17,8 +21,12 @@ export class PrototypeCreationController {
 
     constructor( public dialogRef: MatDialogRef<PrototypeCreationDialogComponent> ){}
 
-    public async initialize_component(): Promise<void> {
+    public async initialize_component( prototypeState: PrototypeState ): Promise<void> {
 
+        // saving prototype state
+        this.prototypeState = prototypeState;
+
+        // labels
         const response: { labels: string[] } = await LabelingAPI.get_all_labels();
         this.createdLabels = response.labels;
 
@@ -30,7 +38,8 @@ export class PrototypeCreationController {
         this.isLoadingPrototype = true;
 
         // creating prototype
-        await LabelingAPI.create_prototype( this.prototypeForm.value.prototypeName, Array.from(this.createdLabelsSet.values()) )
+        await this.prototypeState.create_prototype( this.prototypeForm.value.prototypeName, Array.from(this.createdLabelsSet.values()) )
+        // await LabelingAPI.create_prototype( this.prototypeForm.value.prototypeName, Array.from(this.createdLabelsSet.values()) )
 
         // setting spinner
         this.isLoadingPrototype = false;

@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { PrototypeState } from 'src/app/state/prototype/prototype.state';
 import { PrototypeCreationController } from './controller/prototype-creation.controller';
 
 @Component({
@@ -12,7 +13,7 @@ export class PrototypeCreationDialogComponent implements OnInit, AfterViewInit {
   // controller
   public prototypeCreationController!: PrototypeCreationController;
   
-  constructor( public dialogRef: MatDialogRef<PrototypeCreationDialogComponent> ) { }
+  constructor( public dialogRef: MatDialogRef<PrototypeCreationDialogComponent>, public prototypeState: PrototypeState ) { }
 
   ngOnInit(): void {
 
@@ -22,7 +23,7 @@ export class PrototypeCreationDialogComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    this.prototypeCreationController.initialize_component();
+    this.prototypeCreationController.initialize_component( this.prototypeState );
 
   }
 

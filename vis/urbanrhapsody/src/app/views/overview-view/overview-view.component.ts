@@ -47,7 +47,7 @@ export class OverviewViewComponent implements OnInit, AfterViewInit {
 
     // creating controller
     this.overviewViewController = new OverviewViewController( this.globalEvents, this.dataState, this.audioState, this.projectionState, this.dialogManager, this.prototypeState, this.labelingState, this.clusteringState );
-    
+
   }
 
   ngAfterViewInit(): void {
