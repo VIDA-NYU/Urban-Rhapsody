@@ -1,0 +1,36 @@
+<!-- <p>model-summary-list works!</p> -->
+
+
+<div class="component-wrapper">
+
+    <div class="list-header">
+        <h2><b>Models Summary</b></h2>
+    </div>
+
+    <div class="list-container">
+        <div class="scrollable-container">
+
+            <mat-accordion>
+
+                <mat-expansion-panel hideToggle *ngFor='let modelSummary of this.prototypesummaries'>
+                    
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{ modelSummary.name }}
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    
+
+                    <div class="model-summary-container">
+                        <app-model-summary [modelsummary]=modelSummary></app-model-summary>
+                    </div>
+                    
+                </mat-expansion-panel>
+
+            </mat-accordion>
+
+        </div>
+    </div>
+
+</div>
+

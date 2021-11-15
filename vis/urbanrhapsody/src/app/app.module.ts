@@ -42,6 +42,7 @@ import { FocusedClassificationComponent } from './components/focused-classificat
 import { PrototypeRefinementDialogComponent } from './dialogs/prototyping/prototype-refinement-dialog/prototype-refinement-dialog.component';
 import { ClusterTreeComponent } from './components/cluster-tree/cluster-tree.component';
 import { ModelSummaryComponent } from './components/model-summary/model-summary.component';
+import { ModelSummaryListComponent } from './components/model-summary-list/model-summary-list.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { ModelSummaryComponent } from './components/model-summary/model-summary.
     FocusedClassificationComponent,
     PrototypeRefinementDialogComponent,
     ClusterTreeComponent,
-    ModelSummaryComponent  
+    ModelSummaryComponent,
+    ModelSummaryListComponent  
   ],
   imports: [
     BrowserModule,

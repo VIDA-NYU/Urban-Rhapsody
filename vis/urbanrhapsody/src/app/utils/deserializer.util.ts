@@ -7,6 +7,7 @@ import { AudioSnippetMeta } from "../model/audiosnippetmeta.model";
 import * as _ from 'lodash';
 import { ObjectFactory } from "./factories/objectfactory";
 import { AudioFrameMeta } from "../model/audioframemeta.model";
+import { PrototypeSummary } from "../model/prototypesummary.model";
 
 
 export class Deserializer {
@@ -102,6 +103,22 @@ export class Deserializer {
         });
 
         return selectedFrames;
+
+    }
+
+    public static deserialize_prototype_summaries( incomingSummaries: any ): PrototypeSummary[]{
+
+
+        const summaries: PrototypeSummary[] = [];
+
+        _.forOwn( incomingSummaries, (summary, prototypeName) => { 
+
+            const currentSummary: PrototypeSummary = new PrototypeSummary( prototypeName, summary.labels, summary.accuracy );
+            summaries.push(currentSummary);
+
+        }); 
+
+        return summaries;
 
     }
 

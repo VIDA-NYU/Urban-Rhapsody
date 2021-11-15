@@ -232,8 +232,8 @@ export class CalendarTimelineController {
         //let barYScale!: d3.ScaleSequential<number, number>; // = ChartUtils.create_sequential_scale( [0, 4], [0, cellHeight - this.cellGap - 2] );
         const barWidth = barXScale(1) - barXScale(0) - 1;
                     
-        const test = months.selectAll('.day-group')
-        const periods = test
+        const day = months.selectAll('.day-group')
+        const periods = day
             .selectAll('.hour-bar')
             .data( ( dayData: any ) => { return dayData.distribution } )
             .join(

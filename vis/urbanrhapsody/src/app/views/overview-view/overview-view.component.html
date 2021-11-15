@@ -2,66 +2,49 @@
 
     <mat-drawer-container class="drawer-container">
 
-        <mat-drawer mode="side" position='end' opened class="left-sidebar-container">
+        <mat-drawer mode="side" position='end' opened class="right-sidebar-container">
 
-            <div class="models-summaries-wrapper">
+            <div class="sidebar-content-container">
 
-                <div class="models-summaries-container">
-
-                    <mat-accordion>
-
-                        <mat-expansion-panel hideToggle>
-                            
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Models Summary
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            
-    
-                            <div class="model-summary-container">
-                                <app-model-summary [modelsummary]='this.overviewViewController.sidebarController.prototypeState.prototypeSummary'></app-model-summary>
-                            </div>
-                            
-                        </mat-expansion-panel>
-        
-                    </mat-accordion>
+                <div class="models-summaries-wrapper">
+                    <app-model-summary-list [prototypesummaries]='this.overviewViewController.sidebarController.prototypeState.prototypeSummaries'></app-model-summary-list>
                 </div>
-                
-            </div>
 
+                <mat-divider></mat-divider>
 
-            <div class="clustering-view-wrapper">
-
-                <div class="clustering-view-accordion-container">
-
-                    <mat-accordion>
-
-                        <mat-expansion-panel hideToggle>
-                            
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Clustering
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            
+                <div class="clustering-view-wrapper">
+                    
+                    <div class="clustering-view-accordion-container">
     
-                            <div class="clustering-view-container">
-                                <app-cluster-tree 
-                                    (clusternodeselected)='this.overviewViewController.sidebarController.on_cluster_node_selected($event); this.overviewViewController.projectioListController.select_frames( this.dataState.selectedFrames );'
-                                    [isloadingtree]='this.overviewViewController.sidebarController.clusteringState.loadingTree'
-                                    [clustertree]='this.overviewViewController.sidebarController.clusteringState.availableTree'>
-                                </app-cluster-tree>
-                            </div>
-                            
-                        </mat-expansion-panel>
+                        <mat-accordion>
+    
+                            <mat-expansion-panel hideToggle>
+                                
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Clustering
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                
         
-                    </mat-accordion>
-
+                                <div class="clustering-view-container">
+                                    <app-cluster-tree 
+                                        (clusternodeselected)='this.overviewViewController.sidebarController.on_cluster_node_selected($event); this.overviewViewController.projectioListController.select_frames( this.dataState.selectedFrames );'
+                                        [isloadingtree]='this.overviewViewController.sidebarController.clusteringState.loadingTree'
+                                        [clustertree]='this.overviewViewController.sidebarController.clusteringState.availableTree'>
+                                    </app-cluster-tree>
+                                </div>
+                                
+                            </mat-expansion-panel>
+            
+                        </mat-accordion>
+    
+                    </div>
+                                  
                 </div>
-              
-            </div>
 
+
+            </div>
 
 
         </mat-drawer>

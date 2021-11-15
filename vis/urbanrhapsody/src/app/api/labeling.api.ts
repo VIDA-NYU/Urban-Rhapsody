@@ -71,30 +71,4 @@ export class LabelingAPI {
 
     }
 
-    // TODO: Remove it from here
-    public static async create_prototype( prototypeName: string, labels: string[] ): Promise<void>{
-
-        // url
-        const url = `${environment.aiserver}/createprototype`;
-
-        // post parameters
-        const requestParams = {  prototypeName, labels };
-
-        // post header
-        const headers = {
-            'Content-Type': 'application/json',
-        };
-
-        // Return a new promise.
-        const response = await fetch(url, {
-            method: 'POST',
-            headers,
-            body: JSON.stringify(requestParams),
-        });
-
-        return await response.json();
-
-
-    }
-
 }

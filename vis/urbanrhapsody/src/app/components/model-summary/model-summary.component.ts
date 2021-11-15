@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
+import { PrototypeSummary } from 'src/app/model/prototypesummary.model';
 import { ModelSummaryController } from './controller/model-summary.controller';
 
 @Component({
@@ -13,15 +14,16 @@ export class ModelSummaryComponent implements OnInit, AfterViewInit {
   public modelSummaryController: ModelSummaryController = new ModelSummaryController();
 
   // inputs
-  @Input('modelsummary') set modelsummary( modelsummary: any ){
-    if(modelsummary !== null ){
-      this.modelSummaryController.update_chart( modelsummary.accuracy );
-    } 
-  } 
+  // @Input('modelsummary') set modelsummary( modelsummary: PrototypeSummary ){
+  //   if(this.modelSummaryController.group){
+  //     this.modelSummaryController.update_chart( modelsummary );
+  //   }
+  // } 
+
+  @Input('modelsummary') modelsummary!: PrototypeSummary;
 
   // dom refs
   @ViewChild('chartcontainerref') chartcontainerref!: ElementRef;
-
 
   constructor() {}
 
@@ -31,9 +33,7 @@ export class ModelSummaryComponent implements OnInit, AfterViewInit {
 
     // intializing component
     this.modelSummaryController.initialize_controller( this.chartcontainerref.nativeElement );
-
-    // testing
-    
+    this.modelSummaryController.update_chart( this.modelsummary );
 
   }
 
