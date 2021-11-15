@@ -8,6 +8,16 @@ app.config['CORS_HEADERS'] = 'Content-Type' ## remove in production
 
 engine = None
 
+@app.route('/getmultipleann', methods=['POST'])
+def get_multiple_ann():
+
+    ## reading params
+    requestParams = request.get_json()
+
+    ## calculating ann
+    return engine.get_daily_ann( requestParams['vectors'], requestParams['k'] )
+
+
 @app.route('/getann', methods=['POST'])
 def get_ann():
 

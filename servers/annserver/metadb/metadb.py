@@ -23,6 +23,9 @@ class MetaDB:
         dailyCount = {}
 
         for idx in indices:
+            
+            if(idx == -1):
+                continue
 
             currentobj = self.db.get(str(idx).encode("utf-8"))
             currentobj = json.loads(currentobj.decode("utf-8"))
