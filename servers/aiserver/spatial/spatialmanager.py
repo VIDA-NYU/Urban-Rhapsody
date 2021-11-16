@@ -27,10 +27,13 @@ class SpatialManager:
 
     def get_representative_neighbors( self, featureVectors, k ):
 
+        ## casting np array
+        featureVectors = list( map(lambda vector: vector.tolist(), featureVectors.values() ) )
+    
         ## params
         data = {
-            'vector': featureVectors, 
-            'k': 1 
+            'vectors': featureVectors, 
+            'k': k
         }
 
         ## making request

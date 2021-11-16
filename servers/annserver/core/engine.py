@@ -23,11 +23,12 @@ class Engine:
 
         indices = self.indexdb.get_multiple_nearest_neighbors( np.array(featurevector), k )
 
+        frames = []
         for i in indices:
-            print(i)
+            frames.extend( self.metadb.get_indices_frames(i) )
 
-        # dailyCount = self.metadb.get_daily_count( indices )
-        return json.dumps( {'response': 'success'} )
+        print(frames)
+        return json.dumps( {'frames': frames} )
 
     def get_daily_ann(self, featurevector, k ):
 

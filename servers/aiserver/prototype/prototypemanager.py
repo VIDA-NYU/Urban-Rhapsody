@@ -1,3 +1,4 @@
+from spatial.spatialmanager import SpatialManager
 from prototype.evaluator.evaluator import Evaluator
 from clusterer.clusterer import Clusterer
 from prototype.persistance.modelpersistor import ModelPersistor
@@ -48,7 +49,6 @@ class PrototypeManager:
         ## calculating representatives
         # representativeVectors = Clusterer.calculate_representatives( positiveFeatures )
         representativeVectors = Clusterer.calculate_representatives_hdbscan( positiveFeatures )
-        
 
         # training the model
         # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
