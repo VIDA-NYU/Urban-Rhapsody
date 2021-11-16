@@ -19,6 +19,16 @@ class Engine:
         self.metadb = MetaDB()
 
 
+    def get_multiple_ann(self, featurevector, k ):
+
+        indices = self.indexdb.get_multiple_nearest_neighbors( np.array(featurevector), k )
+
+        for i in indices:
+            print(i)
+
+        # dailyCount = self.metadb.get_daily_count( indices )
+        return json.dumps( {'response': 'success'} )
+
     def get_daily_ann(self, featurevector, k ):
 
         indices = self.indexdb.get_nearest_neighbors( np.array(featurevector), k )

@@ -15,7 +15,7 @@ def get_multiple_ann():
     requestParams = request.get_json()
 
     ## calculating ann
-    return engine.get_daily_ann( requestParams['vectors'], requestParams['k'] )
+    return engine.get_multiple_ann( requestParams['vectors'], requestParams['k'] )
 
 
 @app.route('/getann', methods=['POST'])
