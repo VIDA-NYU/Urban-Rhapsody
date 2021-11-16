@@ -35,7 +35,6 @@ export class ModelSummaryController {
     // margins
     public margins: { top: number, bottom: number, left: number, right: number } = { top: 30, bottom: 30, left: 30, right: 30 };
 
-
     constructor(){}
 
     public initialize_controller( container: HTMLElement ): void {
@@ -61,7 +60,6 @@ export class ModelSummaryController {
         // line generator
         this.line = this.create_line_generator();
     }
-
 
     public update_chart( modelSummary: PrototypeSummary ): void {
 
@@ -150,5 +148,21 @@ export class ModelSummaryController {
         this.yScale = ChartUtils.create_sequential_scale( [0.5, 1], [ this.chartContainer.clientHeight - this.margins.top - this.margins.bottom, 0] );
         this.colorScale = ChartUtils.create_sequential_color_scale( [0, modelSummary.get_number_of_refinements()], [ '#8c96c6', '#4d004b' ] );
     }
+
+
+    // representatives
+    public representative_mouse_enter( event: any ): void {
+        console.log(event);
+        d3.select('.spectrogram-representative-container')
+            .style('top',  `${event.layerY - 110}px`)
+            .style('left', `${event.layerX + 10}px`)
+            .style('display', 'flex');
+    }
+
+    public representative_mouse_out( event: any ): void {
+
+        d3.select('.spectrogram-representative-container').style('display', 'none');
+    }
+
 
 }

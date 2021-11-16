@@ -2,6 +2,13 @@
 
     <div class="chart-container" #chartcontainerref></div>
 
-    <div class="representatives-container"></div>
+    <div class="representatives-container">
+        <div class="spectrogram-representative-container"></div>
+        <div 
+            *ngFor='let representative of this.modelsummary.representativeFrames' 
+            (mouseover)='this.modelSummaryController.representative_mouse_enter($event)'
+            (mouseout)='this.modelSummaryController.representative_mouse_out($event)'
+            class='representative-frame-vis'></div>
+    </div>
 
 </div>

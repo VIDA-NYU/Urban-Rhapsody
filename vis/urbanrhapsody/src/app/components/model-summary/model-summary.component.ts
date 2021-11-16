@@ -24,6 +24,7 @@ export class ModelSummaryComponent implements OnInit, AfterViewInit {
 
   // dom refs
   @ViewChild('chartcontainerref') chartcontainerref!: ElementRef;
+  // @ViewChild('representativecontainerref') representativecontainerref !: ElementRef;
 
   constructor() {}
 

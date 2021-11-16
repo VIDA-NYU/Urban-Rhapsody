@@ -3,6 +3,8 @@
     width: 100%;
     height: 100%;
 
+    // position: relative;
+
 }
 
 .component-wrapper{
@@ -23,6 +25,34 @@
 
     width: 100%;
     height: 20%;
-    background-color: royalblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    
+}
+
+.representative-frame-vis{
+
+    width: 10px;
+    height: 10px;
+    margin: 0 10px 0 10px;
+
+    border-radius: 10px;
+    border-color: #999999;
+    background-color: gray;
+    cursor: pointer;
+
+}
+
+.spectrogram-representative-container{
+
+    width: 200px;
+    height: 100px;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 3;
+    background-color: gray;
+    position: absolute;
 }
