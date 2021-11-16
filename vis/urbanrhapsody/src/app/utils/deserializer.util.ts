@@ -113,7 +113,7 @@ export class Deserializer {
 
         _.forOwn( incomingSummaries, (summary, prototypeName) => { 
 
-            const currentSummary: PrototypeSummary = new PrototypeSummary( prototypeName, summary.labels, summary.accuracy );
+            const currentSummary: PrototypeSummary = new PrototypeSummary( prototypeName, summary.labels, summary.accuracy, summary.representativeframes.frames );
             summaries.push(currentSummary);
 
         }); 

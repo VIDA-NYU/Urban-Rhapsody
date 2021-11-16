@@ -125,6 +125,15 @@ export class DataState {
     
     } 
 
+    public async load_data_by_examples( filters: any = {} ): Promise<any> {
+
+        const lodadeData: any = await DataLoadingAPI.load_data( 'sonyc', filters );
+        const indexedData: {indexedSnippets: any, indexedFrames: any} = Deserializer.deserialize_snippets( lodadeData );
+
+        return indexedData.indexedSnippets;
+
+    }
+
 
     public async load_data( datasetname: string, filters: any = {} ): Promise<void> {
 

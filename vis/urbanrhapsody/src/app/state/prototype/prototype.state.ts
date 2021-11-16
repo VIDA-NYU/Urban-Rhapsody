@@ -16,7 +16,7 @@ export class PrototypeState {
 
     // calculated prototypes for the current loaded data
     public loadedPrototypes: string[] = [];
-    public prototypeSummaries: PrototypeSummary[] =[];
+    public prototypeSummaries: PrototypeSummary[] = [];
 
     constructor( public dataState: DataState ){
 
@@ -71,8 +71,19 @@ export class PrototypeState {
 
     public async load_all_prototype_summaries(): Promise<void>{
 
-        const prototypeSummary: any = await LearnAPI.get_all_prototype_summaries();
-        this.prototypeSummaries = Deserializer.deserialize_prototype_summaries( prototypeSummary );
+        let prototypeSummaries: any = await LearnAPI.get_all_prototype_summaries();
+        this.prototypeSummaries = Deserializer.deserialize_prototype_summaries( prototypeSummaries );
+
+        _.forEach( this.prototypeSummaries, (summary: PrototypeSummary) => {
+
+            let representativeFrames: any[] = summary.representativeFrames.map( (frame: any) => { return { 'sensorID': frame.sensorid, 'day': frame.day, 'snippetID': frame.filename.split('.')[0], 'index': frame.index } } );
+            const filters: any = { 'snippets': representativeFrames };
+            
+            this.dataState.load_data_by_examples( filters ).then( (indexedSnippets: any) => {
+                summary.representativeFrames = representativeFrames.map( (frame: any) =>  indexedSnippets[frame.snippetID].frames[frame.index]  );
+            });
+        });
+
 
     }
 
