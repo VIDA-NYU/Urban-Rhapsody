@@ -27,7 +27,6 @@ class Engine:
         for i in indices:
             frames.extend( self.metadb.get_indices_frames(i) )
 
-        print(frames)
         return json.dumps( {'frames': frames} )
 
     def get_daily_ann(self, featurevector, k ):
