@@ -23,3 +23,19 @@ class SpatialManager:
         ## making request
         response = requests.post('http://localhost:5003/getann', json=data )
         return json.loads(response.text)
+
+
+    def get_representative_neighbors( self, featureVectors, k ):
+
+        ## casting np array
+        featureVectors = list( map(lambda vector: vector.tolist(), featureVectors.values() ) )
+    
+        ## params
+        data = {
+            'vectors': featureVectors, 
+            'k': k
+        }
+
+        ## making request
+        response = requests.post('http://localhost:5003/getmultipleann', json=data )
+        return json.loads(response.text)

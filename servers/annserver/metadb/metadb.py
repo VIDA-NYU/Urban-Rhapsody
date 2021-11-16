@@ -18,6 +18,21 @@ class MetaDB:
         self.db = rocksdb.DB(METADB['saf7'], rocksdb.Options(create_if_missing=True))
 
 
+    def get_indices_frames( self, indices: list[int] ):
+
+        frames = []
+        for idx in indices:
+            
+            if(idx == -1):
+                continue
+
+            currentobj = self.db.get(str(idx).encode("utf-8"))
+            currentobj = json.loads(currentobj.decode("utf-8"))
+            frames.append(currentobj)
+
+        return frames
+
+
     def get_daily_count( self, indices: list[int] ):
 
         dailyCount = {}

@@ -135,6 +135,11 @@ class Engine:
         ## getting all available prototypes
         availablePrototypes = self.prototypeManager.get_available_prototypes()
         for availablePrototype in availablePrototypes:
+
+            representativeVectors = self.prototypeManager.get_prototype_representatives( availablePrototype )
+            representativeFrames = self.spatialManager.get_representative_neighbors( representativeVectors, 1 )
+            print('teeeeeest: ', representativeFrames )
+
             summaries[ availablePrototype ] = self.prototypeManager.get_prototype_summary( availablePrototype )
 
         ## returning

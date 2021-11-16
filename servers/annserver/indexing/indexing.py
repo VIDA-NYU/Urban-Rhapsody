@@ -27,7 +27,13 @@ class Indexing:
 
         ## saving stored indices ref
         ## self.storedIndices = storedIndices
-    
+
+
+    def get_multiple_nearest_neighbors( self, featureVectors: list[float], k: int = 5 ):
+
+        queryVector = np.array(featureVectors, dtype='float32')
+        distances, ids = self.storedIndices.search(queryVector, k)
+        return ids    
 
     def get_nearest_neighbors( self, featureVector: list[float], k: int = 10000 ):
 

@@ -1,3 +1,4 @@
+from spatial.spatialmanager import SpatialManager
 from prototype.evaluator.evaluator import Evaluator
 from clusterer.clusterer import Clusterer
 from prototype.persistance.modelpersistor import ModelPersistor
@@ -100,8 +101,6 @@ class PrototypeManager:
         # model = Modeling.train_logistic_regression( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
         X, y = Modeling.build_training_dataset( positiveDict=positiveFeatures, randomDict=randomSamples, negativeDict=negativeFeatures )
         model, score = Modeling.train_random_forest( X, y )
-
-
 
         ## saving prototype
         ModelPersistor.save_model( prototypeName=prototypeName, model=model )
