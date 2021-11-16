@@ -138,9 +138,9 @@ class Engine:
 
             representativeVectors = self.prototypeManager.get_prototype_representatives( availablePrototype )
             representativeFrames = self.spatialManager.get_representative_neighbors( representativeVectors, 1 )
-            print('teeeeeest: ', representativeFrames )
 
             summaries[ availablePrototype ] = self.prototypeManager.get_prototype_summary( availablePrototype )
+            summaries[ availablePrototype ]['representativeframes'] = representativeFrames
 
         ## returning
         return json.dumps( summaries )
