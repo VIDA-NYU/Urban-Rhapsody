@@ -47,12 +47,12 @@
 
 .spectrogram-representative-container{
 
-    width: 200px;
-    height: 100px;
+    width: 300px;
+    height: 150px;
     top: 0;
     left: 0;
     display: none;
-    z-index: 3;
+    z-index: 100;
     background-color: gray;
     position: absolute;
 }

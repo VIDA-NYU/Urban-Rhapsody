@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { DataState } from 'src/app/state/data.state';
+import { PrototypeState } from 'src/app/state/prototype/prototype.state';
 import { ClusterTreeController } from './controller/cluster-tree.controller';
 
 @Component({
@@ -16,6 +18,11 @@ export class ClusterTreeComponent implements OnInit, AfterViewInit {
 
   // dom refs
   @ViewChild('chartcontainerref') chartcontainerref!: ElementRef;
+
+
+  // state inputs
+  @Input('prototypestate') prototypestate!: PrototypeState;
+  @Input('datastate') datastate!: DataState;
 
   // inputs
   @Input('isloadingtree') isLoadingTree: boolean = false;

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AudioFrame } from 'src/app/model/audioframe.model';
 import { PrototypeSummary } from 'src/app/model/prototypesummary.model';
 
 @Component({
@@ -9,6 +10,10 @@ import { PrototypeSummary } from 'src/app/model/prototypesummary.model';
 export class ModelSummaryListComponent implements OnInit {
 
   @Input('prototypesummaries') prototypesummaries: PrototypeSummary[] = [];
+
+  // event outputs
+  @Output('onmouseenterrepresentative') onmouseenterrepresentative: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
+  // @Output('onmouseoutrepresentative') onmouseoutrepresentative: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
 
   constructor() { }
 

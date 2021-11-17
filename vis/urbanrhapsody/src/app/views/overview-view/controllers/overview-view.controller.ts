@@ -37,7 +37,7 @@ export class OverviewViewController {
         this.calendarTimelineController = new OverviewViewCalendarTimelineController( this.dataState, this.globalEvents );
         this.mediaController = new OverviewViewMediaController( this.dataState , this.audioState );
         this.projectioListController = new OverviewViewProjectionsController( this.dataState, this.projectionState, this.dialogManager, prototypeState, labelingState );
-        this.sidebarController = new OverviewViewSidebarController( this.prototypeState, this.clusteringState, this.dataState );
+        this.sidebarController = new OverviewViewSidebarController( this.prototypeState, this.clusteringState, this.dataState, this.audioState );
 
         
 
@@ -86,7 +86,7 @@ export class OverviewViewController {
         this.sidebarController.on_day_loaded( this.dataState.selectedFrames );
 
         // calculating cluster tree
-        // this.clusteringState.generate_cluster_tree( Object.values(this.dataState.indexedFrames)  );
+        this.clusteringState.generate_cluster_tree( Object.values(this.dataState.indexedFrames)  );
         
         
     }

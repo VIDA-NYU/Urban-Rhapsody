@@ -12,6 +12,7 @@ import { QueryList } from "@angular/core";
 import { ClusteringState } from "src/app/state/clustering/clustering.state";
 import { DataState } from "src/app/state/data.state";
 import { ProjectionListComponent } from "src/app/components/projections/projection-list/projection-list.component";
+import { AudioState } from "src/app/state/audio/audio.state";
 
 export class OverviewViewSidebarController {
 
@@ -19,13 +20,20 @@ export class OverviewViewSidebarController {
     public hourHistogramRef!: HistogramComponent;
     public prototypehistogramrefs!: QueryList<HistogramComponent>;
 
-    constructor( public prototypeState: PrototypeState, public clusteringState: ClusteringState, public dataState: DataState ){}
+    constructor( public prototypeState: PrototypeState, public clusteringState: ClusteringState, public dataState: DataState, public audioState: AudioState ){}
 
     public initialize_controller( hourhistogramref: HistogramComponent, prototypehistogramrefs: QueryList<HistogramComponent> ){
 
         // saving histogram refs
         this.hourHistogramRef = hourhistogramref;
         this.prototypehistogramrefs = prototypehistogramrefs;
+    }
+
+    public on_representative_mouse_over( event: {frame: AudioFrame }){
+
+        // playing frame
+        this.audioState.play_frame( event.frame );
+
     }
 
     public on_cluster_node_selected( event: {uids: string[]} ): void {
@@ -75,5 +83,7 @@ export class OverviewViewSidebarController {
         });
         
     }
+
+
 
 }

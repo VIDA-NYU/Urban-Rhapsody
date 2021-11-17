@@ -21,8 +21,12 @@
                     </mat-expansion-panel-header>
                     
 
+                    <!-- (onmouseoutrepresentative)=this.onmouseoutrepresentative.emit($event) -->
                     <div class="model-summary-container">
-                        <app-model-summary [modelsummary]=modelSummary></app-model-summary>
+                        <app-model-summary 
+                            (onmouseenterrepresentative)=this.onmouseenterrepresentative.emit($event)
+                            [modelsummary]=modelSummary>
+                        </app-model-summary>
                     </div>
                     
                 </mat-expansion-panel>

@@ -29,12 +29,12 @@
                 </app-range-slider>
             </div>
 
-            <div class="range-slider-wrapper">
-                
-            </div>
-
-            <div class="range-slider-wrapper">
-                
+            <!-- (onrangeselected)='this.onrangeselected.emit($event)' -->
+            <div class="range-slider-wrapper" *ngFor='let prototype of this.prototypestate.loadedPrototypes'>
+                <app-range-slider 
+                    (onrangeselected)='this.onrangeselected.emit($event)'
+                    [rangeslidertitle]='prototype'>
+                </app-range-slider>
             </div>
 
         </div>

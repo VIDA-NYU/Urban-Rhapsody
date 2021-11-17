@@ -6,8 +6,12 @@
 
             <div class="sidebar-content-container">
 
+                <!-- (onmouseoutrepresentative)=this.overviewViewController.sidebarController.on_representative_mouse_leave($event) -->
                 <div class="models-summaries-wrapper">
-                    <app-model-summary-list [prototypesummaries]='this.overviewViewController.sidebarController.prototypeState.prototypeSummaries'></app-model-summary-list>
+                    <app-model-summary-list 
+                        (onmouseenterrepresentative)=this.overviewViewController.sidebarController.on_representative_mouse_over($event)
+                        [prototypesummaries]='this.overviewViewController.sidebarController.prototypeState.prototypeSummaries'>
+                    </app-model-summary-list>
                 </div>
 
                 <mat-divider></mat-divider>
@@ -30,6 +34,8 @@
                                 <div class="clustering-view-container">
                                     <app-cluster-tree 
                                         (clusternodeselected)='this.overviewViewController.sidebarController.on_cluster_node_selected($event); this.overviewViewController.projectioListController.select_frames( this.dataState.selectedFrames );'
+                                        [prototypestate]='this.overviewViewController.sidebarController.prototypeState'
+                                        [datastate]='this.overviewViewController.sidebarController.dataState'
                                         [isloadingtree]='this.overviewViewController.sidebarController.clusteringState.loadingTree'
                                         [clustertree]='this.overviewViewController.sidebarController.clusteringState.availableTree'>
                                     </app-cluster-tree>

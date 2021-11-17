@@ -67,12 +67,15 @@ export class OverviewViewProjectionsController {
 
     }
 
-    public on_slider_brushed( event: {title: string, selection: number[]} ): void {
+    public on_slider_brushed( event: {title: string, selection: number[], prototypeName?: string } ): void {
 
         // filtering
         switch( event.title ){
             case 'hours':
-                this.dataState.select_frames( { filtertype: 'hours', 'hourRange': event.selection } );
+                this.dataState.select_frames( { filtertype: 'hours', 'hourRange': event.selection } ); break;
+            default:
+                this.dataState.select_frames( { filtertype: 'prototype', prototypeName: event.title, prototypeRange: event.selection } ); break
+                
         }
 
         // updating projections

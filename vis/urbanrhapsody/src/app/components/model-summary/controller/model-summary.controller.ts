@@ -3,8 +3,13 @@ import { ChartUtils } from "src/app/utils/chart/chart.utils";
 // third-party
 import * as d3 from 'd3';
 import { PrototypeSummary } from "src/app/model/prototypesummary.model";
+import { EventEmitter } from "@angular/core";
+import { AudioFrame } from "src/app/model/audioframe.model";
 
 export class ModelSummaryController {
+
+    // events
+    public events: { [eventname: string]: EventEmitter<any> } = {};
 
     // chart container
     public chartContainer!: HTMLElement;
@@ -37,7 +42,10 @@ export class ModelSummaryController {
 
     constructor(){}
 
-    public initialize_controller( container: HTMLElement ): void {
+    public initialize_controller( container: HTMLElement, events:  { [eventname: string]: EventEmitter<any> } ): void {
+        
+        // saving events
+        this.events = events;
 
         // saving container 
         this.chartContainer = container;
@@ -151,17 +159,25 @@ export class ModelSummaryController {
 
 
     // representatives
-    public representative_mouse_enter( event: any ): void {
-        console.log(event);
+    public representative_mouse_enter( event: any, frame: AudioFrame ): void {
+
+        // creating popup
         d3.select('.spectrogram-representative-container')
-            .style('top',  `${event.layerY - 110}px`)
-            .style('left', `${event.layerX + 10}px`)
+            .style('top',  `${event.layerY - 170 }px`)
+            .style('left', `${event.layerX - Math.floor(300/2) }px`)
             .style('display', 'flex');
+
+        // emitting events
+        this.events['onmouseenterrepresentative'].emit( { frame } );
     }
 
-    public representative_mouse_out( event: any ): void {
+    public representative_mouse_out( event: any, frame: AudioFrame ): void {
 
+        // removing popup
         d3.select('.spectrogram-representative-container').style('display', 'none');
+
+        // emitting events
+        this.events['onmouseoutrepresentative'].emit( { frame } );
     }
 
 

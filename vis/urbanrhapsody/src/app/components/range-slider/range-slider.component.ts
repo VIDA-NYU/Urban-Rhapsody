@@ -30,7 +30,13 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
       'onrangeselected': this.onrangeselected
     }
 
-    const dataDomain: number[] = [...Array(24).keys()];
+    let dataDomain: number[] = [];
+    if( this.rangeslidertitle === 'hours' ){
+      dataDomain = [...Array(24).keys()];
+    } else {
+      dataDomain = [...Array(11).keys()];
+    }
+
     this.rangeSliderController.initialize_controller( this.chartcontainerref.nativeElement, dataDomain, events, this.rangeslidertitle );
     
   }

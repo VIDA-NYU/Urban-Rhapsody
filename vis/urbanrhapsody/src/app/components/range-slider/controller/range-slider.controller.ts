@@ -76,11 +76,16 @@ export class RangeSliderController {
 
     public brushed( brushEvent: any ): void {
 
+        console.log('brushed');
+        if( !brushEvent.selection ) return
+
+        // getting brush limits
         this.currentBrushEvent = [ this.xScale.invert(brushEvent.selection[0]), this.xScale.invert(brushEvent.selection[1]) ];
         this.render_chart();
 
         // emiting
-        this.events['onrangeselected'].emit( {title: this.sliderTitle, selection: this.currentBrushEvent } );
+        this.events['onrangeselected'].emit( { title: this.sliderTitle, selection: this.currentBrushEvent } );
+
 
     }
 

@@ -2,6 +2,7 @@ import { ChartUtils } from "src/app/utils/chart/chart.utils";
 import * as d3hieararchy from 'd3-hierarchy'
 import * as d3 from 'd3';
 import { EventEmitter } from "@angular/core";
+import * as _ from "lodash";
 
 export class ClusterTreeController {
 
@@ -58,15 +59,14 @@ export class ClusterTreeController {
 
     public update_tree( tree: any ){
 
-        // setting loading flag
-        // this.isLoading = false;
-
         // creating tree layout
         const rootLayout = d3.hierarchy(tree);
         this.treeLayout(rootLayout);
 
-        this.group.selectAll('.link').remove();
-        this.group.selectAll('.node').remove();
+        // this.group.selectAll('.link').remove();
+        // this.group.selectAll('.node').remove();
+
+        const likelihoods: number[][] = this.get_average_prototype_likelihood( rootLayout.descendants() );
 
         // links enter
         this.group
@@ -84,29 +84,99 @@ export class ClusterTreeController {
             .attr('y2', (d: any) => d.target['y'] )
             .attr('stroke', '#272449')
             .attr('stroke-width', 2);
-        
+
+
         // nodes enter
-        this.group
-            .selectAll('circle.node')
+        const distributiongroups = this.group
+            .selectAll('.group-node')
             .data(rootLayout.descendants())
-            .enter()
-            .append('circle')
-            .classed('node', true)
-            .on('click', (event, data) => {
+            .join(
+                (enter: any) => enter
+                    .append('g')
+                    .attr('class', 'group-node')
+                    .attr('transform', (d: any) =>  'translate(' + (d['x'] - 5)  + ',' + d['y'] + ')' )
+                    .style('cursor', 'pointer')
+                    .on('click', (event: any, a: any, c: any) => { 
+                        const indices: string [] = this.get_all_children_frames(a);
+                        this.events['clusternodeselected'].emit({'uids': indices});
+                    })
+            )
+
+        
+        const distributionScale: any = ChartUtils.create_sequential_scale([0, likelihoods[0].length-1], [0, 5])
+        const colorScale: any = ChartUtils.create_sequential_color_scale([0, 1]);
+
+        distributiongroups
+            .selectAll('.distribution-node')
+            .data( (test: any, a: any) => {  return likelihoods[a]; } )
+            .join(
+                (enter: any) => enter
+                    .append('rect')
+                    .attr('x', (d: any, a: any)  => distributionScale(a) )
+                    .attr('y', (d: any)  => 0 )
+                    .attr('width', 5)
+                    .attr('height', 10)
+                    .attr('fill',(d: any, a: any)  => colorScale(d) ),
+                (update: any) => update
+                    .attr('x', (d: any, a: any)  => distributionScale(a) )
+                    .attr('y', (d: any)  => 0 )
+                    .attr('fill',(d: any, a: any)  => colorScale(d) ),
+            )
+
+       
+
+
+        // distributiongroups
+        //         .selectAll('.distribution-node')
+        //         // .data( (test: any) => { console.log(test); console.log('--------'); return test} )
+        //         .data( array  )
+        //         .join(
+        //             (enter: any) => enter
+        //                 .append('circle')
+        //                 .attr('cx', (d: any, a: any)  => { console.log(d); console.log(a); return d['x']} )
+        //                 .attr('cy', (d: any)  => d['y'] )
+        //                 .attr('r', 6)
+        //         )
+
+            // .enter()
+            // .append('circle')
+            // .classed('circle.node', true)
+            // .on('click', (event, data) => {
                 
-                // preventing defaulg
-                event.preventDefault();
+            //     // preventing defaulg
+            //     event.preventDefault();
 
-                const indices: string [] = this.get_all_children_frames(data);
-                this.events['clusternodeselected'].emit({'uids': indices})
-                // this.sample_uids(indices);
+            //     const indices: string [] = this.get_all_children_frames(data);
+            //     this.events['clusternodeselected'].emit({'uids': indices})
 
-            })
-            .attr('cx', (d: any)  => d['x'] )
-            .attr('cy', (d: any)  => d['y'] )
-            .attr('r', 6)
-            .attr('fill', '#ecd16f')
-            .style('cursor', 'pointer');
+            // })
+            // .attr('cx', (d: any, a: any)  => { console.log(d); console.log(a); return d['x']} )
+            // .attr('cy', (d: any)  => d['y'] )
+            // .attr('r', 6)
+            // .attr('fill', '#ecd16f')
+            // .style('cursor', 'pointer');
+        
+        // // nodes enter
+        // this.group
+        //     .selectAll('.circle.node')
+        //     .data(rootLayout.descendants())
+        //     .enter()
+        //     .append('circle')
+        //     .classed('circle.node', true)
+        //     .on('click', (event, data) => {
+                
+        //         // preventing defaulg
+        //         event.preventDefault();
+
+        //         const indices: string [] = this.get_all_children_frames(data);
+        //         this.events['clusternodeselected'].emit({'uids': indices})
+
+        //     })
+        //     .attr('cx', (d: any, a: any)  => { console.log(d); console.log(a); return d['x']} )
+        //     .attr('cy', (d: any)  => d['y'] )
+        //     .attr('r', 6)
+        //     .attr('fill', '#ecd16f')
+        //     .style('cursor', 'pointer');
 
         // nodes enter
         // this.group
@@ -194,6 +264,17 @@ export class ClusterTreeController {
 
         
 
+    }
+
+    private get_average_prototype_likelihood( nodes: any ): number[][]{
+
+        const likelihoods: number[][] = [];
+        _.forEach( nodes, (node: any) => {
+
+            likelihoods.push([Math.random(), Math.random()])
+        })
+       
+        return likelihoods;
     }
 
     private get_all_children_frames( node: any ): string[] {

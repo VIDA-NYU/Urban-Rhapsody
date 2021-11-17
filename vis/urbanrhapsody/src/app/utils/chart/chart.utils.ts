@@ -29,7 +29,6 @@ export class ChartUtils {
         // appending group
         selection.append('g').attr('class', 'brush').call(brush);
 
-
         return brush;
     }
 

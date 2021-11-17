@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
+import { AudioFrame } from 'src/app/model/audioframe.model';
 import { PrototypeSummary } from 'src/app/model/prototypesummary.model';
 import { ModelSummaryController } from './controller/model-summary.controller';
 
@@ -26,14 +27,23 @@ export class ModelSummaryComponent implements OnInit, AfterViewInit {
   @ViewChild('chartcontainerref') chartcontainerref!: ElementRef;
   // @ViewChild('representativecontainerref') representativecontainerref !: ElementRef;
 
+  // events
+  @Output('onmouseenterrepresentative') onmouseenterrepresentative: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
+  @Output('onmouseoutrepresentative') onmouseoutrepresentative: EventEmitter<{frame: AudioFrame}> = new EventEmitter<{frame: AudioFrame}>();
+
   constructor() {}
 
   ngOnInit(): void {}
 
   ngAfterViewInit(): void{
 
+    const events: { [eventname: string]: EventEmitter<any> } = {
+      'onmouseenterrepresentative': this.onmouseenterrepresentative,
+      'onmouseoutrepresentative': this.onmouseoutrepresentative
+    }
+
     // intializing component
-    this.modelSummaryController.initialize_controller( this.chartcontainerref.nativeElement );
+    this.modelSummaryController.initialize_controller( this.chartcontainerref.nativeElement, events );
     this.modelSummaryController.update_chart( this.modelsummary );
 
   }

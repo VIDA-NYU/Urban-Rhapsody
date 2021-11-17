@@ -6,8 +6,8 @@ export const environment = {
   production: false,
   dataserver: 'http://216.165.113.162:5000',
   // aiserver: 'http://216.165.113.162:5001',
-  // aiserver: 'http://172.24.113.129:5001',
-  aiserver: 'http://172.24.113.150:5001',
+  aiserver: 'http://172.24.113.129:5001',
+  // aiserver: 'http://172.24.113.150:5001',
   userserver: 'http://216.165.113.162:5002'
 };
 
