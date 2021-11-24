@@ -3,8 +3,13 @@ import * as d3hieararchy from 'd3-hierarchy'
 import * as d3 from 'd3';
 import { EventEmitter } from "@angular/core";
 import * as _ from "lodash";
+import { DataState } from "src/app/state/data.state";
+import { AudioFrame } from "src/app/model/audioframe.model";
 
 export class ClusterTreeController {
+
+    // data state
+    public dataState!: DataState;
 
     // events
     public events: { [event: string]: EventEmitter<any> } = {};
@@ -16,6 +21,9 @@ export class ClusterTreeController {
     public svg!: d3.Selection<any,any,any,any>;
     public group!: d3.Selection<any,any,any,any>;
 
+    // scales
+    public depthScale!: any;
+
     // tree layout
     public treeLayout!: any;
 
@@ -24,13 +32,14 @@ export class ClusterTreeController {
 
     constructor(){}
 
-    public initialize_controller( container: HTMLElement, events: { [event: string]: EventEmitter<any> } ): void {
+    public initialize_controller( container: HTMLElement, events: { [event: string]: EventEmitter<any> }, dataState: DataState ): void {
 
         // saving events
         this.events = events;
 
         // saving refs
         this.container = container;
+        this.dataState = dataState;
 
         // initializing chart
         this.initialize_chart( container );
@@ -53,11 +62,13 @@ export class ClusterTreeController {
         const targetWidth = this.container.clientWidth - this.margins.left - this.margins.right;
         const targetHeight = this.container.clientHeight - this.margins.bottom - this.margins.top;
 
-        return d3hieararchy.tree().size([targetWidth,targetHeight]);
+        return d3hieararchy.tree().size([targetHeight, targetWidth]);
 
     }
 
-    public update_tree( tree: any ){
+    public update_tree( tree: any, prototypes: any[] ){
+
+        if(prototypes.length === 0) return;
 
         // creating tree layout
         const rootLayout = d3.hierarchy(tree);
@@ -66,7 +77,13 @@ export class ClusterTreeController {
         // this.group.selectAll('.link').remove();
         // this.group.selectAll('.node').remove();
 
-        const likelihoods: number[][] = this.get_average_prototype_likelihood( rootLayout.descendants() );
+        console.log('tree: ', tree);
+
+        const linkfunc = d3.linkVertical()
+            .x(function(d: any) { return d.x; })
+            .y(function(d: any) { return d.y; });
+
+        const likelihoods: number[][] = this.get_average_prototype_likelihood( rootLayout.descendants(), prototypes );
 
         // links enter
         this.group
@@ -75,15 +92,16 @@ export class ClusterTreeController {
             .enter()
             .append('line')
             .classed('link', true)
-            .attr('x1', (d: any)=> d.source['x'] )
-            .attr('y1', (d: any) => d.source['y'] + 6 )
-            .attr('x2', (d: any) => d.source['x'] )
-            .attr('y2', (d: any) => d.source['y'] )
+            .attr('x1', (d: any)=> d.source['y'] )
+            .attr('y1', (d: any) => d.source['x'] )
+            .attr('x2', (d: any) => d.source['y'] )
+            .attr('y2', (d: any) => d.source['x'] )
             .transition().duration(1000).delay(0)
-            .attr('x2', (d: any) => d.target['x'] )
-            .attr('y2', (d: any) => d.target['y'] )
-            .attr('stroke', '#272449')
-            .attr('stroke-width', 2);
+            .attr('x2', (d: any) => d.target['y']  )
+            .attr('y2', (d: any) => d.target['x'] )
+            .attr('stroke', '#555555')
+            .attr('stroke-width', 3);
+
 
 
         // nodes enter
@@ -94,17 +112,21 @@ export class ClusterTreeController {
                 (enter: any) => enter
                     .append('g')
                     .attr('class', 'group-node')
-                    .attr('transform', (d: any) =>  'translate(' + (d['x'] - 5)  + ',' + d['y'] + ')' )
+                    .attr('transform', (d: any) =>  'translate(' + (d['y'] -  25)  + ',' + (d['x'] - 10) + ')' )
                     .style('cursor', 'pointer')
                     .on('click', (event: any, a: any, c: any) => { 
                         const indices: string [] = this.get_all_children_frames(a);
                         this.events['clusternodeselected'].emit({'uids': indices});
                     })
             )
-
+                
         
-        const distributionScale: any = ChartUtils.create_sequential_scale([0, likelihoods[0].length-1], [0, 5])
-        const colorScale: any = ChartUtils.create_sequential_color_scale([0, 1]);
+        
+        const distributionScale: any = ChartUtils.create_sequential_scale([0, likelihoods[0].length], [0, 50])
+        const colorScale: any = ChartUtils.create_sequential_color_scale([0, 1], d3.interpolateGreens);
+                
+        // width of each subrect
+        const rectWidth: number = 50/prototypes.length;
 
         distributiongroups
             .selectAll('.distribution-node')
@@ -112,169 +134,53 @@ export class ClusterTreeController {
             .join(
                 (enter: any) => enter
                     .append('rect')
-                    .attr('x', (d: any, a: any)  => distributionScale(a) )
+                    .attr('x', (d: any, a: any)  => distributionScale(a)  )
                     .attr('y', (d: any)  => 0 )
-                    .attr('width', 5)
-                    .attr('height', 10)
-                    .attr('fill',(d: any, a: any)  => colorScale(d) ),
+                    .attr('width', rectWidth)
+                    .attr('height', 20)
+                    .attr('fill',(d: any, a: any)  => colorScale(d) )
+                    .style('stroke', '#555555')
+                    .style('stroke-width', 3)
+                    .style('stroke-radius', '3px'),
                 (update: any) => update
                     .attr('x', (d: any, a: any)  => distributionScale(a) )
                     .attr('y', (d: any)  => 0 )
                     .attr('fill',(d: any, a: any)  => colorScale(d) ),
-            )
-
-       
-
-
-        // distributiongroups
-        //         .selectAll('.distribution-node')
-        //         // .data( (test: any) => { console.log(test); console.log('--------'); return test} )
-        //         .data( array  )
-        //         .join(
-        //             (enter: any) => enter
-        //                 .append('circle')
-        //                 .attr('cx', (d: any, a: any)  => { console.log(d); console.log(a); return d['x']} )
-        //                 .attr('cy', (d: any)  => d['y'] )
-        //                 .attr('r', 6)
-        //         )
-
-            // .enter()
-            // .append('circle')
-            // .classed('circle.node', true)
-            // .on('click', (event, data) => {
-                
-            //     // preventing defaulg
-            //     event.preventDefault();
-
-            //     const indices: string [] = this.get_all_children_frames(data);
-            //     this.events['clusternodeselected'].emit({'uids': indices})
-
-            // })
-            // .attr('cx', (d: any, a: any)  => { console.log(d); console.log(a); return d['x']} )
-            // .attr('cy', (d: any)  => d['y'] )
-            // .attr('r', 6)
-            // .attr('fill', '#ecd16f')
-            // .style('cursor', 'pointer');
-        
-        // // nodes enter
-        // this.group
-        //     .selectAll('.circle.node')
-        //     .data(rootLayout.descendants())
-        //     .enter()
-        //     .append('circle')
-        //     .classed('circle.node', true)
-        //     .on('click', (event, data) => {
-                
-        //         // preventing defaulg
-        //         event.preventDefault();
-
-        //         const indices: string [] = this.get_all_children_frames(data);
-        //         this.events['clusternodeselected'].emit({'uids': indices})
-
-        //     })
-        //     .attr('cx', (d: any, a: any)  => { console.log(d); console.log(a); return d['x']} )
-        //     .attr('cy', (d: any)  => d['y'] )
-        //     .attr('r', 6)
-        //     .attr('fill', '#ecd16f')
-        //     .style('cursor', 'pointer');
-
-        // nodes enter
-        // this.group
-        //     .selectAll('circle.node')
-        //     .data(rootLayout.descendants())
-        //     .enter()
-        //     .append('rect')
-        //     .classed('node', true)
-        //     .on('click', (event: any, data: any) => {
-                
-        //         // preventing defaulg
-        //         event.preventDefault();
-
-        //         const indices: string [] = this.get_all_children_frames(data);
-                
-        //         // firing event
-        //         // this.onclusterselected.emit({ 'uids': indices });
-
-        //         // this.sample_uids(indices);
-
-        //     })
-        //     .attr('x', (d: any)  => d['x'] - 12 )
-        //     .attr('y', (d: any)  => d['y'] -2 )
-        //     .attr('width', 24)
-        //     .attr('height', 19 )
-        //     .attr('fill', 'black' )
-        //     .style('cursor', 'pointer');
-
-        // // nodes enter
-        // this.group
-        //     .selectAll('circle.node')
-        //     .data(rootLayout.descendants())
-        //     .enter()
-        //     .append('rect')
-        //     .classed('node', true)
-        //     .on('click', (event: any, data: any) => {
-                
-        //         // preventing defaulg
-        //         event.preventDefault();
-
-        //         const indices: string [] = this.get_all_children_frames(data);
-                
-        //         // firing event
-        //         // this.onclusterselected.emit({ 'uids': indices });
-
-        //         // this.sample_uids(indices);
-
-        //     })
-        //     .attr('x', (d: any)  => d['x'] - 10 )
-        //     .attr('y', (d: any)  => d['y'] )
-        //     .attr('width', 10)
-        //     .attr('height', 15)
-        //     // .attr('fill', (d, i) => this.color_node(d, 4) )
-        //     .style('cursor', 'pointer');
-        //     // .style('stroke' , 'black')
-        //     // .style('stroke-width', '2px');
-
-        // this.group
-        //     .selectAll('circle.node')
-        //     .data(rootLayout.descendants())
-        //     .enter()
-        //     .append('rect')
-        //     .classed('node', true)
-        //     .on('click', (event: any, data: any) => {
-                
-        //         // preventing defaulg
-        //         event.preventDefault();
-
-        //         const indices: string [] = this.get_all_children_frames(data);
-                
-        //         // firing event
-        //         // this.onclusterselected.emit({ 'uids': indices });
-
-        //         // this.sample_uids(indices);
-
-        //     })
-        //     .attr('x', (d: any)  => d['x'] )
-        //     .attr('y', (d: any)  => d['y'] )
-        //     .attr('width', 10)
-        //     .attr('height', 15)
-        //     // .attr('fill', (d, i) => this.color_node(d, 4) )
-        //     .style('cursor', 'pointer');
-        //     // .style('stroke' , 'black')
-        //     // .style('stroke-width', '2px');
-
-        
+            )  
 
     }
 
-    private get_average_prototype_likelihood( nodes: any ): number[][]{
+    private get_average_prototype_likelihood( nodes: any, prototypes: any[] ): number[][]{
 
         const likelihoods: number[][] = [];
         _.forEach( nodes, (node: any) => {
-
-            likelihoods.push([Math.random(), Math.random()])
+            const currentPrototypeDist: number[] = [];
+            _.forEach( prototypes, prototype => {
+                currentPrototypeDist.push(this.get_node_prediction_probability(node, prototype))
+            })
+            likelihoods.push(currentPrototypeDist);
         })
        
         return likelihoods;
+    }
+
+
+    private get_node_prediction_probability( node: any, prototype: string ): number {
+
+        // getting all frames under that node
+        const nodeFrames: string[] = this.get_all_children_frames(node);
+
+        let probAccumulator: number = 0;
+        _.forEach( nodeFrames, frameID => {
+
+            const currentFrame: AudioFrame = this.dataState.indexedFrames[frameID];
+            const currentPrototypePrediction: number = currentFrame.metadata.get_prototype_prediction(prototype);
+            probAccumulator += currentPrototypePrediction;
+
+        });
+
+        return probAccumulator / nodeFrames.length;
+
     }
 
     private get_all_children_frames( node: any ): string[] {

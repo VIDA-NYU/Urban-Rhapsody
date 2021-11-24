@@ -34,7 +34,7 @@
                                 <div class="clustering-view-container">
                                     <app-cluster-tree 
                                         (clusternodeselected)='this.overviewViewController.sidebarController.on_cluster_node_selected($event); this.overviewViewController.projectioListController.select_frames( this.dataState.selectedFrames );'
-                                        [prototypestate]='this.overviewViewController.sidebarController.prototypeState'
+                                        [prototypes]='this.overviewViewController.sidebarController.prototypeState.loadedPrototypes'
                                         [datastate]='this.overviewViewController.sidebarController.dataState'
                                         [isloadingtree]='this.overviewViewController.sidebarController.clusteringState.loadingTree'
                                         [clustertree]='this.overviewViewController.sidebarController.clusteringState.availableTree'>

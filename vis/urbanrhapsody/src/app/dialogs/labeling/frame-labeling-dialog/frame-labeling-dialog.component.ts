@@ -5,6 +5,9 @@ import { LabelingAPI } from 'src/app/api/labeling.api';
 import { AudioFrame } from 'src/app/model/audioframe.model';
 import { DataState } from 'src/app/state/data.state';
 import { LabelingState } from 'src/app/state/labeling/labeling.state';
+import { ChartUtils } from 'src/app/utils/chart/chart.utils';
+import * as d3 from 'd3';
+import { PrototypeState } from 'src/app/state/prototype/prototype.state';
 
 @Component({
   selector: 'app-frame-labeling-dialog',
@@ -21,7 +24,16 @@ export class FrameLabelingDialogComponent implements OnInit {
   public selectionNegativeFrameLabels: Set<string> = new Set<string>();
   public allNegativeFrameLabels: string[] = [];
 
-  constructor( public dialogRef: MatDialogRef<FrameLabelingDialogComponent>, public dataState: DataState, public labelingState: LabelingState ) { }
+  // current predictions
+  public colorScale: any = ChartUtils.create_sequential_color_scale([0,1], d3.interpolateGreens);
+  public predictions: any[] = [
+    {'name': 'construction', 'prediction': Math.random().toFixed(2)},
+    {'name': 'car-horn', 'prediction': Math.random().toFixed(2)},
+    {'name': 'siren', 'prediction': Math.random().toFixed(2)},
+    {'name': 'people talking', 'prediction': Math.random().toFixed(2)}
+  ].sort( (a:any, b: any) => (b.prediction - a.prediction) );
+
+  constructor( public dialogRef: MatDialogRef<FrameLabelingDialogComponent>, public dataState: DataState, public labelingState: LabelingState, public prototypeState: PrototypeState ) { }
 
   ngOnInit(): void { this.initialize_dialog(); } 
 
@@ -44,6 +56,9 @@ export class FrameLabelingDialogComponent implements OnInit {
     });
 
     this.frameLabels = Array.from(currentLabels.values());
+
+    // loading classes likelihoods
+    this.get_selection_prototypes_likelihood();
     
   }
 
@@ -116,5 +131,11 @@ export class FrameLabelingDialogComponent implements OnInit {
   
   }
 
+
+  public async get_selection_prototypes_likelihood(): Promise<void> {
+
+    this.prototypeState.get_prototypes_selection_likelihood( this.dataState.selectedFrames );
+
+  }
 
 }

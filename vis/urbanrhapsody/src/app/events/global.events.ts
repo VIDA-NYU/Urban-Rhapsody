@@ -11,5 +11,7 @@ export class GlobalEvents {
     
     // year distribution
     public yearDistributionLoaded: EventEmitter<void> = new EventEmitter<void>();
-    
+
+    // prototype applied
+    public prototypeApplied: EventEmitter<void> = new EventEmitter<void>();
 }

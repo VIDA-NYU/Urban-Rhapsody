@@ -25,6 +25,34 @@ export class PrototypeState {
 
     }
 
+    public async get_prototypes_selection_likelihood( selection: AudioFrame[] ): Promise<void> {
+
+        // getting all prototypes
+        const allPrototypes: { prototypes: string[] } = await LearnAPI.get_all_prototypes();
+
+        // const promises: any[] = [];
+        // _.forEach( allPrototypes.prototypes, prototypeName => {
+        //     promises.push(LearnAPI.apply_prototype( selection, prototypeName ));
+        // });
+
+
+        // Promise.all( promises ).then( (test) => {
+        //     console.log(test);
+        // });
+
+        // // calculating prototypes
+        // let likelihoods: any = await LearnAPI.apply_prototype( Object.values(loadedFrames), prototypeName );     
+        // likelihoods = likelihoods['likelihood']
+        
+        // _.forOwn( likelihoods, (likelihood: number, frameuid: string) => {
+        //     loadedFrames[frameuid].metadata.set_prototype_prediction( prototypeName, likelihood );
+        // });
+
+        // // saving available prototypes
+        // this.loadedPrototypes.push( prototypeName );
+
+    }
+
     public async apply_prototype( prototypeName: string ): Promise<void> {
 
         // getting all loaded frames
@@ -40,6 +68,8 @@ export class PrototypeState {
 
         // saving available prototypes
         this.loadedPrototypes.push( prototypeName );
+
+        return;
         
     }
 

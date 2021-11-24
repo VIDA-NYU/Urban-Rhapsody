@@ -2,6 +2,31 @@
 
     <mat-tab-group mat-align-tabs="center">
 
+
+        <mat-tab label="Predictions">
+
+            <div class="tab-wrapper">
+
+                <div class="dialog-body">            
+            
+                    <div class="body-section">
+                        <mat-chip-list aria-label="Label selection">
+                            <mat-chip
+                                [ngStyle]='{ backgroundColor: this.colorScale(prediction.prediction) }'
+                                [removable]=true 
+                                *ngFor='let prediction of this.predictions'
+                                class='label-chip'>
+                                {{ prediction.name }} - {{ prediction.prediction }}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+            
+                </div>
+
+            </div>
+            
+        </mat-tab>
+
         <mat-tab label="Positives">
 
             <div class="tab-wrapper">
