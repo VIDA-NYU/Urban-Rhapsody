@@ -25,6 +25,7 @@ export class ModelSummaryComponent implements OnInit, AfterViewInit {
 
   // dom refs
   @ViewChild('chartcontainerref') chartcontainerref!: ElementRef;
+  @ViewChild('spectrogramrepresentativecontainer') spectrogramrepresentativecontainer!: ElementRef;
   // @ViewChild('representativecontainerref') representativecontainerref !: ElementRef;
 
   // events
@@ -42,8 +43,10 @@ export class ModelSummaryComponent implements OnInit, AfterViewInit {
       'onmouseoutrepresentative': this.onmouseoutrepresentative
     }
 
+    
+
     // intializing component
-    this.modelSummaryController.initialize_controller( this.chartcontainerref.nativeElement, events );
+    this.modelSummaryController.initialize_controller( this.chartcontainerref.nativeElement, events, this.spectrogramrepresentativecontainer.nativeElement );
     this.modelSummaryController.update_chart( this.modelsummary );
 
   }

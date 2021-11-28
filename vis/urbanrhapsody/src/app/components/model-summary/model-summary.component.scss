@@ -45,6 +45,12 @@
 
 }
 
+.spectrogram-component-container{
+
+    width: 100%;
+    height: 100%;
+}
+
 .spectrogram-representative-container{
 
     width: 300px;
@@ -53,6 +59,5 @@
     left: 0;
     display: none;
     z-index: 100;
-    background-color: gray;
     position: absolute;
 }

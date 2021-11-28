@@ -60,6 +60,9 @@ export class LearnAPI {
         // url
         const url = `${environment.aiserver}/getyeardistribution`;
 
+        console.log('URL: ', url)
+
+
         // post parameters
         const requestParams = { uids, k };
 

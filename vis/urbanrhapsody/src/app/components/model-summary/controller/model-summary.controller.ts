@@ -5,6 +5,7 @@ import * as d3 from 'd3';
 import { PrototypeSummary } from "src/app/model/prototypesummary.model";
 import { EventEmitter } from "@angular/core";
 import { AudioFrame } from "src/app/model/audioframe.model";
+import { AudioSnippet } from "src/app/model/audiosnippet.model";
 
 export class ModelSummaryController {
 
@@ -13,6 +14,7 @@ export class ModelSummaryController {
 
     // chart container
     public chartContainer!: HTMLElement;
+    public spectrogramrepresentativecontainer!: HTMLElement;
 
     // constants
     public pad: number = 2;
@@ -40,18 +42,24 @@ export class ModelSummaryController {
     // margins
     public margins: { top: number, bottom: number, left: number, right: number } = { top: 30, bottom: 30, left: 30, right: 30 };
 
+    // representative frame on hover
+    public frame!: AudioFrame; 
+    public snippet: any = null;
+
     constructor(){}
 
-    public initialize_controller( container: HTMLElement, events:  { [eventname: string]: EventEmitter<any> } ): void {
+    public initialize_controller( container: HTMLElement, events:  { [eventname: string]: EventEmitter<any> }, spectrogramrepresentativecontainer: HTMLElement ): void {
         
         // saving events
         this.events = events;
 
         // saving container 
         this.chartContainer = container;
+        this.spectrogramrepresentativecontainer = spectrogramrepresentativecontainer;
 
         // initializing chart
         this.initialize_chart();
+
 
     }
 
@@ -161,11 +169,21 @@ export class ModelSummaryController {
     // representatives
     public representative_mouse_enter( event: any, frame: AudioFrame ): void {
 
+        // setting snippet
+        this.snippet = frame.audioSnippet;
+        frame.set_selection(true);
+
         // creating popup
-        d3.select('.spectrogram-representative-container')
+        d3.select(this.spectrogramrepresentativecontainer)
             .style('top',  `${event.layerY - 170 }px`)
             .style('left', `${event.layerX - Math.floor(300/2) }px`)
             .style('display', 'flex');
+
+        // // creating popup
+        // d3.select('.spectrogram-representative-container')
+        //     .style('top',  `${event.layerY - 170 }px`)
+        //     .style('left', `${event.layerX - Math.floor(300/2) }px`)
+        //     .style('display', 'flex');
 
         // emitting events
         this.events['onmouseenterrepresentative'].emit( { frame } );
@@ -173,8 +191,11 @@ export class ModelSummaryController {
 
     public representative_mouse_out( event: any, frame: AudioFrame ): void {
 
+        frame.set_selection(false);
+        this.snippet = null;
+
         // removing popup
-        d3.select('.spectrogram-representative-container').style('display', 'none');
+        d3.select(this.spectrogramrepresentativecontainer).style('display', 'none');
 
         // emitting events
         this.events['onmouseoutrepresentative'].emit( { frame } );

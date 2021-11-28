@@ -190,7 +190,7 @@ export class CalendarTimelineController {
         //         .on('mouseout', (event: any) => {  d3.select( event.srcElement ).style('stroke', '#dcdcde') })
         //         .on('click', (event: MouseEvent, currentDatetime: { date: Date, amount: number, week: number } ) => { this.cell_click_handler( currentDatetime ) } ),
         //     (update: any) => update.transition(t).attr('fill', (d: any) => { return this.colorScale(d.amount) } ),
-        //     (exit: any) => exit.selectAll('.day-cell').remove()
+        //     (exit: any) => exit.selectAll('.day-cell').remove() 
         // )
         
 
@@ -221,7 +221,7 @@ export class CalendarTimelineController {
                         .style('stroke-width', 2)
                         .style('stroke-radius', '5px')
                         .style('cursor', 'pointer')
-                        .on('mouseover', (event: any, d: any ) => { return d3.select( event.srcElement ).style('stroke', '#8c8f94') })
+                        .on('mouseover', (event: any, d: any ) => { console.log(d); return d3.select( event.srcElement ).style('stroke', '#8c8f94') })
                         .on('mouseout', (event: any) => {  d3.select( event.srcElement ).style('stroke', '#dcdcde') })
                         .on('click', (event: MouseEvent, currentDatetime: { date: Date, amount: number, week: number } ) => { this.cell_click_handler( currentDatetime ) } ),
             )            

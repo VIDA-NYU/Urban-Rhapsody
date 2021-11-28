@@ -2,8 +2,15 @@
 
     <div class="chart-container" #chartcontainerref></div>
 
+    <div class="spectrogram-representative-container" #spectrogramrepresentativecontainer>
+
+        <div class="spectrogram-component-container" *ngIf='this.modelSummaryController.snippet'>
+            <app-spectrogram [snippet]='this.modelSummaryController.snippet'></app-spectrogram>
+        </div>
+       
+    </div>
+
     <div class="representatives-container">
-        <div class="spectrogram-representative-container"></div>
         <div 
             *ngFor='let frame of this.modelsummary.representativeFrames' 
             (mouseover)='this.modelSummaryController.representative_mouse_enter($event, frame)'

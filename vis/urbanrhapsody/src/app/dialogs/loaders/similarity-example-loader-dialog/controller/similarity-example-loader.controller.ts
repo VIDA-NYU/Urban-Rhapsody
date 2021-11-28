@@ -78,7 +78,7 @@ export class SimilarityExampleLoaderController {
     }
 
     public frame_selected( event: {frame: AudioFrame} ): void{
-
+        
         this.selectedFrame = event.frame;
         this.dataState.load_year_distribution( [this.selectedFrame], this.sliderValue );
 
