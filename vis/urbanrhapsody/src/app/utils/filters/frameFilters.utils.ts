@@ -63,13 +63,17 @@ export class FrameFilters {
 
         _.forEach( params.uids, uid => {
             
-            // selecting frames
-            const currentFrame: AudioFrame = audioFrames[uid];
-            currentFrame.set_selection( true );
-            selectedFrames.push(currentFrame);
+            if( uid in audioFrames ){
 
-            // selecting snippets
-            selectedSnippets.add( currentFrame.get_snippet() );
+                // selecting frames
+                const currentFrame: AudioFrame = audioFrames[uid];
+                currentFrame.set_selection( true );
+                selectedFrames.push(currentFrame);
+
+                // selecting snippets
+                selectedSnippets.add( currentFrame.get_snippet() );
+
+            }
 
         });
 

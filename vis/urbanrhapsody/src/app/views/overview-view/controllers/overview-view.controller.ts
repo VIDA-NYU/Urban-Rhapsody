@@ -72,8 +72,12 @@ export class OverviewViewController {
         // flushing loaded prototypes
         this.prototypeState.flush_prototypes();
 
-        // selecting points that were retrieved by ann       
-        let uids: string[] = this.dataState.yearAudioDistribution[event.day].frames;       
+        // selecting points that were retrieved by ann     
+        let uids: string[] = this.dataState.yearAudioDistribution[event.day].frames;   
+        // console.log(uids);
+        // console.log(Object.keys(this.dataState.indexedFrames));
+        
+
         this.dataState.select_frames( { filtertype: 'uids', uids } );
 
         // selecting frames on projection

@@ -51,7 +51,15 @@ export class ChartUtils {
 
     public static create_ordinal_color_scale( domain: string[] ): d3.ScaleOrdinal<any, any>{
 
+        // const randomColor: number = Math.floor(Math.random() * 10);
         const colors: string[] = d3.schemeCategory10.slice(0, domain.length );
+        // onst colors: string[] = d3.schemeCategory10.slice( randomColor , randomColor+2 );
+
+        // const colors: string[][] = [['#519D3E', '#C8C8C8'], ['#3A76AF', '#C8C8C8'], ['#EF8536', '#C8C8C8']];
+        // const colors: string[] = ['#519D3E', '#C8C8C8'];
+        // const colors: string[] = ['#3A76AF', '#C8C8C8'];
+        // const colors: string[] = ['#EF8536', '#C8C8C8'];
+        // const currentColor: string[] = colors[ Math.floor(Math.random()*colors.length) ];
         return d3.scaleOrdinal(colors).domain(domain);
         
     }

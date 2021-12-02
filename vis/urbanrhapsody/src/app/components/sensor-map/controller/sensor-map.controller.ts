@@ -10,6 +10,7 @@ export class SensorMapController {
 
     private sensors: { 'id': string, 'lat': number, 'lng': number, 'marker': google.maps.Marker | null }[] = [
         { 'id': 'sonycnode-b827eb0d8af7.sonyc', 'lat': 40.729432, 'lng': -73.993588, 'marker': null }
+        // { 'id': 'sonycnode-b827eb815321.sonyc', 'lat': 40.73189, 'lng': -73.997708, 'marker': null }
     ];
 
     constructor(){}
@@ -116,7 +117,7 @@ export class SensorMapController {
                 "elementType": "geometry.fill",
                 "stylers": [
                     {
-                        "visibility": "on"
+                        "visibility": "off"
                     },
                     {
                         "color": "#ebebeb"
@@ -167,6 +168,9 @@ export class SensorMapController {
                 "elementType": "labels.text.fill",
                 "stylers": [
                     {
+                        "visibility": "off"
+                    },
+                    {
                         "color": "#696969"
                     }
                 ]
@@ -176,7 +180,7 @@ export class SensorMapController {
                 "elementType": "labels.text.fill",
                 "stylers": [
                     {
-                        "visibility": "on"
+                        "visibility": "off"
                     },
                     {
                         "color": "#737373"
