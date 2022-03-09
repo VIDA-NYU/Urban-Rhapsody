@@ -1,4 +1,4 @@
-# urban-rhapsody-4
+# Urban Rhapsody
 
 This repository contains the source code for the Urban Rhapsody system.
 
